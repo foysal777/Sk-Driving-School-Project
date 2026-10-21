@@ -357,6 +357,355 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
+   ABOUT US SECTION (ACCORDING TO REFERENCE DESIGN)
+   ========================================================================== */
+.about-section {
+  position: relative;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+
+.about-visual-container {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding-bottom: 25px;
+}
+
+/* Vertical 16 Years of Experience Ribbon */
+.experience-vertical-ribbon {
+  background-color: #f1f8f5;
+  border-radius: 12px;
+  padding: 24px 12px 18px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 72px;
+  min-width: 72px;
+  height: 290px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 15px rgba(42, 107, 92, 0.04);
+}
+
+.experience-vertical-label {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #1e3a34;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.experience-vertical-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #1e3a34;
+  line-height: 1;
+}
+
+/* Main Instructor Image Wrapper */
+.about-image-wrapper {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 440px;
+}
+
+.about-main-img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: top center;
+  display: block;
+  border-radius: 16px;
+  transition: transform 0.4s ease;
+}
+
+.about-image-wrapper:hover .about-main-img {
+  transform: scale(1.03);
+}
+
+/* Overlapping Floating Learners Badge Card */
+.about-floating-learners-card {
+  position: absolute;
+  bottom: 0px;
+  left: 36px;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.15rem 1.4rem;
+  box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+  border: 1px solid #edf2f7;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 175px;
+  animation: floatSubtle 4s ease-in-out infinite alternate;
+}
+
+@keyframes floatSubtle {
+  0% { transform: translateY(0px); }
+  100% { transform: translateY(-6px); }
+}
+
+.learners-avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.learner-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid #ffffff;
+  margin-right: -10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.learner-avatar-plus {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #00b060;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  border: 2.5px solid #ffffff;
+  font-weight: 700;
+  z-index: 3;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.learners-count-text strong {
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #0f172a;
+  display: block;
+  line-height: 1.2;
+}
+
+.learners-count-text span {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #64748b;
+  display: block;
+}
+
+/* About Us Right Content */
+.about-content-wrap {
+  padding-left: 1.5rem;
+}
+
+.about-tag-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.4rem;
+}
+
+.about-tag-bar {
+  width: 3px;
+  height: 24px;
+  background-color: #1e3a34;
+  border-radius: 2px;
+}
+
+.about-tag-text {
+  background-color: #1e3a34;
+  color: #ffffff;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.95rem;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.about-main-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2.3rem, 3.8vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.03em;
+}
+
+.about-lead-desc {
+  font-size: 0.98rem;
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+  max-width: 530px;
+}
+
+/* Approved Driving Instructor (ADI) Credential Card */
+.adi-credential-card {
+  background-color: #f1f8f5;
+  border: 1px solid #d8eade;
+  border-radius: 14px;
+  padding: 1.25rem 1.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 2.2rem;
+  max-width: 530px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(42, 107, 92, 0.04);
+}
+
+.adi-shield-box {
+  width: 76px;
+  height: 76px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adi-shield-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.12));
+}
+
+.adi-info-text {
+  flex-grow: 1;
+}
+
+.adi-subtitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+  display: block;
+  line-height: 1.2;
+}
+
+.adi-title {
+  font-size: 1.12rem;
+  font-weight: 800;
+  color: #111827;
+  line-height: 1.25;
+  margin: 0.15rem 0 0.2rem 0;
+}
+
+.adi-year {
+  font-size: 0.84rem;
+  color: #94a3b8;
+  font-weight: 600;
+  display: block;
+}
+
+.adi-trophies-wrap {
+  width: 88px;
+  height: 68px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.adi-trophies-svg {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 8px rgba(217, 119, 6, 0.2));
+}
+
+/* Founder Meta Row */
+.founder-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
+.founder-signature-box {
+  width: 150px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+.founder-signature-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.founder-info-text {
+  line-height: 1.3;
+}
+
+.founder-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #111827;
+  display: block;
+}
+
+.founder-role {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #00b060;
+  display: block;
+}
+
+@media (max-width: 991.98px) {
+  .about-content-wrap {
+    padding-left: 0;
+    margin-top: 2rem;
+  }
+  .about-visual-container {
+    justify-content: center;
+  }
+  .about-floating-learners-card {
+    left: 20px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .about-visual-container {
+    flex-direction: column;
+    align-items: center;
+  }
+  .experience-vertical-ribbon {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    padding: 1rem 1.5rem;
+  }
+  .experience-vertical-label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+  .about-main-img {
+    height: 380px;
+  }
+  .about-floating-learners-card {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: -30px;
+  }
+  .adi-credential-card {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+  }
+  .adi-trophies-wrap {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
    FEATURES SECTION
    ========================================================================== */
 .features-section {
