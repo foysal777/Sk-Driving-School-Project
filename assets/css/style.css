@@ -1511,4 +1511,72 @@ h1, h2, h3, h4, h5, h6 {
   color: #000000;
 }
 
+/* ==========================================================================
+   PAGE BANNER COMPONENT (SUBPAGES)
+   ========================================================================== */
+.page-banner {
+  background: linear-gradient(135deg, #133a30 0%, #1e4d40 60%, #165646 100%);
+  padding: 75px 0 65px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+}
+
+.page-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 176, 96, 0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-banner-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.85rem;
+  font-weight: 800;
+  margin-bottom: 0.85rem;
+  letter-spacing: -0.02em;
+}
+
+.page-banner-desc {
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 680px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.6;
+}
+
+.page-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 0.45rem 1.25rem;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  backdrop-filter: blur(8px);
+}
+
+.page-breadcrumb a {
+  color: #a7f3d0;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.page-breadcrumb a:hover {
+  color: #ffffff;
+}
+
+.page-breadcrumb span {
+  color: #ffffff;
+  font-weight: 700;
+}
+
+
 

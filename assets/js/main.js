@@ -68,8 +68,10 @@ $(document).ready(function () {
   // Pause on hover
   $('.hero-slider-section').hover(stopAutoSlide, startAutoSlide);
 
-  // Start initial auto slide
-  startAutoSlide();
+  // Start initial auto slide if hero slider exists on page
+  if ($slides.length > 0) {
+    startAutoSlide();
+  }
 
   // ==========================================
   // PHOTO GALLERY FILTER & LIGHTBOX MODAL
