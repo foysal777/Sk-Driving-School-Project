@@ -70,4 +70,49 @@ $(document).ready(function () {
 
   // Start initial auto slide
   startAutoSlide();
+
+  // ==========================================
+  // PHOTO GALLERY FILTER & LIGHTBOX MODAL
+  // ==========================================
+  // Category Filter Tabs
+  $('.gallery-filter-btn').on('click', function () {
+    $('.gallery-filter-btn').removeClass('active');
+    $(this).addClass('active');
+
+    const filterVal = $(this).data('filter');
+    const $items = $('.gallery-item-col');
+
+    if (filterVal === 'all') {
+      $items.stop().fadeIn(300);
+    } else {
+      $items.each(function () {
+        const itemCat = $(this).data('category');
+        if (itemCat === filterVal) {
+          $(this).stop().fadeIn(300);
+        } else {
+          $(this).stop().fadeOut(200);
+        }
+      });
+    }
+  });
+
+  // Lightbox Modal Trigger
+  $('.gallery-thumb-wrap').on('click', function (e) {
+    e.preventDefault();
+    const $card = $(this).closest('.gallery-card');
+    const imgSrc = $card.find('img').attr('src');
+    const imgAlt = $card.find('img').attr('alt');
+    const title = $card.find('.gallery-card-title').text();
+    const desc = $card.find('.gallery-card-desc').text();
+
+    $('#galleryModalImg').attr('src', imgSrc).attr('alt', imgAlt);
+    $('#galleryModalTitle').text(title);
+    $('#galleryModalDesc').text(desc);
+
+    const galleryModalElement = document.getElementById('galleryModal');
+    if (galleryModalElement && typeof bootstrap !== 'undefined') {
+      const galleryModal = bootstrap.Modal.getOrCreateInstance(galleryModalElement);
+      galleryModal.show();
+    }
+  });
 });
