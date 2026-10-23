@@ -2115,5 +2115,250 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 0 0 3px rgba(42, 107, 92, 0.15);
 }
 
+/* ==========================================================================
+   ABOUT PAGE COMPONENTS (TEAM, VALUES, FLEET)
+   ========================================================================== */
+.about-values-section {
+  background: #f8fafc;
+  border-top: 1px solid #edf2f7;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.value-feature-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 2rem 1.6rem;
+  height: 100%;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+}
+
+.value-feature-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(42, 107, 92, 0.35);
+  box-shadow: 0 16px 32px rgba(42, 107, 92, 0.09);
+}
+
+.value-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(42, 107, 92, 0.12) 0%, rgba(0, 176, 96, 0.18) 100%);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.value-feature-card:hover .value-icon-box {
+  transform: scale(1.1);
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.value-card-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text-main);
+}
+
+.value-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* Instructors Team Cards */
+.instructor-team-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+}
+
+.instructor-team-card:hover {
+  transform: translateY(-7px);
+  border-color: rgba(42, 107, 92, 0.35);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+}
+
+.instructor-thumb-wrap {
+  position: relative;
+  height: 260px;
+  overflow: hidden;
+}
+
+.instructor-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.instructor-team-card:hover .instructor-thumb-wrap img {
+  transform: scale(1.06);
+}
+
+.instructor-grade-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.instructor-rating-pill {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: #ffffff;
+  color: var(--text-main);
+  font-size: 0.76rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.instructor-body {
+  padding: 1.75rem 1.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.instructor-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.25rem;
+}
+
+.instructor-role {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.9rem;
+}
+
+.instructor-bio {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+
+.instructor-tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #edf2f7;
+}
+
+.instructor-tag {
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+/* Fleet Showcase Cards */
+.fleet-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+.fleet-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(42, 107, 92, 0.35);
+  box-shadow: 0 16px 32px rgba(42, 107, 92, 0.08);
+}
+
+.fleet-thumb-wrap {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.fleet-thumb-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.fleet-card:hover .fleet-thumb-wrap img {
+  transform: scale(1.06);
+}
+
+.fleet-body {
+  padding: 1.6rem 1.4rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fleet-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.fleet-checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0.8rem 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.fleet-checklist li {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.fleet-checklist li i {
+  color: var(--accent-green);
+  font-size: 0.95rem;
+}
+
 
 
