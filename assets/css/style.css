@@ -1064,6 +1064,305 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==========================================================================
+   WHY CHOOSE US SECTION
+   ========================================================================== */
+.why-choose-section {
+  background: linear-gradient(180deg, #ffffff 0%, #f6faf8 50%, #ffffff 100%);
+  position: relative;
+  border-top: 1px solid #edf2f7;
+}
+
+.why-feature-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.6rem 1.4rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+}
+
+.why-feature-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(42, 107, 92, 0.35);
+  box-shadow: 0 16px 30px rgba(42, 107, 92, 0.08);
+}
+
+.why-feature-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.1rem;
+}
+
+.why-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(42, 107, 92, 0.12) 0%, rgba(0, 176, 96, 0.18) 100%);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.why-feature-card:hover .why-icon-box {
+  transform: scale(1.08) rotate(3deg);
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.why-feature-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: rgba(0, 176, 96, 0.08);
+  color: #00874a;
+  border: 1px solid rgba(0, 176, 96, 0.22);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.why-feature-title {
+  font-size: 1.12rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.why-feature-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* Right Column Showcase Wrapper */
+.why-showcase-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  height: 100%;
+}
+
+/* Comparison Box */
+.why-comparison-box {
+  background: linear-gradient(145deg, #163d33 0%, #1c4a3e 100%);
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 1.75rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 16px 36px rgba(22, 61, 51, 0.22);
+  position: relative;
+  overflow: hidden;
+}
+
+.why-comparison-box::after {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 140px;
+  height: 140px;
+  background: radial-gradient(circle, rgba(52, 211, 153, 0.2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.why-comparison-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.comparison-pill {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  color: #34d399;
+  display: block;
+  margin-bottom: 0.2rem;
+}
+
+.why-comparison-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.28rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.why-badge-trophy {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-full);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.comparison-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.comparison-row {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr 1fr;
+  align-items: center;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  font-size: 0.85rem;
+}
+
+.comparison-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.comparison-row.header-row {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.col-feature {
+  font-weight: 600;
+  color: #e2e8f0;
+}
+
+.header-row .col-feature {
+  color: #94a3b8;
+}
+
+.col-school {
+  text-align: center;
+}
+
+.badge-other {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  display: inline-block;
+}
+
+.col-drivemaster {
+  text-align: right;
+}
+
+.badge-us {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  padding: 0.22rem 0.6rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Student Success Spotlight Card */
+.why-student-success-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.05);
+}
+
+.student-thumb-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--accent-green);
+}
+
+.student-pass-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-pass-badge {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--accent-green);
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-align: center;
+  padding: 1px 0;
+  letter-spacing: 0.05em;
+}
+
+.star-rating {
+  font-size: 0.82rem;
+  letter-spacing: 1px;
+}
+
+.student-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.student-course-info {
+  font-size: 0.8rem;
+}
+
+.student-quote {
+  font-size: 0.88rem;
+  color: #475569;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.why-enroll-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: gap 0.2s, color 0.2s;
+}
+
+.why-enroll-link:hover {
+  color: var(--accent-green);
+  gap: 0.55rem;
+}
+
+/* ==========================================================================
    FOOTER SECTION
    ========================================================================== */
 .site-footer {
