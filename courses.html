@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driving Courses &amp; Pricing Packages | DriveMaster Academy</title>
+  <meta name="description" content="Explore DVSA certified driving courses at DriveMaster Academy. Beginner starter packs, intensive pass courses, automatic and manual lessons, and advanced motorway training.">
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Top Dark Green Header Strip -->
+  <div class="topbar-strip">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="d-flex align-items-center">
+        <span class="topbar-chevron-pattern">
+          <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
+        </span>
+        <i class="bi bi-grid-fill me-2 text-success"></i>
+        <span>Driving, Start Dialing <a href="tel:+66120003456" class="text-white fw-bold text-decoration-none ms-1">+66 12 000 3456</a></span>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="index.html#about" class="topbar-link">
+          <i class="bi bi-geo-alt-fill text-success me-1"></i> Starting Locations <i class="bi bi-chevron-down ms-1 small"></i>
+        </a>
+        <span class="topbar-divider"></span>
+        <a href="courses.html" class="topbar-link">
+          <i class="bi bi-clock-fill text-success me-1"></i> Morning Classes: 7.00 to 11.00 <i class="bi bi-chevron-down ms-1 small"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg py-3">
+        <!-- Logo -->
+        <a class="navbar-brand-custom" href="index.html">
+          <div class="brand-icon-logo">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title-top">Drive</span>
+            <span class="brand-title-bottom">
+              <span class="chevrons">&gt;&gt;&gt;</span>Master
+            </span>
+          </div>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-2 text-dark"></i>
+        </button>
+
+        <!-- Nav Items -->
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="index.html">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#features">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="courses.html">Courses</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#pricing">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#why-choose-us">Why Choose Us</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="gallery.html">Gallery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="index.html#contact">Contact</a>
+            </li>
+          </ul>
+
+          <!-- Right Action Tools & Start Driving Button -->
+          <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+            <a href="courses.html" class="nav-icon-action" title="Search Courses" aria-label="Search">
+              <i class="bi bi-search"></i>
+            </a>
+            <a href="index.html#contact" class="nav-icon-action" title="Student Portal" aria-label="User Account">
+              <i class="bi bi-person-circle"></i>
+            </a>
+            <a href="index.html#features" class="nav-icon-action" title="Instructors & Services" aria-label="Grid Menu">
+              <i class="bi bi-grid-3x3-gap-fill"></i>
+            </a>
+
+            <!-- Reference START DRIVING Chevron Ribbon Button -->
+            <a href="#courses-catalog" class="btn-start-driving-wrap ms-2">
+              <span class="btn-start-driving-label">START DRIVING</span>
+              <span class="btn-start-driving-arrows">&gt;&gt;&gt;</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       PAGE INNER HERO / BANNER
+       ========================================================================== -->
+  <section class="page-banner text-center">
+    <div class="container position-relative">
+      <span class="section-pill-badge mb-3 bg-white text-dark border-0 shadow-sm">
+        <i class="bi bi-award-fill text-success"></i> DVSA Certified Training Programs
+      </span>
+      <h1 class="page-banner-title">Our Driving Courses</h1>
+      <p class="page-banner-desc">
+        Comprehensive behind-the-wheel instruction tailored to every skill level. From complete beginners and fast-track intensive courses to automatic mastery and defensive motorway training.
+      </p>
+      <nav aria-label="breadcrumb">
+        <div class="page-breadcrumb">
+          <a href="index.html"><i class="bi bi-house-door-fill me-1"></i> Home</a>
+          <i class="bi bi-chevron-right small text-white-50"></i>
+          <span>Courses</span>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MAIN COURSES SECTION
+       ========================================================================== -->
+  <section class="courses-section section-padding" id="courses-catalog">
+    <div class="container">
+
+      <!-- Section Sub-Header -->
+      <div class="text-center mb-4">
+        <span class="section-pill-badge">
+          <i class="bi bi-tags-fill text-success"></i> All Syllabus Options
+        </span>
+        <h2 class="section-heading-title">Choose Your Path To A Full License</h2>
+        <p class="section-heading-desc">
+          All courses feature door-to-door pickup, dual-control hybrid cars, patient Grade-A DVSA instructors, and free mock tests.
+        </p>
+      </div>
+
+      <!-- Course Interactive Category Filter Tabs -->
+      <div class="course-filter-group">
+        <button type="button" class="course-filter-btn active" data-filter="all">All Packages (6)</button>
+        <button type="button" class="course-filter-btn" data-filter="beginner">Beginner Starter</button>
+        <button type="button" class="course-filter-btn" data-filter="popular">Most Popular</button>
+        <button type="button" class="course-filter-btn" data-filter="intensive">Intensive Fast-Track</button>
+        <button type="button" class="course-filter-btn" data-filter="automatic">Automatic Only</button>
+        <button type="button" class="course-filter-btn" data-filter="advanced">Motorway &amp; Advanced</button>
+      </div>
+
+      <!-- Course Grid -->
+      <div class="row g-4 align-items-stretch" id="courseGrid">
+
+        <!-- Course 1: Beginner Starter Pack -->
+        <div class="col-lg-4 col-md-6 course-item-col" data-category="beginner">
+          <div class="course-card">
+            <div class="course-card-img-wrap">
+              <img src="assets/images/hero-slide-1.jpg" alt="Beginner Starter Driving Course" loading="lazy">
+              <span class="course-badge-float">
+                <i class="bi bi-star-fill text-warning"></i> Beginner Essential
+              </span>
+              <span class="course-duration-float">
+                <i class="bi bi-clock-history"></i> 10 Hours
+              </span>
+            </div>
+
+            <div class="course-card-body">
+              <span class="course-category-pill">
+                <i class="bi bi-gear-wide-connected"></i> Automatic &amp; Manual
+              </span>
+              <h3 class="course-card-title">Beginner Starter Pack</h3>
+              <p class="course-card-desc">
+                Ideal for beginners who have never touched a steering wheel. Covers cockpit drill, clutch bite point, smooth steering, and basic road safety.
+              </p>
+
+              <!-- Price Box -->
+              <div class="course-price-box">
+                <div>
+                  <div class="course-price-amount">$420</div>
+                  <div class="course-price-sub">10 Hours Total Instruction</div>
+                </div>
+                <span class="course-hourly-tag">$42 / hr</span>
+              </div>
+
+              <!-- Checklist -->
+              <ul class="course-checklist">
+                <li><i class="bi bi-check2-circle"></i> 10 Hours 1-on-1 Behind-The-Wheel</li>
+                <li><i class="bi bi-check2-circle"></i> Modern Dual-Control 2024 Vehicle</li>
+                <li><i class="bi bi-check2-circle"></i> Free Doorstep Pickup &amp; Return</li>
+                <li><i class="bi bi-check2-circle"></i> Official DVSA Theory App Access</li>
+                <li><i class="bi bi-check2-circle"></i> Driver Progress Tracker &amp; Logbook</li>
+              </ul>
+
+              <!-- Action Button -->
+              <button type="button" class="btn-course-action btn-enroll-trigger" data-course-name="Beginner Starter Pack" data-course-price="$420">
+                Enroll Starter Pack <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 2: Standard Pass Course (FEATURED / MOST POPULAR) -->
+        <div class="col-lg-4 col-md-6 course-item-col" data-category="popular beginner">
+          <div class="course-card featured">
+            <span class="featured-ribbon">
+              <i class="bi bi-lightning-charge-fill"></i> Most Popular
+            </span>
+            <div class="course-card-img-wrap">
+              <img src="assets/images/about-instructor.jpg" alt="Standard Complete Pass Driving Course" loading="lazy">
+              <span class="course-badge-float">
+                <i class="bi bi-award-fill text-success"></i> 98.4% Pass Rate
+              </span>
+              <span class="course-duration-float">
+                <i class="bi bi-clock-history"></i> 20 Hours
+              </span>
+            </div>
+
+            <div class="course-card-body">
+              <span class="course-category-pill">
+                <i class="bi bi-award-fill"></i> Complete Test Readiness
+              </span>
+              <h3 class="course-card-title">Standard Pass Course</h3>
+              <p class="course-card-desc">
+                Our #1 chosen course to take you from initial driving to passing your official practical driving test with flying colors.
+              </p>
+
+              <!-- Price Box -->
+              <div class="course-price-box">
+                <div>
+                  <div class="course-price-amount text-success">$780</div>
+                  <div class="course-price-sub">20 Hours Complete Prep</div>
+                </div>
+                <span class="course-hourly-tag text-success bg-success-subtle">$39 / hr</span>
+              </div>
+
+              <!-- Checklist -->
+              <ul class="course-checklist">
+                <li><i class="bi bi-check2-circle"></i> 20 Hours Comprehensive In-Car Lessons</li>
+                <li><i class="bi bi-check2-circle"></i> 2 Full Mock Driving Tests on Test Routes</li>
+                <li><i class="bi bi-check2-circle"></i> <strong>Official Test Day Car Rental Included</strong></li>
+                <li><i class="bi bi-check2-circle"></i> Parallel, Bay Parking &amp; Emergency Stop</li>
+                <li><i class="bi bi-check2-circle"></i> Free Test Re-Sit Assurance Guarantee</li>
+              </ul>
+
+              <!-- Action Button -->
+              <button type="button" class="btn-course-action featured-btn btn-enroll-trigger" data-course-name="Standard Pass Course" data-course-price="$780">
+                Book Popular Course <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 3: Fast-Track Intensive Boot Camp -->
+        <div class="col-lg-4 col-md-6 course-item-col" data-category="intensive">
+          <div class="course-card">
+            <div class="course-card-img-wrap">
+              <img src="assets/images/gallery-pass.jpg" alt="Intensive Fast-Track Driving Course" loading="lazy">
+              <span class="course-badge-float">
+                <i class="bi bi-fire text-danger"></i> Pass In 1-2 Weeks
+              </span>
+              <span class="course-duration-float">
+                <i class="bi bi-clock-history"></i> 30 Hours
+              </span>
+            </div>
+
+            <div class="course-card-body">
+              <span class="course-category-pill">
+                <i class="bi bi-speedometer"></i> Fast-Track License
+              </span>
+              <h3 class="course-card-title">Fast-Track Intensive Pack</h3>
+              <p class="course-card-desc">
+                Need your license fast for a new job or relocation? Compressed 30-hour intensive program with daily 3-hour immersive sessions.
+              </p>
+
+              <!-- Price Box -->
+              <div class="course-price-box">
+                <div>
+                  <div class="course-price-amount">$1,150</div>
+                  <div class="course-price-sub">30 Hours Accelerated</div>
+                </div>
+                <span class="course-hourly-tag">$38 / hr</span>
+              </div>
+
+              <!-- Checklist -->
+              <ul class="course-checklist">
+                <li><i class="bi bi-check2-circle"></i> 30 Hours Daily Immersive Behind-The-Wheel</li>
+                <li><i class="bi bi-check2-circle"></i> Expedited Practical Test Booking Support</li>
+                <li><i class="bi bi-check2-circle"></i> Fast Muscle-Memory &amp; Reaction Training</li>
+                <li><i class="bi bi-check2-circle"></i> 3 Examiner Mock Route Evaluations</li>
+                <li><i class="bi bi-check2-circle"></i> Test Car Rental &amp; Pre-Test Warmup Included</li>
+              </ul>
+
+              <!-- Action Button -->
+              <button type="button" class="btn-course-action btn-enroll-trigger" data-course-name="Fast-Track Intensive Pack" data-course-price="$1,150">
+                Apply Intensive Pack <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 4: Automatic Only Specialist -->
+        <div class="col-lg-4 col-md-6 course-item-col" data-category="automatic">
+          <div class="course-card">
+            <div class="course-card-img-wrap">
+              <img src="assets/images/course-automatic.jpg" alt="Automatic Transmission Driving Course" loading="lazy">
+              <span class="course-badge-float">
+                <i class="bi bi-check-circle-fill text-success"></i> No Stalling
+              </span>
+              <span class="course-duration-float">
+                <i class="bi bi-clock-history"></i> 15 Hours
+              </span>
+            </div>
+
+            <div class="course-card-body">
+              <span class="course-category-pill">
+                <i class="bi bi-ev-front-fill"></i> Automatic Hybrid
+              </span>
+              <h3 class="course-card-title">Automatic Only Specialist</h3>
+              <p class="course-card-desc">
+                Zero clutch pedals, zero gear juggling. Focus completely on observation, steering control, and road dynamics in modern electric/hybrid cars.
+              </p>
+
+              <!-- Price Box -->
+              <div class="course-price-box">
+                <div>
+                  <div class="course-price-amount">$630</div>
+                  <div class="course-price-sub">15 Hours Dedicated Training</div>
+                </div>
+                <span class="course-hourly-tag">$42 / hr</span>
+              </div>
+
+              <!-- Checklist -->
+              <ul class="course-checklist">
+                <li><i class="bi bi-check2-circle"></i> 15 Hours Focused In-Car Tuition</li>
+                <li><i class="bi bi-check2-circle"></i> Latest 2024 Toyota Hybrid Dual-Control Car</li>
+                <li><i class="bi bi-check2-circle"></i> Effortless Hill Starts &amp; Stop-and-Go Traffic</li>
+                <li><i class="bi bi-check2-circle"></i> Fast Mastery for Nervous or Older Learners</li>
+                <li><i class="bi bi-check2-circle"></i> Free Door-to-Door Pickup Included</li>
+              </ul>
+
+              <!-- Action Button -->
+              <button type="button" class="btn-course-action btn-enroll-trigger" data-course-name="Automatic Only Specialist" data-course-price="$630">
+                Book Automatic Pack <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 5: Defensive & Motorway Master -->
+        <div class="col-lg-4 col-md-6 course-item-col" data-category="advanced">
+          <div class="course-card">
+            <div class="course-card-img-wrap">
+              <img src="assets/images/course-defensive.jpg" alt="Defensive Driving and Motorway Course" loading="lazy">
+              <span class="course-badge-float">
+                <i class="bi bi-shield-shaded text-info"></i> Pass Plus Certified
+              </span>
+              <span class="course-duration-float">
+                <i class="bi bi-clock-history"></i> 8 Hours
+              </span>
+            </div>
+
+            <div class="course-card-body">
+              <span class="course-category-pill">
+                <i class="bi bi-shield-shaded"></i> Advanced &amp; Motorway
+              </span>
+              <h3 class="course-card-title">Defensive &amp; Motorway Master</h3>
+              <p class="course-card-desc">
+                For newly passed drivers or test-ready students wanting high-speed motorway confidence, inclement rain/fog handling, and hazard avoidance.
+              </p>
+
+              <!-- Price Box -->
+              <div class="course-price-box">
+                <div>
+                  <div class="course-price-amount">$350</div>
+                  <div class="course-price-sub">8 Hours Advanced Modules</div>
+                </div>
+                <span class="course-hourly-tag">$43 / hr</span>
+              </div>
+
+              <!-- Checklist -->
+              <ul class="course-checklist">
+                <li><i class="bi bi-check2-circle"></i> 8 Hours Specialized Motorway &amp; Highway</li>
+                <li><i class="bi bi-check2-circle"></i> Slip Roads, High-Speed Merging &amp; Overtaking</li>
+                <li><i class="bi bi-check2-circle"></i> Complex Multi-Lane Turbo Roundabouts</li>
+                <li><i class="bi bi-check2-circle"></i> Adverse Weather &amp; Night Hazard Avoidance</li>
+                <li><i class="bi bi-check2-circle"></i> <strong>Pass Plus Certificate (Up to 25% Off Insurance)</strong></li>
+              </ul>
+
+              <!-- Action Button -->
+              <button type="button" class="btn-course-action btn-enroll-trigger" data-course-name="Defensive & Motorway Master" data-course-price="$350">
+                Upgrade Skills <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Course 6: Manual Transmission Mastery -->
+        <div class="col-lg-4 col-md-6 course-item-col" data-category="beginner">
+          <div class="course-card">
+            <div class="course-card-img-wrap">
+              <img src="assets/images/course-manual.jpg" alt="Manual Transmission Driving Course" loading="lazy">
+              <span class="course-badge-float">
+                <i class="bi bi-sliders text-warning"></i> Full Category B
+              </span>
+              <span class="course-duration-float">
+                <i class="bi bi-clock-history"></i> 15 Hours
+              </span>
+            </div>
+
+            <div class="course-card-body">
+              <span class="course-category-pill">
+                <i class="bi bi-gear-fill"></i> Manual Full License
+              </span>
+              <h3 class="course-card-title">Manual Transmission Mastery</h3>
+              <p class="course-card-desc">
+                Gain a full unrestricted license allowing you to drive both manual and automatic vehicles worldwide. Master clutch control and downshifts.
+              </p>
+
+              <!-- Price Box -->
+              <div class="course-price-box">
+                <div>
+                  <div class="course-price-amount">$600</div>
+                  <div class="course-price-sub">15 Hours Step-By-Step</div>
+                </div>
+                <span class="course-hourly-tag">$40 / hr</span>
+              </div>
+
+              <!-- Checklist -->
+              <ul class="course-checklist">
+                <li><i class="bi bi-check2-circle"></i> 15 Hours In-Car Manual Tuition</li>
+                <li><i class="bi bi-check2-circle"></i> Friction Point Control &amp; Zero Stall Technique</li>
+                <li><i class="bi bi-check2-circle"></i> Steep Hill Starts With Handbrake &amp; Footbrake</li>
+                <li><i class="bi bi-check2-circle"></i> Progressive Gear Selection &amp; Engine Braking</li>
+                <li><i class="bi bi-check2-circle"></i> Complete Maneuvers Preparation Included</li>
+              </ul>
+
+              <!-- Action Button -->
+              <button type="button" class="btn-course-action btn-enroll-trigger" data-course-name="Manual Transmission Mastery" data-course-price="$600">
+                Master Manual Gear <i class="bi bi-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Pay As You Go Hourly Lesson Options -->
+      <div class="hourly-rates-banner">
+        <div class="row align-items-center">
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <div class="d-flex align-items-center gap-3">
+              <div class="hourly-rate-icon">
+                <i class="bi bi-clock-history"></i>
+              </div>
+              <div>
+                <h4 class="mb-1 fw-bold fs-5">Prefer Pay-As-You-Go?</h4>
+                <p class="mb-0 text-muted small">Flexible hourly bookings with zero commitment.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="hourly-rate-item">
+                  <div>
+                    <strong class="d-block text-dark small">Single 1-Hr Lesson</strong>
+                    <span class="text-muted small">Standard hourly</span>
+                  </div>
+                  <span class="hourly-rate-price">$55</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="hourly-rate-item">
+                  <div>
+                    <strong class="d-block text-dark small">2-Hour Block Session</strong>
+                    <span class="text-muted small">Save $12 on pair</span>
+                  </div>
+                  <span class="hourly-rate-price">$98</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="hourly-rate-item">
+                  <div>
+                    <strong class="d-block text-dark small">Test Car Rental</strong>
+                    <span class="text-muted small">Warm-up + Exam</span>
+                  </div>
+                  <span class="hourly-rate-price">$160</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CURRICULUM ROADMAP SECTION (HOW YOUR LESSONS PROGRESS)
+       ========================================================================== -->
+  <section class="curriculum-roadmap-section section-padding">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-pill-badge">
+          <i class="bi bi-diagram-3-fill text-success"></i> Structured Learning
+        </span>
+        <h2 class="section-heading-title">Your 4-Stage Roadmap To Passing</h2>
+        <p class="section-heading-desc">
+          We follow a proven step-by-step syllabus designed to eliminate nervousness, build confidence, and ensure you pass your driving test on the first try.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <!-- Step 1 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="roadmap-card">
+            <div class="roadmap-step-num">01</div>
+            <div class="roadmap-icon-box">
+              <i class="bi bi-key-fill"></i>
+            </div>
+            <h3 class="roadmap-card-title">Cockpit Drills &amp; Basic Controls</h3>
+            <p class="roadmap-card-desc">
+              Understand vehicle setup, seat positioning, mirror alignment, pedal finesse, smooth moving off, and gentle stopping in quiet residential streets.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="roadmap-card">
+            <div class="roadmap-step-num">02</div>
+            <div class="roadmap-icon-box">
+              <i class="bi bi-sign-turn-right-fill"></i>
+            </div>
+            <h3 class="roadmap-card-title">Junctions, Traffic &amp; Roundabouts</h3>
+            <p class="roadmap-card-desc">
+              Master T-junctions, cross-roads, mini and multi-lane roundabouts, traffic lights, lane positioning, and reading road signs effortlessly.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="roadmap-card">
+            <div class="roadmap-step-num">03</div>
+            <div class="roadmap-icon-box">
+              <i class="bi bi-p-square-fill"></i>
+            </div>
+            <h3 class="roadmap-card-title">Manoeuvres &amp; Independent Drive</h3>
+            <p class="roadmap-card-desc">
+              Flawless parallel parking, forward &amp; reverse bay parking, pulling up on the right, emergency stop drills, and following GPS navigation.
+            </p>
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="roadmap-card">
+            <div class="roadmap-step-num">04</div>
+            <div class="roadmap-icon-box">
+              <i class="bi bi-award-fill"></i>
+            </div>
+            <h3 class="roadmap-card-title">Mock Driving Tests &amp; Test Day Pass</h3>
+            <p class="roadmap-card-desc">
+              Realistic mock tests on actual examiner test routes with instant scoring breakdown, pre-test warm-up lesson, and test car rental support.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       COURSE FREQUENTLY ASKED QUESTIONS (FAQ)
+       ========================================================================== -->
+  <section class="course-faq-section section-padding">
+    <div class="container">
+      <div class="text-center mb-5">
+        <span class="section-pill-badge">
+          <i class="bi bi-question-circle-fill text-success"></i> Have Questions?
+        </span>
+        <h2 class="section-heading-title">Frequently Asked Course Questions</h2>
+        <p class="section-heading-desc">
+          Everything you need to know about starting your driving lessons, packages, and test day requirements.
+        </p>
+      </div>
+
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="accordion custom-faq-accordion" id="courseFaqAccordion">
+
+            <!-- Question 1 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqHeadingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseOne" aria-expanded="true" aria-controls="faqCollapseOne">
+                  Should I choose manual or automatic driving lessons?
+                </button>
+              </h2>
+              <div id="faqCollapseOne" class="accordion-collapse collapse show" aria-labelledby="faqHeadingOne" data-bs-parent="#courseFaqAccordion">
+                <div class="accordion-body">
+                  If you pass your driving test in a <strong>manual car</strong>, your license entitles you to drive both manual and automatic vehicles. If you pass in an <strong>automatic car</strong>, your license permits you to drive automatic vehicles only. If you struggle with gear changes or want to get on the road as quickly and smoothly as possible, automatic lessons are an excellent, stress-free choice!
+                </div>
+              </div>
+            </div>
+
+            <!-- Question 2 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqHeadingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseTwo" aria-expanded="false" aria-controls="faqCollapseTwo">
+                  How many hours of driving lessons do I need to pass?
+                </button>
+              </h2>
+              <div id="faqCollapseTwo" class="accordion-collapse collapse" aria-labelledby="faqHeadingTwo" data-bs-parent="#courseFaqAccordion">
+                <div class="accordion-body">
+                  According to official DVSA statistics, the average learner takes around 45 hours of professional tuition combined with 20 hours of private practice. However, with DriveMaster Academy's structured curriculum, our students pass on average in just <strong>20 to 25 hours</strong> of tuition due to our focused 1-on-1 pacing and test-route mock exams.
+                </div>
+              </div>
+            </div>
+
+            <!-- Question 3 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqHeadingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseThree" aria-expanded="false" aria-controls="faqCollapseThree">
+                  Is the dual-control vehicle included for my practical test?
+                </button>
+              </h2>
+              <div id="faqCollapseThree" class="accordion-collapse collapse" aria-labelledby="faqHeadingThree" data-bs-parent="#courseFaqAccordion">
+                <div class="accordion-body">
+                  Yes! In our <strong>Standard Pass Course</strong> and <strong>Fast-Track Intensive Pack</strong>, official practical test car rental and a 60-minute warm-up lesson right before your test appointment are fully included at no extra surcharge. For pay-as-you-go students, you can easily add test car rental as a standalone package.
+                </div>
+              </div>
+            </div>
+
+            <!-- Question 4 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqHeadingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFour" aria-expanded="false" aria-controls="faqCollapseFour">
+                  Do you provide door-to-door pickup and drop-off?
+                </button>
+              </h2>
+              <div id="faqCollapseFour" class="accordion-collapse collapse" aria-labelledby="faqHeadingFour" data-bs-parent="#courseFaqAccordion">
+                <div class="accordion-body">
+                  Absolutely. Your instructor will pick you up directly from your home, college, workplace, or local train station and drop you back at the end of the lesson at no extra cost.
+                </div>
+              </div>
+            </div>
+
+            <!-- Question 5 -->
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="faqHeadingFive">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapseFive" aria-expanded="false" aria-controls="faqCollapseFive">
+                  What is your Pass Protection Assurance guarantee?
+                </button>
+              </h2>
+              <div id="faqCollapseFive" class="accordion-collapse collapse" aria-labelledby="faqHeadingFive" data-bs-parent="#courseFaqAccordion">
+                <div class="accordion-body">
+                  We are confident in our instruction standards. When you complete our Standard Pass Course and pass our pre-test mock evaluation, if you happen to fail your DVSA practical driving test on your first attempt, DriveMaster Academy will pay your official practical re-sit booking fee!
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       COURSE ENROLLMENT MODAL
+       ========================================================================== -->
+  <div class="modal fade course-enroll-modal" id="courseEnrollModal" tabindex="-1" aria-labelledby="courseEnrollModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div>
+            <h5 class="modal-title mb-1" id="courseEnrollModalLabel">Enroll In Course</h5>
+            <span class="badge bg-success-subtle text-white border border-white-50 small" id="modalCoursePrice">$780 Package</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="courseEnrollSuccess" class="text-center py-4" style="display: none;">
+            <div class="text-success display-4 mb-3"><i class="bi bi-check-circle-fill"></i></div>
+            <h4 class="fw-bold mb-2">Booking Request Received!</h4>
+            <p class="text-muted small mb-4">
+              Thank you for enrolling in <strong id="successCourseName">Course</strong>. Our student coordinator will call you within 2 hours to confirm your instructor and schedule your first lesson.
+            </p>
+            <button type="button" class="btn btn-primary rounded-pill px-4" data-bs-dismiss="modal">Done</button>
+          </div>
+
+          <form id="courseEnrollForm">
+            <div class="mb-3">
+              <label class="form-label small fw-bold text-muted">Selected Course</label>
+              <h6 class="fw-bold text-brand" id="modalCourseName">Standard Pass Course</h6>
+              <input type="hidden" id="modalCourseInput" name="course_name" value="Standard Pass Course">
+            </div>
+
+            <div class="mb-3">
+              <label for="enrollName" class="form-label small fw-bold">Full Name</label>
+              <input type="text" class="form-control" id="enrollName" placeholder="e.g. John Doe" required>
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <label for="enrollPhone" class="form-label small fw-bold">Phone Number</label>
+                <input type="tel" class="form-control" id="enrollPhone" placeholder="+66 12 000 3456" required>
+              </div>
+              <div class="col-md-6">
+                <label for="enrollEmail" class="form-label small fw-bold">Email Address</label>
+                <input type="email" class="form-control" id="enrollEmail" placeholder="you@example.com" required>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="enrollGear" class="form-label small fw-bold">Preferred Transmission</label>
+              <select class="form-select" id="enrollGear">
+                <option value="Automatic">Automatic (Modern Hybrid Dual-Control)</option>
+                <option value="Manual">Manual (Category B Full License)</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="enrollAddress" class="form-label small fw-bold">Pickup Postal Code or Area</label>
+              <input type="text" class="form-control" id="enrollAddress" placeholder="e.g. Central West London or Postcode" required>
+            </div>
+
+            <div class="d-grid mt-4">
+              <button type="submit" class="btn btn-primary py-2 fw-bold rounded-pill" style="background-color: var(--primary); border: none;">
+                Confirm Enrollment <i class="bi bi-arrow-right ms-1"></i>
+              </button>
+            </div>
+            <p class="text-center text-muted small mt-2 mb-0">
+              <i class="bi bi-shield-check text-success"></i> No immediate payment required. 100% satisfaction guaranteed.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       FOOTER SECTION
+       ========================================================================== -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <!-- Pre-Footer Action Banner -->
+      <div class="footer-cta-box">
+        <div class="row align-items-center">
+          <div class="col-lg-8 mb-3 mb-lg-0">
+            <h3 class="footer-cta-title">Ready To Hit The Road &amp; Pass Your Test?</h3>
+            <p class="footer-cta-desc">
+              Book your introductory lesson today and get 15% off your first driving session. Friendly, patient instructors ready in your area.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="tel:+66120003456" class="btn-footer-cta">
+              <i class="bi bi-telephone-fill"></i> Call +66 12 000 3456
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Footer Columns -->
+      <div class="row g-4 pb-4">
+        <!-- Col 1: Brand & About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand-custom mb-3 d-inline-flex" href="index.html">
+            <div class="brand-icon-logo">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <div class="brand-title-wrap">
+              <span class="brand-title-top text-white">Drive</span>
+              <span class="brand-title-bottom text-white">
+                <span class="chevrons">&gt;&gt;&gt;</span>Master
+              </span>
+            </div>
+          </a>
+          <p class="footer-about-text">
+            Premier DVSA certified driving academy dedicated to transforming nervous beginners into confident, responsible drivers with dual-control vehicles and guaranteed pass support.
+          </p>
+          <div class="footer-social-wrap">
+            <a href="#" class="footer-social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-nav-list">
+            <li><a href="index.html"><i class="bi bi-chevron-right small"></i> Home</a></li>
+            <li><a href="index.html#about"><i class="bi bi-chevron-right small"></i> About Us</a></li>
+            <li><a href="index.html#features"><i class="bi bi-chevron-right small"></i> Features</a></li>
+            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Course Catalog</a></li>
+            <li><a href="index.html#pricing"><i class="bi bi-chevron-right small"></i> Pricing Plans</a></li>
+            <li><a href="index.html#why-choose-us"><i class="bi bi-chevron-right small"></i> Why Choose Us</a></li>
+            <li><a href="gallery.html"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
+            <li><a href="index.html#contact"><i class="bi bi-chevron-right small"></i> Book Instructor</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Popular Courses -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <h4 class="footer-col-title">Our Courses</h4>
+          <ul class="footer-nav-list">
+            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
+            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
+            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
+            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
+            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact & Working Hours -->
+        <div class="col-lg-3 col-md-6">
+          <h4 class="footer-col-title">Get In Touch</h4>
+          <div class="footer-contact-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <div>
+              124 Highway Central Blvd, Suite 400<br>
+              City Driving Test Center District
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <div>
+              <a href="tel:+66120003456">+66 12 000 3456</a><br>
+              <span class="small text-muted">24/7 Student Booking Line</span>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-envelope-fill"></i>
+            <div>
+              <a href="mailto:info@drivemaster-school.com">info@drivemaster-school.com</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-clock-fill"></i>
+            <div>
+              Mon - Sun: 7:00 AM - 9:00 PM<br>
+              <span class="badge bg-success-subtle text-success small px-2 py-1 mt-1">Open All Week</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+            &copy; 2026 DriveMaster Driving School. All rights reserved.
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <a href="#" class="me-3">Privacy Policy</a>
+            <a href="#" class="me-3">Terms &amp; Conditions</a>
+            <a href="#">DVSA Approved</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

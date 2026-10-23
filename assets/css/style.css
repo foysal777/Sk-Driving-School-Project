@@ -1877,5 +1877,243 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 
+/* ==========================================================================
+   DEDICATED COURSES PAGE STYLING
+   ========================================================================== */
+.course-filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: 2.75rem;
+}
+
+.course-filter-btn {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 0.5rem 1.35rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.course-filter-btn:hover {
+  background: #f1f5f9;
+  color: var(--text-main);
+  border-color: #cbd5e1;
+}
+
+.course-filter-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(42, 107, 92, 0.25);
+}
+
+/* Course Image Header inside Course Card */
+.course-card-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.course-card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.course-card:hover .course-card-img-wrap img {
+  transform: scale(1.08);
+}
+
+.course-badge-float {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(15, 23, 42, 0.78);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.course-duration-float {
+  position: absolute;
+  bottom: 12px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--primary-dark);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Roadmap / Curriculum Step Cards */
+.curriculum-roadmap-section {
+  background: #f8fafc;
+  border-top: 1px solid #edf2f7;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.roadmap-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 2rem 1.6rem;
+  height: 100%;
+  position: relative;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.03);
+}
+
+.roadmap-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(42, 107, 92, 0.35);
+  box-shadow: 0 16px 32px rgba(42, 107, 92, 0.09);
+}
+
+.roadmap-step-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: rgba(42, 107, 92, 0.2);
+  line-height: 1;
+  margin-bottom: 0.8rem;
+}
+
+.roadmap-icon-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(42, 107, 92, 0.12) 0%, rgba(0, 176, 96, 0.18) 100%);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.45rem;
+  margin-bottom: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.roadmap-card:hover .roadmap-icon-box {
+  transform: scale(1.1);
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.roadmap-card-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text-main);
+}
+
+.roadmap-card-desc {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin-bottom: 0;
+}
+
+/* FAQ Accordion Styling */
+.course-faq-section {
+  background: #ffffff;
+}
+
+.custom-faq-accordion .accordion-item {
+  border: 1px solid #e2e8f0;
+  border-radius: 14px !important;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.2s ease;
+}
+
+.custom-faq-accordion .accordion-item:hover {
+  border-color: #cbd5e1;
+}
+
+.custom-faq-accordion .accordion-button {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  background: #ffffff;
+  padding: 1.2rem 1.5rem;
+  border-radius: 14px !important;
+  box-shadow: none;
+}
+
+.custom-faq-accordion .accordion-button:not(.collapsed) {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+
+.custom-faq-accordion .accordion-button:focus {
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.custom-faq-accordion .accordion-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  font-size: 0.93rem;
+  color: #475569;
+  line-height: 1.65;
+  background: #ffffff;
+}
+
+/* Course Enrollment Modal */
+.course-enroll-modal .modal-content {
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 25px 50px rgba(15, 23, 42, 0.25);
+}
+
+.course-enroll-modal .modal-header {
+  background: linear-gradient(135deg, #163d33 0%, #2A6B5C 100%);
+  color: #ffffff;
+  padding: 1.5rem 1.75rem;
+  border-bottom: none;
+}
+
+.course-enroll-modal .modal-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+}
+
+.course-enroll-modal .modal-body {
+  padding: 2rem 1.75rem;
+}
+
+.course-enroll-modal .form-control,
+.course-enroll-modal .form-select {
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.course-enroll-modal .form-control:focus,
+.course-enroll-modal .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(42, 107, 92, 0.15);
+}
+
 
 

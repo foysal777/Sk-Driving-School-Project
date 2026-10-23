@@ -117,4 +117,55 @@ $(document).ready(function () {
       galleryModal.show();
     }
   });
+
+  // ==========================================
+  // COURSES PAGE FILTER & ENROLL MODAL
+  // ==========================================
+  $('.course-filter-btn').on('click', function () {
+    $('.course-filter-btn').removeClass('active');
+    $(this).addClass('active');
+
+    const filterVal = $(this).data('filter');
+    const $items = $('.course-item-col');
+
+    if (filterVal === 'all') {
+      $items.stop().fadeIn(300);
+    } else {
+      $items.each(function () {
+        const itemCat = $(this).data('category') || '';
+        if (itemCat.indexOf(filterVal) !== -1) {
+          $(this).stop().fadeIn(300);
+        } else {
+          $(this).stop().fadeOut(200);
+        }
+      });
+    }
+  });
+
+  // Course Enroll Modal Trigger
+  $(document).on('click', '.btn-enroll-trigger', function (e) {
+    e.preventDefault();
+    const courseTitle = $(this).data('course-name') || $(this).closest('.course-card').find('.course-card-title').text().trim();
+    const coursePrice = $(this).data('course-price') || '';
+
+    $('#modalCourseName').text(courseTitle);
+    $('#modalCourseInput').val(courseTitle);
+    if (coursePrice) {
+      $('#modalCoursePrice').text(coursePrice);
+    }
+
+    const enrollModalElement = document.getElementById('courseEnrollModal');
+    if (enrollModalElement && typeof bootstrap !== 'undefined') {
+      const enrollModal = bootstrap.Modal.getOrCreateInstance(enrollModalElement);
+      enrollModal.show();
+    }
+  });
+
+  // Handle Enrollment Form Submission
+  $('#courseEnrollForm').on('submit', function (e) {
+    e.preventDefault();
+    const $form = $(this);
+    $form.hide();
+    $('#courseEnrollSuccess').fadeIn(300);
+  });
 });
