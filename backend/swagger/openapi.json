@@ -1,0 +1,420 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "DriveMaster Driving School API",
+    "description": "Comprehensive RESTful backend API for DriveMaster (SK Driving School). Pure PHP 8+ Core architecture without frameworks, MySQL database persistence, and Admin Panel integration.",
+    "version": "1.0.0",
+    "contact": {
+      "name": "DriveMaster Academy Support",
+      "email": "info@drivemaster-school.com",
+      "url": "http://localhost:8000"
+    }
+  },
+  "servers": [
+    {
+      "url": "/backend/api",
+      "description": "Local / Production API Server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Public - Contact & Inquiries",
+      "description": "Contact form submissions from contact.html email form box"
+    },
+    {
+      "name": "Public - Courses & Packages",
+      "description": "Course catalog, hourly rates and syllabus info"
+    },
+    {
+      "name": "Public - Enrollments",
+      "description": "Student driving lesson booking submissions"
+    },
+    {
+      "name": "Admin - Authentication",
+      "description": "Admin login, profile inspection, and session termination"
+    },
+    {
+      "name": "Admin - Dashboard & Analytics",
+      "description": "Real-time statistics, lead counts, and revenue tracking"
+    },
+    {
+      "name": "Admin - Inquiries Management",
+      "description": "Review student email messages, update status, and manage leads"
+    },
+    {
+      "name": "Admin - Enrollments Management",
+      "description": "Manage course bookings, transmission preferences, and payment status"
+    },
+    {
+      "name": "Admin - Courses Management",
+      "description": "CRUD operations for driving courses and package prices"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "API Health Check",
+        "description": "Check if API, PHP runtime, and MySQL database connection are online.",
+        "tags": ["Public - System"],
+        "responses": {
+          "200": {
+            "description": "System is healthy",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "status": 200,
+                  "message": "DriveMaster API is running smoothly.",
+                  "data": {
+                    "status": "operational",
+                    "php_version": "8.3.0",
+                    "database": "connected",
+                    "server_time": "2026-10-24T22:00:00+00:00"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/contact": {
+      "post": {
+        "summary": "Submit Contact Email Message",
+        "description": "Saves student inquiry from the contact page email form box into the MySQL inquiries table and triggers instructor notifications.",
+        "tags": ["Public - Contact & Inquiries"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ContactSubmissionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Message saved successfully",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "status": 201,
+                  "message": "Thank you! Your message has been received.",
+                  "data": {
+                    "id": 4,
+                    "full_name": "Michael Anderson",
+                    "email": "michael@example.com",
+                    "phone": "+66 12 345 6789",
+                    "subject": "Automatic Lessons",
+                    "status": "new"
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error (e.g. invalid email or missing name)"
+          }
+        }
+      }
+    },
+    "/courses": {
+      "get": {
+        "summary": "List All Active Courses",
+        "description": "Returns all driving lesson syllabus packages (Beginner, Standard Pass, Intensive, Automatic, Motorway, Manual).",
+        "tags": ["Public - Courses & Packages"],
+        "responses": {
+          "200": {
+            "description": "List of courses",
+            "content": {
+              "application/json": {
+                "example": {
+                  "success": true,
+                  "data": [
+                    {
+                      "id": 1,
+                      "slug": "beginner-starter-pack",
+                      "title": "Beginner Starter Pack",
+                      "duration_hours": 10,
+                      "total_price": 420.00,
+                      "hourly_rate": 42.00
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/courses/{idOrSlug}": {
+      "get": {
+        "summary": "Get Course Package by ID or Slug",
+        "tags": ["Public - Courses & Packages"],
+        "parameters": [
+          {
+            "name": "idOrSlug",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "standard-pass-course"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Course details" },
+          "404": { "description": "Course not found" }
+        }
+      }
+    },
+    "/enrollments": {
+      "post": {
+        "summary": "Submit Course Booking",
+        "description": "Book a driving lesson package from the modal with pickup address and date.",
+        "tags": ["Public - Enrollments"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnrollmentRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Booking created with unique reference code"
+          }
+        }
+      }
+    },
+    "/admin/login": {
+      "post": {
+        "summary": "Admin Login",
+        "description": "Authenticate admin user (Default Demo: admin@drivemaster.com / Admin@123456).",
+        "tags": ["Admin - Authentication"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["username", "password"],
+                "properties": {
+                  "username": { "type": "string", "example": "admin@drivemaster.com" },
+                  "password": { "type": "string", "example": "Admin@123456" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful, returns Bearer token and user info"
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/admin/dashboard": {
+      "get": {
+        "summary": "Get Admin Dashboard Metrics",
+        "tags": ["Admin - Dashboard & Analytics"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "KPI counts and recent leads" }
+        }
+      }
+    },
+    "/admin/inquiries": {
+      "get": {
+        "summary": "List Student Inquiries",
+        "tags": ["Admin - Inquiries Management"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "status", "in": "query", "schema": { "type": "string", "enum": ["all", "new", "contacted", "enrolled", "closed"] } },
+          { "name": "search", "in": "query", "schema": { "type": "string" } }
+        ],
+        "responses": {
+          "200": { "description": "Filtered inquiries array" }
+        }
+      }
+    },
+    "/admin/inquiries/{id}/status": {
+      "put": {
+        "summary": "Update Inquiry Status",
+        "tags": ["Admin - Inquiries Management"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": { "type": "string", "enum": ["new", "contacted", "in_progress", "enrolled", "closed"] },
+                  "admin_notes": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Status updated successfully" }
+        }
+      }
+    },
+    "/admin/inquiries/{id}": {
+      "delete": {
+        "summary": "Delete Inquiry",
+        "tags": ["Admin - Inquiries Management"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Inquiry deleted" }
+        }
+      }
+    },
+    "/admin/enrollments": {
+      "get": {
+        "summary": "List All Enrollments",
+        "tags": ["Admin - Enrollments Management"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": {
+          "200": { "description": "List of student enrollments" }
+        }
+      }
+    },
+    "/admin/enrollments/{id}/status": {
+      "put": {
+        "summary": "Update Enrollment Status & Payment",
+        "tags": ["Admin - Enrollments Management"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "enum": ["pending", "confirmed", "in_training", "completed", "cancelled"] },
+                  "payment_status": { "type": "string", "enum": ["unpaid", "deposit_paid", "paid_in_full", "refunded"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Enrollment status updated" }
+        }
+      }
+    },
+    "/admin/courses": {
+      "get": {
+        "summary": "Admin Course List (Including Drafts)",
+        "tags": ["Admin - Courses Management"],
+        "security": [{ "BearerAuth": [] }],
+        "responses": { "200": { "description": "Course packages" } }
+      },
+      "post": {
+        "summary": "Create New Course Package",
+        "tags": ["Admin - Courses Management"],
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CourseCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": { "201": { "description": "Course created" } }
+      }
+    },
+    "/admin/courses/{id}": {
+      "put": {
+        "summary": "Update Course Package",
+        "tags": ["Admin - Courses Management"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Course updated" } }
+      },
+      "delete": {
+        "summary": "Delete Course Package",
+        "tags": ["Admin - Courses Management"],
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [{ "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }],
+        "responses": { "200": { "description": "Course deleted" } }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "Token",
+        "description": "Enter the Bearer token received from /admin/login"
+      }
+    },
+    "schemas": {
+      "ContactSubmissionRequest": {
+        "type": "object",
+        "required": ["full_name", "email", "message"],
+        "properties": {
+          "full_name": { "type": "string", "example": "Michael Anderson" },
+          "email": { "type": "string", "format": "email", "example": "michael@example.com" },
+          "phone": { "type": "string", "example": "+66 12 345 6789" },
+          "subject": { "type": "string", "example": "Automatic Lessons" },
+          "pickup_location": { "type": "string", "example": "Central City, 10110" },
+          "timeline": { "type": "string", "example": "As Soon As Possible" },
+          "preferred_schedule": { "type": "string", "example": "Weekday Mornings" },
+          "message": { "type": "string", "example": "I want to start automatic driving lessons this weekend." }
+        }
+      },
+      "EnrollmentRequest": {
+        "type": "object",
+        "required": ["student_name", "student_email", "course_name"],
+        "properties": {
+          "student_name": { "type": "string", "example": "Sophie Turner" },
+          "student_email": { "type": "string", "format": "email", "example": "sophie@example.com" },
+          "student_phone": { "type": "string", "example": "+66 12 444 8899" },
+          "course_name": { "type": "string", "example": "Standard Pass Course" },
+          "course_price": { "type": "number", "example": 780.00 },
+          "preferred_transmission": { "type": "string", "enum": ["automatic", "manual"], "example": "automatic" },
+          "pickup_address": { "type": "string", "example": "124 Sukhumvit Soi 11" },
+          "preferred_start_date": { "type": "string", "format": "date", "example": "2026-11-01" }
+        }
+      },
+      "CourseCreateRequest": {
+        "type": "object",
+        "required": ["title", "total_price", "duration_hours"],
+        "properties": {
+          "title": { "type": "string", "example": "Refresher & Motorway Course" },
+          "category": { "type": "string", "example": "advanced" },
+          "short_description": { "type": "string", "example": "Quick refresher course for drivers with a foreign license." },
+          "duration_hours": { "type": "integer", "example": 8 },
+          "total_price": { "type": "number", "example": 350.00 },
+          "hourly_rate": { "type": "number", "example": 43.75 },
+          "badge_label": { "type": "string", "example": "Pass Plus" },
+          "is_featured": { "type": "boolean", "example": false }
+        }
+      }
+    }
+  }
+}

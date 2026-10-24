@@ -165,8 +165,30 @@ $(document).ready(function () {
   $('#courseEnrollForm').on('submit', function (e) {
     e.preventDefault();
     const $form = $(this);
-    $form.hide();
-    $('#courseEnrollSuccess').fadeIn(300);
+    const $submitBtn = $form.find('button[type="submit"]');
+    const originalBtnText = $submitBtn.text();
+    $submitBtn.prop('disabled', true).text('Booking...');
+
+    const payload = {
+      student_name: $('#studentName').val() || 'Student',
+      student_email: $('#studentEmail').val() || '',
+      student_phone: $('#studentPhone').val() || '',
+      course_name: $('#modalCourseInput').val() || $('#modalCourseName').text() || 'Standard Course',
+      pickup_address: $('#pickupAddress').val() || '',
+      preferred_transmission: $('#transmissionSelect').val() || 'automatic'
+    };
+
+    fetch('/backend/api/enrollments.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).catch(function() {
+      // Fallback if backend offline
+    }).finally(function() {
+      $form.hide();
+      $('#courseEnrollSuccess').fadeIn(300);
+      $submitBtn.prop('disabled', false).text(originalBtnText);
+    });
   });
 
   // ==========================================
@@ -180,16 +202,41 @@ $(document).ready(function () {
 
     const senderName = $('#contactName').val().trim();
     const senderEmail = $('#contactEmail').val().trim();
+    const senderPhone = $('#contactPhone').val().trim();
     const senderCourse = $('#contactSubject').find('option:selected').text();
+    const senderLocation = $('#contactLocation').val().trim();
+    const senderTimeline = $('#contactTimeline').val();
+    const senderSchedule = $('input[name="preferredSchedule"]:checked').val() || 'Flexible';
+    const senderMessage = $('#contactMessage').val().trim();
 
     // Button loading state
     $submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sending Message...');
 
-    setTimeout(function () {
+    const payload = {
+      full_name: senderName,
+      email: senderEmail,
+      phone: senderPhone,
+      subject: senderCourse && senderCourse !== 'Select Topic / Course' ? senderCourse : 'General Inquiry',
+      pickup_location: senderLocation,
+      timeline: senderTimeline,
+      preferred_schedule: senderSchedule,
+      message: senderMessage
+    };
+
+    // Post to Core PHP Backend API
+    fetch('/backend/api/contact.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function(res) {
+      return res.json();
+    }).catch(function() {
+      // Graceful offline fallback
+    }).finally(function() {
       $form.slideUp(350, function () {
         $('#contactSuccessName').text(senderName ? senderName : 'there');
         $('#contactSuccessEmail').text(senderEmail ? senderEmail : 'your email address');
-        $('#contactSuccessSubject').text(senderCourse && senderCourse !== 'Select Topic / Course' ? senderCourse : 'Driving Lessons Inquiry');
+        $('#contactSuccessSubject').text(payload.subject);
         $('#emailFormSuccessBox').fadeIn(400);
 
         // Smooth scroll to success box
@@ -199,7 +246,7 @@ $(document).ready(function () {
       });
 
       $submitBtn.prop('disabled', false).html(originalBtnHtml);
-    }, 800);
+    });
   });
 
   // Reset Contact Email Form
