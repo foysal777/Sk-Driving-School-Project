@@ -168,4 +168,46 @@ $(document).ready(function () {
     $form.hide();
     $('#courseEnrollSuccess').fadeIn(300);
   });
+
+  // ==========================================
+  // CONTACT PAGE EMAIL FORM BOX HANDLER
+  // ==========================================
+  $('#contactEmailForm').on('submit', function (e) {
+    e.preventDefault();
+    const $form = $(this);
+    const $submitBtn = $form.find('button[type="submit"]');
+    const originalBtnHtml = $submitBtn.html();
+
+    const senderName = $('#contactName').val().trim();
+    const senderEmail = $('#contactEmail').val().trim();
+    const senderCourse = $('#contactSubject').find('option:selected').text();
+
+    // Button loading state
+    $submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span> Sending Message...');
+
+    setTimeout(function () {
+      $form.slideUp(350, function () {
+        $('#contactSuccessName').text(senderName ? senderName : 'there');
+        $('#contactSuccessEmail').text(senderEmail ? senderEmail : 'your email address');
+        $('#contactSuccessSubject').text(senderCourse && senderCourse !== 'Select Topic / Course' ? senderCourse : 'Driving Lessons Inquiry');
+        $('#emailFormSuccessBox').fadeIn(400);
+
+        // Smooth scroll to success box
+        $('html, body').animate({
+          scrollTop: $('#emailFormSuccessBox').offset().top - 120
+        }, 500);
+      });
+
+      $submitBtn.prop('disabled', false).html(originalBtnHtml);
+    }, 800);
+  });
+
+  // Reset Contact Email Form
+  $('#resetContactFormBtn').on('click', function () {
+    $('#emailFormSuccessBox').fadeOut(250, function () {
+      $('#contactEmailForm')[0].reset();
+      $('#contactEmailForm').slideDown(350);
+    });
+  });
 });
+
