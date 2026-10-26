@@ -2954,6 +2954,413 @@ h1, h2, h3, h4, h5, h6 {
   border-top: 1px solid #f1f5f9;
 }
 
+/* ==============================================================================
+   SQUARE PAYMENT GATEWAY & APPROVAL MODAL STYLES
+   ============================================================================== */
+.square-brand-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #000000;
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.03em;
+}
+
+.square-brand-badge i {
+  color: #00d632;
+  font-size: 0.9rem;
+}
+
+.square-card-terminal {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.square-card-input-group {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #ffffff;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.square-card-input-group:focus-within {
+  border-color: #000000;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+.square-pay-btn {
+  background: #000000;
+  color: #ffffff;
+  border: none;
+  border-radius: 50px;
+  padding: 0.85rem 1.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.square-pay-btn:hover {
+  background: #222222;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.btn-square-trigger {
+  background: #111111;
+  color: #ffffff !important;
+  border: 1px solid #111111;
+  border-radius: 50px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+  font-size: 0.92rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  transition: all 0.25s ease;
+  margin-top: 8px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-square-trigger:hover {
+  background: #000000;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+}
+
+.square-status-pulse {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(245, 158, 11, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  animation: squarePulse 2s infinite;
+}
+
+@keyframes squarePulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+  70% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(245, 158, 11, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+}
+
+.square-receipt-box {
+  background: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: left;
+}
+
+/* ==============================================================================
+   SIMPLE PRICING PACKAGE CARDS (AS PER REFERENCE IMAGE - GREEN THEME)
+   ============================================================================== */
+.simple-package-card {
+  position: relative;
+  background: #ffffff;
+  border: 2px solid #00b060;
+  border-radius: 20px;
+  padding: 2.25rem 1.6rem 1.85rem;
+  overflow: hidden;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 20px rgba(0, 176, 96, 0.08);
+}
+
+.simple-package-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 36px rgba(0, 176, 96, 0.18);
+}
+
+/* 4th Card Dark Theme */
+.simple-package-card.dark-theme-card {
+  background: #111625;
+  color: #ffffff;
+  border-color: #00b060;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+}
+
+.simple-package-card.dark-theme-card:hover {
+  box-shadow: 0 18px 42px rgba(0, 176, 96, 0.35);
+}
+
+/* Diagonal "POPULAR" Top-Right Ribbon */
+.simple-card-ribbon {
+  position: absolute;
+  top: 22px;
+  right: -36px;
+  width: 135px;
+  background: #00b060;
+  color: #ffffff;
+  text-align: center;
+  transform: rotate(45deg);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 5px 0;
+  box-shadow: 0 3px 8px rgba(0, 176, 96, 0.45);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Price Header */
+.simple-price-header {
+  margin-bottom: 1.5rem;
+  padding-right: 2rem;
+}
+
+.simple-price-row {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.simple-price-currency {
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin-top: 4px;
+  color: #0f172a;
+}
+
+.dark-theme-card .simple-price-currency {
+  color: #ffffff;
+}
+
+.simple-price-amount {
+  font-size: 3.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #0f172a;
+  line-height: 0.92;
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.dark-theme-card .simple-price-amount {
+  color: #ffffff;
+}
+
+.simple-price-details {
+  display: flex;
+  flex-direction: column;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.simple-price-cents {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #64748b;
+  line-height: 1;
+}
+
+.dark-theme-card .simple-price-cents {
+  color: #cbd5e1;
+}
+
+.simple-price-label {
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 600;
+  margin-top: 2px;
+  white-space: nowrap;
+}
+
+.dark-theme-card .simple-price-label {
+  color: #94a3b8;
+}
+
+/* Inner Rounded Description Box */
+.simple-desc-box {
+  background: #f1f5f9;
+  border-radius: 14px;
+  padding: 1.75rem 1.15rem;
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 1.75rem;
+  min-height: 105px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark-theme-card .simple-desc-box {
+  background: #ffffff;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* Feature List with Green Checkmarks */
+.simple-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.75rem 0;
+  flex-grow: 1;
+}
+
+.simple-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0.85rem;
+}
+
+.dark-theme-card .simple-feature-list li {
+  color: #e2e8f0;
+}
+
+.simple-feature-list li i {
+  color: #00b060;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Card Action Buttons */
+.simple-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  margin-top: auto;
+}
+
+.btn-add-to-cart {
+  background: #00b060;
+  color: #ffffff !important;
+  border: 1px solid #00b060;
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+}
+
+.btn-add-to-cart:hover {
+  background: #009652;
+  border-color: #008045;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 176, 96, 0.4);
+}
+
+.btn-simple-square {
+  background: #111111;
+  color: #ffffff !important;
+  border: 1px solid #111111;
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  width: 100%;
+}
+
+.btn-simple-square:hover {
+  background: #000000;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Shopping Cart Floating Button & Toast */
+.floating-cart-btn {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  background: #00b060;
+  color: #ffffff;
+  border-radius: 50px;
+  padding: 0.85rem 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  box-shadow: 0 10px 25px rgba(0, 176, 96, 0.45);
+  cursor: pointer;
+  z-index: 1040;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.floating-cart-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 32px rgba(0, 176, 96, 0.55);
+  color: #ffffff;
+}
+
+.cart-toast-wrap {
+  position: fixed;
+  bottom: 95px;
+  right: 28px;
+  z-index: 1050;
+  pointer-events: none;
+}
+
+.cart-toast {
+  background: #0f172a;
+  color: #ffffff;
+  border-left: 4px solid #10b981;
+  padding: 0.85rem 1.25rem;
+  border-radius: 12px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  display: none;
+  pointer-events: auto;
+  font-size: 0.9rem;
+}
+
+.cart-item-row {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 0.85rem;
+  margin-bottom: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.cart-item-row:hover {
+  border-color: #cbd5e1;
+  background: #f1f5f9;
+}
+
+
+
 
 
 

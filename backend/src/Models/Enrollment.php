@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace DriveMaster\Models;
 
+require_once __DIR__ . '/../Database.php';
+
 use DriveMaster\Database;
 
 /**
@@ -309,9 +311,9 @@ final class Enrollment
         }
 
         $now = date('Y-m-d H:i:s');
-        $txId = 'sq_tx_live_' . substr(bin2hex(random_bytes(8)), 0, 16);
+        $txId = 'sq_sandbox_tx_' . substr(bin2hex(random_bytes(8)), 0, 16);
         $cardLast4 = substr(preg_replace('/\D/', '', (string)($cardDetails['card_number'] ?? '4242')), -4) ?: '4242';
-        $brand = !empty($cardDetails['brand']) ? $cardDetails['brand'] : 'Square Visa';
+        $brand = !empty($cardDetails['brand']) ? $cardDetails['brand'] : 'Square Sandbox Visa';
 
         // Update Store
         $store = self::readStore();
@@ -324,7 +326,7 @@ final class Enrollment
                 $rec['card_last4'] = $cardLast4;
                 $rec['card_brand'] = $brand;
                 $rec['paid_at'] = $now;
-                $rec['admin_notes'] = "Square Dummy Payment of \${$rec['course_price']} successfully captured. TX ID: {$txId}.";
+                $rec['admin_notes'] = "Square Test Sandbox Payment of \${$rec['course_price']} successfully captured. TX ID: {$txId}.";
                 $rec['updated_at'] = $now;
                 $updated = $rec;
                 break;

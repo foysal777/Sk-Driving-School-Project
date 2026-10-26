@@ -170,7 +170,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
 
   <!-- Sidebar -->
   <aside class="admin-sidebar">
-    <a href="/admin/index.php" class="sidebar-brand">
+    <a href="index.php" class="sidebar-brand">
       <div class="brand-icon-box">
         <i class="bi bi-speedometer2"></i>
       </div>
@@ -182,12 +182,12 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
 
     <ul class="sidebar-nav">
       <li class="sidebar-nav-item">
-        <a href="/admin/index.php" class="sidebar-nav-link active">
+        <a href="index.php" class="sidebar-nav-link active">
           <i class="bi bi-grid-fill"></i> Dashboard
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="/admin/inquiries.php" class="sidebar-nav-link">
+        <a href="inquiries.php" class="sidebar-nav-link">
           <i class="bi bi-envelope-fill"></i> Inquiries &amp; Leads
           <?php if ($inquiryStats['new'] > 0): ?>
             <span class="badge bg-danger ms-auto rounded-pill"><?= $inquiryStats['new'] ?></span>
@@ -195,7 +195,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="/admin/enrollments.php" class="sidebar-nav-link">
+        <a href="enrollments.php" class="sidebar-nav-link">
           <i class="bi bi-calendar-check-fill"></i> Course Bookings
           <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
             <span class="badge bg-warning text-dark ms-auto rounded-pill"><?= $enrollmentStats['square_pending'] ?></span>
@@ -203,7 +203,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="/admin/courses.php" class="sidebar-nav-link">
+        <a href="courses.php" class="sidebar-nav-link">
           <i class="bi bi-car-front-fill"></i> Courses &amp; Rates
         </a>
       </li>
@@ -211,17 +211,17 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         <span class="px-3 text-white-50 text-uppercase small" style="font-size: 0.68rem; font-weight: 800;">DEVELOPER TOOLS</span>
       </li>
       <li class="sidebar-nav-item">
-        <a href="/backend/swagger/" target="_blank" class="sidebar-nav-link">
+        <a href="../backend/swagger/" target="_blank" class="sidebar-nav-link">
           <i class="bi bi-code-square text-info"></i> Swagger API Docs
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="/backend/install.php" target="_blank" class="sidebar-nav-link">
+        <a href="../backend/install.php" target="_blank" class="sidebar-nav-link">
           <i class="bi bi-database-gear text-warning"></i> DB Installer
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="/index.html" target="_blank" class="sidebar-nav-link">
+        <a href="../index.html" target="_blank" class="sidebar-nav-link">
           <i class="bi bi-box-arrow-up-right text-success"></i> View Live Site
         </a>
       </li>
@@ -237,7 +237,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
           <div class="small text-white-50" style="font-size: 0.72rem;"><?= htmlspecialchars($admin['role']) ?></div>
         </div>
       </div>
-      <a href="/admin/logout.php" class="btn btn-outline-light btn-sm w-100 fw-semibold">
+      <a href="logout.php" class="btn btn-outline-light btn-sm w-100 fw-semibold">
         <i class="bi bi-box-arrow-right me-1"></i> Sign Out
       </a>
     </div>
@@ -278,7 +278,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
               <div class="small text-muted">Students have requested to pay via Square dummy gateway and need your authorization to unlock checkout.</div>
             </div>
           </div>
-          <a href="/admin/enrollments.php?filter=square_pending" class="btn btn-warning fw-bold px-3 py-2 text-dark shadow-sm">
+          <a href="enrollments.php?filter=square_pending" class="btn btn-warning fw-bold px-3 py-2 text-dark shadow-sm">
             <i class="bi bi-check-circle-fill me-1"></i> Review &amp; Approve
           </a>
         </div>

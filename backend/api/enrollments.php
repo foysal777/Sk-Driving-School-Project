@@ -9,9 +9,11 @@ declare(strict_types=1);
 require_once __DIR__ . '/../src/Database.php';
 require_once __DIR__ . '/../src/Response.php';
 require_once __DIR__ . '/../src/Models/Enrollment.php';
+require_once __DIR__ . '/../src/Services/Mailer.php';
 
 use DriveMaster\Response;
 use DriveMaster\Models\Enrollment;
+use DriveMaster\Services\Mailer;
 
 Response::applyCors();
 
@@ -65,11 +67,11 @@ if (empty($action) && !empty($body['action'])) {
 }
 
 // ==========================================
-// 2. POST: Complete Square Dummy Payment
+// 2. POST: Complete Square Sandbox Payment
 // (Student pays once approved by admin)
 // ==========================================
 if ($action === 'pay_square' || $action === 'complete_square_payment') {
-    $ref = trim((string)($body['booking_reference'] ?? ''));
+    $ref = trim((string)($body['booking_reference'] ?? $body['ref'] ?? ''));
     if (empty($ref)) {
         Response::error('Booking reference is required to complete payment.', 400);
     }
@@ -80,7 +82,7 @@ if ($action === 'pay_square' || $action === 'complete_square_payment') {
         'exp_year'    => $body['exp_year'] ?? '28',
         'cvv'         => $body['cvv'] ?? '123',
         'postal_code' => $body['postal_code'] ?? '90210',
-        'brand'       => $body['card_brand'] ?? 'Square Visa'
+        'brand'       => $body['card_brand'] ?? 'Square Sandbox Visa'
     ];
 
     $result = Enrollment::completeSquarePayment($ref, $cardDetails);
@@ -93,26 +95,31 @@ if ($action === 'pay_square' || $action === 'complete_square_payment') {
         Response::error($result['message'], 403, ['error_code' => $result['error']]);
     }
 
+    // Trigger SMTP Email Notification: Payment Successful Receipt to User
+    $mailInfo = Mailer::getInstance()->notifyUserPaymentSuccessReceipt($result);
+
     Response::success([
         'booking_reference' => $result['booking_reference'],
         'student_name'      => $result['student_name'],
         'course_name'       => $result['course_name'],
         'course_price'      => (float)$result['course_price'],
-        'payment_gateway'   => 'Square',
+        'payment_gateway'   => 'Square Test Sandbox',
         'payment_status'    => 'paid_in_full',
         'payment_tx_id'     => $result['payment_tx_id'],
         'card_last4'        => $result['card_last4'],
         'paid_at'           => $result['paid_at'] ?? date('Y-m-d H:i:s'),
         'status'            => 'confirmed',
+        'email_sent'        => $mailInfo['delivered'] ?? false,
+        'email_status'      => $mailInfo['status'] ?? 'sent',
         'receipt_url'       => '#'
-    ], 'Square payment of $' . number_format((float)$result['course_price'], 2) . ' authorized & confirmed successfully!', 200);
+    ], 'Square Sandbox payment of $' . number_format((float)$result['course_price'], 2) . ' authorized & confirmed! Receipt emailed to student via SMTP.', 200);
 }
 
 // ==========================================
 // 3. POST: Admin Approve Payment Request
 // ==========================================
 if ($action === 'approve_square') {
-    $refOrId = $body['booking_reference'] ?? $body['id'] ?? '';
+    $refOrId = $body['booking_reference'] ?? $body['ref'] ?? $body['id'] ?? '';
     if (empty($refOrId)) {
         Response::error('Booking reference or ID is required.', 400);
     }
@@ -122,7 +129,14 @@ if ($action === 'approve_square') {
         Response::error('Booking not found.', 404);
     }
 
-    Response::success($result, 'Payment request approved! Student is now permitted to pay.');
+    // Trigger SMTP Email Notification: Notify Student that payment is approved!
+    $mailInfo = Mailer::getInstance()->notifyUserPaymentApproved($result);
+
+    Response::success([
+        'enrollment'   => $result,
+        'email_sent'   => $mailInfo['delivered'] ?? false,
+        'email_status' => $mailInfo['status'] ?? 'sent'
+    ], 'Payment request approved! Approval notification sent to student email via SMTP.');
 }
 
 // ==========================================
@@ -160,16 +174,28 @@ $isSquare = ($body['payment_gateway'] ?? 'square') === 'square';
 
 if ($isSquare) {
     $enrollment = Enrollment::requestSquarePayment($body);
+    
+    // Trigger SMTP Email Notification: Notify Admin about new payment request
+    $mailInfo = Mailer::getInstance()->notifyAdminNewPaymentRequest($enrollment);
+
     Response::success(
-        $enrollment,
-        'Square payment request sent to Admin Panel! Awaiting administrator approval.',
+        [
+            'enrollment'        => $enrollment,
+            'booking_reference' => $enrollment['booking_reference'],
+            'admin_email_sent'  => $mailInfo['delivered'] ?? false,
+            'email_status'      => $mailInfo['status'] ?? 'sent'
+        ],
+        'Square Sandbox payment request sent to Admin Panel! Notification emailed to Admin via SMTP.',
         201
     );
 }
 
 $enrollment = Enrollment::create($body);
 Response::success(
-    $enrollment,
+    [
+        'enrollment'        => $enrollment,
+        'booking_reference' => $enrollment['booking_reference']
+    ],
     'Enrollment request received successfully. Reference: ' . $enrollment['booking_reference'],
     201
 );

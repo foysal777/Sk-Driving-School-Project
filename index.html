@@ -102,6 +102,11 @@
 
           <!-- Right Action Tools & Start Driving Button -->
           <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+            <!-- Shopping Cart Button -->
+            <button type="button" class="nav-icon-action position-relative border-0 bg-transparent text-dark" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="View Shopping Cart">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge cart-total-count" style="display:none; font-size: 0.65rem;">0</span>
+            </button>
             <a href="courses.html" class="nav-icon-action" title="Search Courses" aria-label="Search">
               <i class="bi bi-search"></i>
             </a>
@@ -481,122 +486,140 @@
         </div>
       </div>
 
-      <!-- Course Pricing Cards Grid -->
+      <!-- Course Pricing Cards Grid: 4 Simple Packages matching Reference Image -->
       <div class="row g-4 align-items-stretch">
-        <!-- Package 1: Beginner Starter -->
-        <div class="col-lg-4 col-md-6">
-          <div class="course-card">
-            <div class="course-card-body">
-              <span class="course-category-pill">
-                <i class="bi bi-gear-wide-connected"></i> Automatic &amp; Manual
-              </span>
-              <h3 class="course-card-title">Beginner Starter Pack</h3>
-              <p class="course-card-desc">
-                Ideal for beginners who have never touched a steering wheel. Covers vehicle cockpit drills, clutch control, steering, and road signs.
-              </p>
-
-              <!-- Price Box -->
-              <div class="course-price-box">
-                <div>
-                  <div class="course-price-amount">$420</div>
-                  <div class="course-price-sub">10 Hours Total Instruction</div>
+        <!-- Card 1: $225 -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">225</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
                 </div>
-                <span class="course-hourly-tag">$42 / hr</span>
               </div>
+            </div>
 
-              <!-- Checklist -->
-              <ul class="course-checklist">
-                <li><i class="bi bi-check2-circle"></i> 10 Hours 1-on-1 In-Car Behind-The-Wheel</li>
-                <li><i class="bi bi-check2-circle"></i> Modern Dual-Control Vehicle Guaranteed</li>
-                <li><i class="bi bi-check2-circle"></i> Free Door-to-Door Pickup &amp; Return</li>
-                <li><i class="bi bi-check2-circle"></i> Highway Code &amp; Theory Test App Included</li>
-                <li><i class="bi bi-check2-circle"></i> Driver Progress Tracker &amp; Logbook</li>
-              </ul>
+            <div class="simple-desc-box">
+              One 45-minute driving lesson
+            </div>
 
-              <!-- Action Button -->
-              <a href="#contact" class="btn-course-action">
-                Enroll Starter Pack <i class="bi bi-arrow-right"></i>
-              </a>
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-225" data-title="One 45-minute driving lesson" data-price="225">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Package 2: Standard Pass Fast-Track (FEATURED) -->
-        <div class="col-lg-4 col-md-6">
-          <div class="course-card featured">
-            <span class="featured-ribbon">
-              <i class="bi bi-lightning-charge-fill"></i> Most Popular
-            </span>
-            <div class="course-card-body">
-              <span class="course-category-pill">
-                <i class="bi bi-award-fill"></i> Complete Test Readiness
-              </span>
-              <h3 class="course-card-title">Standard Pass Course</h3>
-              <p class="course-card-desc">
-                Our #1 chosen course to take you from initial driving to passing your official practical driving test with flying colors.
-              </p>
-
-              <!-- Price Box -->
-              <div class="course-price-box">
-                <div>
-                  <div class="course-price-amount text-success">$780</div>
-                  <div class="course-price-sub">20 Hours Complete Prep</div>
+        <!-- Card 2: $280 -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">280</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
                 </div>
-                <span class="course-hourly-tag text-success bg-success-subtle">$39 / hr</span>
               </div>
+            </div>
 
-              <!-- Checklist -->
-              <ul class="course-checklist">
-                <li><i class="bi bi-check2-circle"></i> 20 Hours Comprehensive In-Car Lessons</li>
-                <li><i class="bi bi-check2-circle"></i> Everything included in Beginner Starter</li>
-                <li><i class="bi bi-check2-circle"></i> 2 Full Mock Driving Tests on Test Routes</li>
-                <li><i class="bi bi-check2-circle"></i> <strong>Official Test Day Car Rental Included</strong></li>
-                <li><i class="bi bi-check2-circle"></i> Parallel, Bay Parking &amp; Emergency Stop</li>
-                <li><i class="bi bi-check2-circle"></i> Free Test Re-Sit Assurance Guarantee</li>
-              </ul>
+            <div class="simple-desc-box">
+              Two 45-minute driving lessons
+            </div>
 
-              <!-- Action Button -->
-              <a href="#contact" class="btn-course-action featured-btn">
-                Book Popular Course <i class="bi bi-arrow-right"></i>
-              </a>
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-280" data-title="Two 45-minute driving lessons" data-price="280">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
             </div>
           </div>
         </div>
 
-        <!-- Package 3: Defensive & Motorway Master -->
-        <div class="col-lg-4 col-md-6">
-          <div class="course-card">
-            <div class="course-card-body">
-              <span class="course-category-pill">
-                <i class="bi bi-shield-shaded"></i> Advanced &amp; Motorway
-              </span>
-              <h3 class="course-card-title">Defensive &amp; Highway Master</h3>
-              <p class="course-card-desc">
-                Designed for qualified drivers or test-ready students wanting high-speed motorway confidence, inclement weather handling, and hazard avoidance.
-              </p>
-
-              <!-- Price Box -->
-              <div class="course-price-box">
-                <div>
-                  <div class="course-price-amount">$350</div>
-                  <div class="course-price-sub">8 Hours Advanced Modules</div>
+        <!-- Card 3: $335 -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">335</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
                 </div>
-                <span class="course-hourly-tag">$43 / hr</span>
               </div>
+            </div>
 
-              <!-- Checklist -->
-              <ul class="course-checklist">
-                <li><i class="bi bi-check2-circle"></i> 8 Hours Specialized Motorway &amp; Highway</li>
-                <li><i class="bi bi-check2-circle"></i> High-Speed Merging, Slip Roads &amp; Overtaking</li>
-                <li><i class="bi bi-check2-circle"></i> Multi-Lane Turbo Roundabouts Mastery</li>
-                <li><i class="bi bi-check2-circle"></i> Night Driving &amp; Adverse Rain/Fog Control</li>
-                <li><i class="bi bi-check2-circle"></i> Insurance Discount Certificate (Pass Plus)</li>
-              </ul>
+            <div class="simple-desc-box">
+              Three 45-minute driving lessons
+            </div>
 
-              <!-- Action Button -->
-              <a href="#contact" class="btn-course-action">
-                Upgrade Skills <i class="bi bi-arrow-right"></i>
-              </a>
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-335" data-title="Three 45-minute driving lessons" data-price="335">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: $390 (Dark Theme) -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card dark-theme-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">390</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="simple-desc-box">
+              Four 45-minute driving lessons
+            </div>
+
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-390" data-title="Four 45-minute driving lessons" data-price="390">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
             </div>
           </div>
         </div>
@@ -983,6 +1006,328 @@
       </div>
     </div>
   </footer>
+
+  <!-- ==========================================================================
+       SQUARE DUMMY PAYMENT GATEWAY & ADMIN APPROVAL MODAL
+       ========================================================================== -->
+  <div class="modal fade" id="squarePaymentModal" tabindex="-1" aria-labelledby="squarePaymentModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        <!-- Modal Top Bar with Square Branding -->
+        <div class="modal-header bg-dark text-white px-4 py-3 border-0">
+          <div class="d-flex align-items-center gap-2">
+            <span class="square-brand-badge">
+              <i class="bi bi-square-fill"></i> Square
+            </span>
+            <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.72rem;">
+              <i class="bi bi-cpu-fill me-1"></i> TEST SANDBOX
+            </span>
+            <span class="small text-white-50 ms-1 d-none d-sm-inline">| SMTP Email Connected</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <!-- STAGE 1: Student Information & Request -->
+          <div id="sqStageRequest">
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+              <div>
+                <span class="text-muted small">Selected Driving Course</span>
+                <h5 class="fw-bold mb-0 text-dark" id="sqCourseTitle">Standard Pass Course</h5>
+              </div>
+              <div class="text-end">
+                <span class="text-muted small">Course Fee</span>
+                <h4 class="fw-bold text-success mb-0" id="sqCoursePrice">$780</h4>
+              </div>
+            </div>
+
+            <!-- Two-step approval explanation -->
+            <div class="alert alert-light border small text-muted mb-3 d-flex gap-2">
+              <i class="bi bi-envelope-paper-fill fs-5 text-success"></i>
+              <div>
+                <strong class="text-dark d-block">2-Step Admin Approval &amp; SMTP Email Alert:</strong>
+                Submitting this form dispatches an automated notification email to the <strong>Administrator</strong> via SMTP. Once approved in the admin panel, an approval email will be sent to your inbox and this window will unlock for Square Sandbox payment.
+              </div>
+            </div>
+
+            <form id="sqRequestForm">
+              <input type="hidden" id="sqHiddenCourseName" value="Standard Pass Course">
+              <input type="hidden" id="sqHiddenCoursePrice" value="780">
+
+              <div class="mb-3">
+                <label for="sqStudentName" class="form-label small fw-bold">Student Full Name *</label>
+                <input type="text" class="form-control" id="sqStudentName" placeholder="e.g. Alex Johnson" required>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label for="sqStudentPhone" class="form-label small fw-bold">Phone Number *</label>
+                  <input type="tel" class="form-control" id="sqStudentPhone" placeholder="+66 12 000 3456" required>
+                </div>
+                <div class="col-6">
+                  <label for="sqStudentEmail" class="form-label small fw-bold">Email Address (For SMTP Receipt) *</label>
+                  <input type="email" class="form-control" id="sqStudentEmail" placeholder="alex@example.com" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="sqTransmission" class="form-label small fw-bold">Transmission Preference</label>
+                <select class="form-select" id="sqTransmission">
+                  <option value="automatic">Automatic (Modern Hybrid Dual-Control)</option>
+                  <option value="manual">Manual (Full Category B License)</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="sqPickupArea" class="form-label small fw-bold">Pickup Area / Postal Code *</label>
+                <input type="text" class="form-control" id="sqPickupArea" placeholder="e.g. Sukhumvit / City Center" required>
+              </div>
+
+              <button type="submit" id="btnSubmitSquareRequest" class="btn btn-dark w-100 py-3 fw-bold rounded-pill d-flex align-items-center justify-content-center gap-2">
+                <span>Request Square Payment &amp; Send to Admin</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- STAGE 2: Waiting for Admin Approval -->
+          <div id="sqStageWaiting" style="display: none;" class="text-center py-3">
+            <div class="square-status-pulse">
+              <i class="bi bi-hourglass-split fs-2 text-warning"></i>
+            </div>
+            <h5 class="fw-bold mb-1 text-dark">Payment Request Sent to Admin!</h5>
+            <p class="text-muted small mb-3">
+              Your booking for <strong id="sqWaitCourse">Standard Pass Course</strong> has been emailed to the administrator via SMTP and is awaiting approval.
+            </p>
+
+            <div class="card bg-light border p-3 rounded-3 mb-3 text-start small">
+              <div class="d-flex justify-content-between mb-1">
+                <span class="text-muted">Booking Reference:</span>
+                <span class="badge bg-dark font-monospace" id="sqWaitRef">DM-SQ-XXXXX</span>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <span class="text-muted">Payment Status:</span>
+                <span class="badge bg-warning text-dark"><i class="bi bi-clock-history me-1"></i> Awaiting Admin Approval</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="text-muted">Total Payable:</span>
+                <strong class="text-success" id="sqWaitAmount">$780.00</strong>
+              </div>
+            </div>
+
+            <div class="p-2 mb-3 bg-warning-subtle text-dark rounded-3 small">
+              <div class="spinner-grow spinner-grow-sm text-warning me-1" role="status"></div>
+              <strong>Live Auto-Check Active:</strong> Checking every 3s. As soon as the admin approves, an email is dispatched to your inbox and this window will automatically unlock Square checkout!
+            </div>
+
+            <div class="d-flex gap-2 justify-content-center mb-3">
+              <button type="button" id="btnCheckStatusManual" class="btn btn-outline-dark btn-sm fw-bold px-3">
+                <i class="bi bi-arrow-clockwise me-1"></i> Check Status Now
+              </button>
+              <a href="/admin/enrollments.php" target="_blank" class="btn btn-outline-success btn-sm fw-bold px-3">
+                <i class="bi bi-box-arrow-up-right me-1"></i> Open Admin Panel
+              </a>
+            </div>
+
+            <div class="small text-muted" style="font-size: 0.78rem;">
+              <i class="bi bi-lightbulb text-warning me-1"></i> <em>Demo Tip: Open Admin Panel in another tab, go to <strong>Course Bookings</strong>, and click <strong>"Approve Payment"</strong> to test live unlock!</em>
+            </div>
+          </div>
+
+          <!-- STAGE 3: Admin Approved! Square Payment Terminal -->
+          <div id="sqStageCheckout" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center gap-2 py-2 px-3 rounded-3 mb-3 small">
+              <i class="bi bi-check-circle-fill text-success fs-5"></i>
+              <div>
+                <strong>Admin Approved!</strong> Confirmation sent to your email. You are authorized to complete your Square Sandbox payment below.
+              </div>
+            </div>
+
+            <!-- Square Dummy Card Terminal -->
+            <div class="square-card-terminal mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="square-brand-badge">
+                    <i class="bi bi-square-fill"></i> Square
+                  </span>
+                  <span class="badge bg-warning text-dark font-monospace" style="font-size: 0.68rem;">SANDBOX</span>
+                </div>
+                <div class="text-end">
+                  <span class="small text-muted">Amount: </span>
+                  <strong class="text-success fs-5" id="sqPayAmount">$780.00</strong>
+                </div>
+              </div>
+
+              <!-- Quick Demo Fill Button -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-muted">Test Card Information</span>
+                <button type="button" id="btnSquareDemoFill" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold small text-success">
+                  <i class="bi bi-magic me-1"></i> Quick Fill Sandbox Card
+                </button>
+              </div>
+
+              <form id="sqCardForm">
+                <div class="square-card-input-group p-2 mb-2">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-credit-card fs-5 text-secondary"></i>
+                    <input type="text" class="form-control border-0 p-0 shadow-none font-monospace" id="sqCardNumber" placeholder="4242 •••• •••• 4242" maxlength="19" required>
+                    <span class="badge bg-light text-dark border small" id="sqCardBrandBadge">Square Sandbox Visa</span>
+                  </div>
+                  <div class="row g-2 pt-2 border-top">
+                    <div class="col-4">
+                      <input type="text" class="form-control form-control-sm border-0 p-0 shadow-none font-monospace" id="sqCardExp" placeholder="MM / YY" maxlength="5" required>
+                    </div>
+                    <div class="col-4 border-start ps-2">
+                      <input type="password" class="form-control form-control-sm border-0 p-0 shadow-none font-monospace" id="sqCardCvv" placeholder="CVV" maxlength="4" required>
+                    </div>
+                    <div class="col-4 border-start ps-2">
+                      <input type="text" class="form-control form-control-sm border-0 p-0 shadow-none font-monospace" id="sqCardZip" placeholder="ZIP" maxlength="6" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="sqCardholder" class="form-label small text-muted mb-1">Cardholder Name</label>
+                  <input type="text" class="form-control form-control-sm" id="sqCardholder" placeholder="Name on card" required>
+                </div>
+
+                <!-- Digital Wallets simulated badges -->
+                <div class="d-flex gap-2 mb-3">
+                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
+                    <i class="bi bi-apple me-1"></i> Apple Pay
+                  </div>
+                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
+                    <i class="bi bi-google me-1"></i> Google Pay
+                  </div>
+                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
+                    <i class="bi bi-cash me-1"></i> Cash App Pay
+                  </div>
+                </div>
+
+                <button type="submit" id="btnSquarePaySubmit" class="square-pay-btn">
+                  <i class="bi bi-lock-fill"></i>
+                  <span>Pay <span id="sqPayBtnAmount">$780.00</span> via Square Sandbox</span>
+                </button>
+              </form>
+            </div>
+
+            <div class="text-center text-muted small" style="font-size: 0.75rem;">
+              <i class="bi bi-shield-lock-fill text-dark me-1"></i> Square Test Sandbox mode &bull; Official receipt will be sent to your email via SMTP
+            </div>
+          </div>
+
+          <!-- STAGE 4: Payment Confirmed Receipt -->
+          <div id="sqStageSuccess" style="display: none;" class="text-center py-2">
+            <div class="display-3 text-success mb-2">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h4 class="fw-bold mb-1 text-dark">Square Payment Successful!</h4>
+            <p class="text-muted small mb-3">
+              Your driving course booking is confirmed and paid in full. An official receipt has been emailed to you via SMTP.
+            </p>
+
+            <div class="square-receipt-box mb-3 small">
+              <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                <span class="text-muted">Square Sandbox Tx ID:</span>
+                <span class="font-monospace fw-bold text-dark" id="sqReceiptTxId">sq_sandbox_tx_...</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Booking Reference:</span>
+                <span class="font-monospace fw-bold" id="sqReceiptRef">DM-SQ-...</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Course:</span>
+                <strong id="sqReceiptCourse">Standard Pass Course</strong>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Student Name:</span>
+                <span id="sqReceiptName">Alex Johnson</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Payment Method:</span>
+                <span id="sqReceiptMethod">Square Sandbox Visa (•••• 4242)</span>
+              </div>
+              <div class="d-flex justify-content-between pt-2 border-top">
+                <span class="fw-bold">Total Paid:</span>
+                <strong class="text-success fs-6" id="sqReceiptTotal">$780.00</strong>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-dark w-100 py-2 rounded-pill fw-bold" data-bs-dismiss="modal">
+                Close &amp; Finish
+              </button>
+              <a href="/admin/enrollments.php" target="_blank" class="btn btn-outline-success w-100 py-2 rounded-pill fw-bold">
+                View in Admin
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SHOPPING CART OFFCANVAS DRAWER
+       ========================================================================== -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 420px; max-width: 95vw;">
+    <div class="offcanvas-header border-bottom py-3">
+      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="cartOffcanvasLabel">
+        <i class="bi bi-cart3 text-primary"></i> Your Selected Packages
+        <span class="badge bg-primary rounded-pill cart-total-count" style="font-size: 0.75rem;">0</span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-3">
+      <!-- Items Container -->
+      <div id="cartItemsContainer" class="flex-grow-1 overflow-auto pe-1">
+        <!-- Rendered dynamically via main.js -->
+      </div>
+
+      <!-- Cart Footer / Summary -->
+      <div id="cartFooterSection" class="border-top pt-3 mt-3">
+        <div class="d-flex justify-content-between mb-2 text-muted small">
+          <span>Subtotal:</span>
+          <span class="fw-bold text-dark" id="cartSubtotalAmount">$0.00</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3 fs-5">
+          <span class="fw-bold">Total:</span>
+          <span class="fw-bold text-primary" id="cartFinalTotalAmount">$0.00</span>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-primary py-2 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm" id="btnCartProceedSquare">
+            <i class="bi bi-square-fill text-warning"></i> Proceed to Square Checkout
+          </button>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <button type="button" class="btn btn-link text-danger text-decoration-none p-0 small" id="btnClearCart">
+              <i class="bi bi-trash3 me-1"></i> Clear Cart
+            </button>
+            <span class="text-muted small"><i class="bi bi-shield-check text-success"></i> 2-Step Protected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Sticky Cart Trigger -->
+  <div class="floating-cart-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="Open Cart">
+    <i class="bi bi-cart-fill fs-5"></i>
+    <span>Cart (<span class="cart-total-count">0</span>) &bull; <span id="floatingCartTotal">$0.00</span></span>
+  </div>
+
+  <!-- Cart Notification Toast -->
+  <div class="cart-toast-wrap">
+    <div class="cart-toast" id="cartNotificationToast">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+        <div>
+          <strong id="toastItemTitle">Package</strong> added to your cart!
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Local Vendor Scripts -->
   <script src="assets/vendor/jquery/jquery-3.7.1.min.js"></script>
