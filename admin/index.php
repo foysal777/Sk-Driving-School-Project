@@ -29,12 +29,12 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard | DriveMaster Academy</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
-  <!-- Bootstrap 5.3.3 & Icons -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Local Fonts & Icons -->
+  <link rel="stylesheet" href="../assets/vendor/fonts/fonts.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
   <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../assets/vendor/chartjs/chart.umd.min.js"></script>
   <style>
     :root {
       --primary: #2A6B5C;
@@ -197,6 +197,9 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
       <li class="sidebar-nav-item">
         <a href="/admin/enrollments.php" class="sidebar-nav-link">
           <i class="bi bi-calendar-check-fill"></i> Course Bookings
+          <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
+            <span class="badge bg-warning text-dark ms-auto rounded-pill"><?= $enrollmentStats['square_pending'] ?></span>
+          <?php endif; ?>
         </a>
       </li>
       <li class="sidebar-nav-item">
@@ -266,6 +269,21 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
     </header>
 
     <div class="p-4 flex-grow-1">
+      <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
+        <div class="alert alert-warning border border-warning d-flex align-items-center justify-content-between p-3 rounded-4 shadow-sm mb-4">
+          <div class="d-flex align-items-center gap-3">
+            <div class="bg-warning text-dark p-2 rounded-3 fs-4"><i class="bi bi-credit-card-2-front-fill"></i></div>
+            <div>
+              <h6 class="fw-bold mb-0 text-dark"><?= $enrollmentStats['square_pending'] ?> Square Payment Request(s) Awaiting Approval</h6>
+              <div class="small text-muted">Students have requested to pay via Square dummy gateway and need your authorization to unlock checkout.</div>
+            </div>
+          </div>
+          <a href="/admin/enrollments.php?filter=square_pending" class="btn btn-warning fw-bold px-3 py-2 text-dark shadow-sm">
+            <i class="bi bi-check-circle-fill me-1"></i> Review &amp; Approve
+          </a>
+        </div>
+      <?php endif; ?>
+
       <!-- 4 KPI Cards -->
       <div class="row g-4 mb-4">
         <div class="col-xl-3 col-sm-6">
