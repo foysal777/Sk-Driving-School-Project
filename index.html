@@ -6,6 +6,29 @@
   <title>Drive Master | Certified Professional Driving School</title>
   <meta name="description" content="Drive Safe & Smart With Our School. Top certified driving school with 98.4% first-time pass rate, modern dual-control automatic and manual fleet.">
 
+  <!-- Instant Clean URL Manager (Ensures /home in address bar and zero .html) -->
+  <script>
+    (function () {
+      try {
+        var p = window.location.pathname;
+        var h = window.location.hash;
+        var s = window.location.search;
+        if (p === '/' || p === '' || p.endsWith('/index.html') || p === '/index.html' || p === 'index.html') {
+          var base = p.replace(/(^|\/)index\.html$/i, '');
+          if (base === '/') base = '';
+          var clean = (base || '') + '/home' + s + h;
+          window.history.replaceState(null, '', clean);
+        } else if (p.endsWith('.html')) {
+          var clean = p.replace(/\.html$/i, '') + s + h;
+          window.history.replaceState(null, '', clean);
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>">
 
@@ -53,7 +76,7 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg py-3">
         <!-- Logo -->
-        <a class="navbar-brand-custom" href="#">
+        <a class="navbar-brand-custom" href="home">
           <div class="brand-icon-logo">
             <i class="bi bi-speedometer2"></i>
           </div>
@@ -74,27 +97,27 @@
         <div class="collapse navbar-collapse" id="navContent">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" href="#hero">
+              <a class="nav-link active" href="home">
                 Home
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">
+              <a class="nav-link" href="about">
                 About
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="courses.html">
+              <a class="nav-link" href="courses">
                 Our Package
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="gallery.html">
+              <a class="nav-link" href="gallery">
                 Gallery
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">
+              <a class="nav-link" href="contact">
                 Contact
               </a>
             </li>
@@ -107,7 +130,7 @@
               <i class="bi bi-cart3 fs-5"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge cart-total-count" style="display:none; font-size: 0.65rem;">0</span>
             </button>
-            <a href="courses.html" class="nav-icon-action" title="Search Courses" aria-label="Search">
+            <a href="courses" class="nav-icon-action" title="Search Courses" aria-label="Search">
               <i class="bi bi-search"></i>
             </a>
             <a href="#contact" class="nav-icon-action" title="Student Portal" aria-label="User Account">
@@ -118,7 +141,7 @@
             </a>
 
             <!-- Reference START DRIVING Chevron Ribbon Button -->
-            <a href="courses.html" class="btn-start-driving-wrap ms-2">
+            <a href="courses" class="btn-start-driving-wrap ms-2">
               <span class="btn-start-driving-label">START DRIVING</span>
               <span class="btn-start-driving-arrows">&gt;&gt;&gt;</span>
             </a>
@@ -185,7 +208,7 @@
             </div>
 
             <!-- Green Hexagon Price Badge -->
-            <a href="courses.html" class="price-hexagon-badge text-decoration-none" title="View Course Pricing">
+            <a href="courses" class="price-hexagon-badge text-decoration-none" title="View Course Pricing">
               <span class="price-hexagon-amount">$59</span>
               <span class="price-hexagon-unit">Per hour</span>
             </a>
@@ -480,7 +503,7 @@
           No hidden fees, no registration charges. All packages include door-to-door pickup, dual-control car use, and complete theory test study apps.
         </p>
         <div>
-          <a href="courses.html" class="btn btn-outline-success rounded-pill px-4 py-2 fw-bold small">
+          <a href="courses" class="btn btn-outline-success rounded-pill px-4 py-2 fw-bold small">
             View All Detailed Courses &amp; Syllabi <i class="bi bi-arrow-right ms-1"></i>
           </a>
         </div>
@@ -908,7 +931,7 @@
       <div class="row g-4 pb-4">
         <!-- Col 1: Brand & About -->
         <div class="col-lg-4 col-md-6">
-          <a class="navbar-brand-custom mb-3 d-inline-flex" href="#hero">
+          <a class="navbar-brand-custom mb-3 d-inline-flex" href="home">
             <div class="brand-icon-logo">
               <i class="bi bi-speedometer2"></i>
             </div>
@@ -935,13 +958,13 @@
         <div class="col-lg-2 col-md-6 col-6">
           <h4 class="footer-col-title">Quick Links</h4>
           <ul class="footer-nav-list">
-            <li><a href="#hero"><i class="bi bi-chevron-right small"></i> Home</a></li>
-            <li><a href="about.html"><i class="bi bi-chevron-right small"></i> About Us</a></li>
+            <li><a href="home"><i class="bi bi-chevron-right small"></i> Home</a></li>
+            <li><a href="about"><i class="bi bi-chevron-right small"></i> About Us</a></li>
             <li><a href="#features"><i class="bi bi-chevron-right small"></i> Features</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Our Package</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Our Package</a></li>
             <li><a href="#why-choose-us"><i class="bi bi-chevron-right small"></i> Why Choose Us</a></li>
-            <li><a href="gallery.html"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
-            <li><a href="contact.html"><i class="bi bi-chevron-right small"></i> Contact Us</a></li>
+            <li><a href="gallery"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
+            <li><a href="contact"><i class="bi bi-chevron-right small"></i> Contact Us</a></li>
           </ul>
         </div>
 
@@ -949,11 +972,11 @@
         <div class="col-lg-3 col-md-6 col-6">
           <h4 class="footer-col-title">Our Courses</h4>
           <ul class="footer-nav-list">
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
           </ul>
         </div>
 

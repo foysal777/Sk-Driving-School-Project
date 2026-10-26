@@ -1,0 +1,28 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Redirect /index.html to /home
+    RewriteCond %{THE_REQUEST} \s/index\.html[?\s] [NC]
+    RewriteRule ^index\.html$ /home [R=301,L]
+
+    # Redirect any /page.html to clean /page
+    RewriteCond %{THE_REQUEST} \s/([^.]+)\.html[?\s] [NC]
+    RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
+
+    # Map / or /home to index.html
+    RewriteRule ^$ index.html [L]
+    RewriteRule ^home/?$ index.html [L]
+
+    # Map /about, /courses, /gallery, /contact to .html
+    RewriteRule ^about/?$ about.html [L]
+    RewriteRule ^courses/?$ courses.html [L]
+    RewriteRule ^gallery/?$ gallery.html [L]
+    RewriteRule ^contact/?$ contact.html [L]
+
+    # Generic: if requested filename without .html exists, serve it
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^([^/]+)/?$ $1.html [L]
+</IfModule>

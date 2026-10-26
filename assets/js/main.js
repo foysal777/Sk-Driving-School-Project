@@ -770,6 +770,83 @@ $(document).ready(function () {
 
   // Initial cart UI render
   renderCartUI();
+
+  // ==========================================
+  // CLEAN URL LINK HANDLER (Live Server & Static Host Fallback)
+  // Ensures clicking /home, /about, /courses, /gallery, /contact never 404s
+  // ==========================================
+  const CLEAN_PAGE_MAP = {
+    'home': 'index.html',
+    '/home': 'index.html',
+    'about': 'about.html',
+    '/about': 'about.html',
+    'courses': 'courses.html',
+    '/courses': 'courses.html',
+    'gallery': 'gallery.html',
+    '/gallery': 'gallery.html',
+    'contact': 'contact.html',
+    '/contact': 'contact.html'
+  };
+
+  $(document).on('click', 'a', function (e) {
+    const rawHref = $(this).attr('href');
+    if (!rawHref) return;
+
+    // Ignore external URLs, javascript, mailto, tel, or plain hash
+    if (
+      rawHref.startsWith('http://') ||
+      rawHref.startsWith('https://') ||
+      rawHref.startsWith('//') ||
+      rawHref.startsWith('mailto:') ||
+      rawHref.startsWith('tel:') ||
+      rawHref.startsWith('javascript:') ||
+      rawHref.startsWith('#')
+    ) {
+      return;
+    }
+
+    const parts = rawHref.split('#');
+    const pathPart = parts[0];
+    const hashPart = parts[1] || '';
+    const cleanKey = pathPart.replace(/^\/+|\/+$/g, '').toLowerCase();
+
+    // If clicking home while already on index/home page
+    const curPath = window.location.pathname.toLowerCase();
+    const isIndexPage =
+      curPath === '/' ||
+      curPath === '' ||
+      curPath.endsWith('/home') ||
+      curPath.endsWith('/index.html');
+
+    if (cleanKey === 'home' && isIndexPage) {
+      e.preventDefault();
+      if (hashPart) {
+        const targetEl = document.getElementById(hashPart);
+        if (targetEl) {
+          targetEl.scrollIntoView({ behavior: 'smooth' });
+          window.history.replaceState(null, '', '/home#' + hashPart);
+          return;
+        }
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.history.replaceState(null, '', '/home');
+      return;
+    }
+
+    // If Service Worker is already active and controlling, native navigation works cleanly
+    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      return;
+    }
+
+    // On static servers (like Live Server 5500) before SW takes over:
+    // Route via the corresponding .html file, which immediately rewrites address bar cleanly
+    if (CLEAN_PAGE_MAP[cleanKey] || CLEAN_PAGE_MAP[pathPart]) {
+      const targetHtml = CLEAN_PAGE_MAP[cleanKey] || CLEAN_PAGE_MAP[pathPart];
+      e.preventDefault();
+      const dest = targetHtml + (hashPart ? '#' + hashPart : '');
+      window.location.href = dest;
+    }
+  });
 });
 
 

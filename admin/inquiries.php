@@ -100,7 +100,7 @@ $counts = Inquiry::countByStatus();
       <li class="mt-3 pt-3 border-top border-white-10">
         <a href="/backend/swagger/" target="_blank" class="sidebar-nav-link"><i class="bi bi-code-square text-info"></i> Swagger API Docs</a>
       </li>
-      <li><a href="/index.html" target="_blank" class="sidebar-nav-link"><i class="bi bi-box-arrow-up-right text-success"></i> View Live Site</a></li>
+      <li><a href="../home" target="_blank" class="sidebar-nav-link"><i class="bi bi-box-arrow-up-right text-success"></i> View Live Site</a></li>
     </ul>
     <div class="p-3 border-top border-white-10">
       <a href="/admin/logout.php" class="btn btn-outline-light btn-sm w-100 fw-semibold"><i class="bi bi-box-arrow-right me-1"></i> Sign Out</a>
@@ -112,7 +112,7 @@ $counts = Inquiry::countByStatus();
     <header class="admin-topbar">
       <h4 class="mb-0 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">Student Inquiries &amp; Leads</h4>
       <div class="d-flex gap-2">
-        <a href="/contact.html" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
+        <a href="../contact" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
           <i class="bi bi-envelope-paper-heart me-1"></i> Test Contact Form
         </a>
       </div>

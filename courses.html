@@ -6,6 +6,29 @@
   <title>Driving Courses &amp; Pricing Packages | DriveMaster Academy</title>
   <meta name="description" content="Explore DVSA certified driving courses at DriveMaster Academy. Beginner starter packs, intensive pass courses, automatic and manual lessons, and advanced motorway training.">
 
+  <!-- Instant Clean URL Manager (Ensures /courses in address bar and zero .html) -->
+  <script>
+    (function () {
+      try {
+        var p = window.location.pathname;
+        var h = window.location.hash;
+        var s = window.location.search;
+        if (p === '/' || p === '' || p.endsWith('/index.html') || p === '/index.html' || p === 'index.html') {
+          var base = p.replace(/(^|\/)index\.html$/i, '');
+          if (base === '/') base = '';
+          var clean = (base || '') + '/home' + s + h;
+          window.history.replaceState(null, '', clean);
+        } else if (p.endsWith('.html')) {
+          var clean = p.replace(/\.html$/i, '') + s + h;
+          window.history.replaceState(null, '', clean);
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        }
+      } catch (e) {}
+    })();
+  </script>
+
   <!-- Favicon -->
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>">
 
@@ -37,11 +60,11 @@
       </div>
 
       <div class="d-flex align-items-center gap-3">
-        <a href="index.html#about" class="topbar-link">
+        <a href="about" class="topbar-link">
           <i class="bi bi-geo-alt-fill text-success me-1"></i> Starting Locations <i class="bi bi-chevron-down ms-1 small"></i>
         </a>
         <span class="topbar-divider"></span>
-        <a href="courses.html" class="topbar-link">
+        <a href="courses" class="topbar-link">
           <i class="bi bi-clock-fill text-success me-1"></i> Morning Classes: 7.00 to 11.00 <i class="bi bi-chevron-down ms-1 small"></i>
         </a>
       </div>
@@ -53,7 +76,7 @@
     <div class="container">
       <nav class="navbar navbar-expand-lg py-3">
         <!-- Logo -->
-        <a class="navbar-brand-custom" href="index.html">
+        <a class="navbar-brand-custom" href="home">
           <div class="brand-icon-logo">
             <i class="bi bi-speedometer2"></i>
           </div>
@@ -74,19 +97,19 @@
         <div class="collapse navbar-collapse" id="navContent">
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="home">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="about.html">About</a>
+              <a class="nav-link" href="about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link active" href="courses.html">Our Package</a>
+              <a class="nav-link active" href="courses">Our Package</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="gallery.html">Gallery</a>
+              <a class="nav-link" href="gallery">Gallery</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="contact.html">Contact</a>
+              <a class="nav-link" href="contact">Contact</a>
             </li>
           </ul>
 
@@ -97,10 +120,10 @@
               <i class="bi bi-cart3 fs-5"></i>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge cart-total-count" style="display:none; font-size: 0.65rem;">0</span>
             </button>
-            <a href="courses.html" class="nav-icon-action" title="Search Courses" aria-label="Search">
+            <a href="courses" class="nav-icon-action" title="Search Courses" aria-label="Search">
               <i class="bi bi-search"></i>
             </a>
-            <a href="index.html#contact" class="nav-icon-action" title="Student Portal" aria-label="User Account">
+            <a href="contact" class="nav-icon-action" title="Student Portal" aria-label="User Account">
               <i class="bi bi-person-circle"></i>
             </a>
 
@@ -129,7 +152,7 @@
       </p>
       <nav aria-label="breadcrumb">
         <div class="page-breadcrumb">
-          <a href="index.html"><i class="bi bi-house-door-fill me-1"></i> Home</a>
+          <a href="home"><i class="bi bi-house-door-fill me-1"></i> Home</a>
           <i class="bi bi-chevron-right small text-white-50"></i>
           <span>Courses</span>
         </div>
@@ -1037,7 +1060,7 @@
       <div class="row g-4 pb-4">
         <!-- Col 1: Brand & About -->
         <div class="col-lg-4 col-md-6">
-          <a class="navbar-brand-custom mb-3 d-inline-flex" href="index.html">
+          <a class="navbar-brand-custom mb-3 d-inline-flex" href="home">
             <div class="brand-icon-logo">
               <i class="bi bi-speedometer2"></i>
             </div>
@@ -1064,13 +1087,13 @@
         <div class="col-lg-2 col-md-6 col-6">
           <h4 class="footer-col-title">Quick Links</h4>
           <ul class="footer-nav-list">
-            <li><a href="index.html"><i class="bi bi-chevron-right small"></i> Home</a></li>
-            <li><a href="about.html"><i class="bi bi-chevron-right small"></i> About Us</a></li>
-            <li><a href="index.html#features"><i class="bi bi-chevron-right small"></i> Features</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Our Package</a></li>
-            <li><a href="index.html#why-choose-us"><i class="bi bi-chevron-right small"></i> Why Choose Us</a></li>
-            <li><a href="gallery.html"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
-            <li><a href="contact.html"><i class="bi bi-chevron-right small"></i> Contact Us</a></li>
+            <li><a href="home"><i class="bi bi-chevron-right small"></i> Home</a></li>
+            <li><a href="about"><i class="bi bi-chevron-right small"></i> About Us</a></li>
+            <li><a href="home#features"><i class="bi bi-chevron-right small"></i> Features</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Our Package</a></li>
+            <li><a href="home#why-choose-us"><i class="bi bi-chevron-right small"></i> Why Choose Us</a></li>
+            <li><a href="gallery"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
+            <li><a href="contact"><i class="bi bi-chevron-right small"></i> Contact Us</a></li>
           </ul>
         </div>
 
@@ -1078,11 +1101,11 @@
         <div class="col-lg-3 col-md-6 col-6">
           <h4 class="footer-col-title">Our Courses</h4>
           <ul class="footer-nav-list">
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
-            <li><a href="courses.html"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
           </ul>
         </div>
 

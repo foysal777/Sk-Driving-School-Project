@@ -179,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="text-center">
-        <a href="/index.html" class="small text-muted text-decoration-none">
+        <a href="../home" class="small text-muted text-decoration-none">
           <i class="bi bi-arrow-left me-1"></i> Back to Live Website
         </a>
       </div>

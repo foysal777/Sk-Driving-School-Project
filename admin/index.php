@@ -221,7 +221,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="../index.html" target="_blank" class="sidebar-nav-link">
+        <a href="../home" target="_blank" class="sidebar-nav-link">
           <i class="bi bi-box-arrow-up-right text-success"></i> View Live Site
         </a>
       </li>
@@ -262,7 +262,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         <a href="/backend/swagger/" target="_blank" class="btn btn-outline-secondary btn-sm fw-bold">
           <i class="bi bi-code-slash me-1"></i> Swagger UI
         </a>
-        <a href="/contact.html" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
+        <a href="../contact" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
           <i class="bi bi-send me-1"></i> Test Contact Form
         </a>
       </div>

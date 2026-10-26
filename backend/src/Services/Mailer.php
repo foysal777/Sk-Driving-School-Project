@@ -412,7 +412,7 @@ HTML;
         $course     = $enrollment['course_name'] ?? 'Driving Course';
         $price      = number_format((float)($enrollment['course_price'] ?? 0), 2);
         $appUrl     = $this->config['url'] ?? 'http://localhost:8000';
-        $coursesUrl = $appUrl . '/courses.html';
+        $coursesUrl = $appUrl . '/courses';
 
         $subject = "✅ Payment Request Approved! Complete Your Booking - {$ref}";
 
