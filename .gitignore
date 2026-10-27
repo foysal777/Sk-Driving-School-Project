@@ -52,3 +52,9 @@ temp/
 
 # PHP / Web Server Local Overrides
 .phpunit.result.cache
+
+# Runtime data containing personal info
+/database/newsletter_subscribers.json
+/database/inquiries_store.json
+adminer.php
+

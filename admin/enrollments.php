@@ -4,13 +4,19 @@ declare(strict_types=1);
 require_once __DIR__ . '/../backend/src/Database.php';
 require_once __DIR__ . '/../backend/src/Auth.php';
 require_once __DIR__ . '/../backend/src/Models/Enrollment.php';
+require_once __DIR__ . '/../backend/src/Models/Inquiry.php';
+require_once __DIR__ . '/../backend/src/Models/Newsletter.php';
 require_once __DIR__ . '/../backend/src/Services/Mailer.php';
 
 use DriveMaster\Auth;
 use DriveMaster\Models\Enrollment;
+use DriveMaster\Models\Inquiry;
+use DriveMaster\Models\Newsletter;
 use DriveMaster\Services\Mailer;
 
 $admin = Auth::requireAuth();
+$inquiryStats = Inquiry::countByStatus();
+$subscriberCount = Newsletter::count();
 
 $alert = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -62,8 +68,6 @@ if ($activeFilter === 'square_pending') {
 
 $enrollments = Enrollment::all($filters);
 $stats = Enrollment::countStats();
-$mailLogs = array_reverse(Mailer::getMailLogs());
-$smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,6 +118,10 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
       background-color: #f0fdf4 !important;
       border-left: 4px solid #10b981;
     }
+    .rejected-row {
+      background-color: #fef2f2 !important;
+      border-left: 4px solid #ef4444;
+    }
   </style>
 </head>
 <body>
@@ -129,13 +137,26 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
     </a>
     <ul class="sidebar-nav">
       <li><a href="index.php" class="sidebar-nav-link"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
-      <li><a href="inquiries.php" class="sidebar-nav-link"><i class="bi bi-envelope-fill"></i> Inquiries &amp; Leads</a></li>
       <li>
         <a href="enrollments.php" class="sidebar-nav-link active">
-          <i class="bi bi-calendar-check-fill"></i> Course Bookings
+          <i class="bi bi-calendar-check-fill"></i> Pending Request
           <?php if (($stats['square_pending'] ?? 0) > 0): ?>
             <span class="badge bg-warning text-dark ms-auto rounded-pill px-2"><?= $stats['square_pending'] ?></span>
           <?php endif; ?>
+        </a>
+      </li>
+      <li>
+        <a href="inquiries.php" class="sidebar-nav-link">
+          <i class="bi bi-envelope-fill"></i> Contact Inquiries
+          <?php if (($inquiryStats['new'] ?? 0) > 0): ?>
+            <span class="badge bg-danger ms-auto rounded-pill px-2"><?= $inquiryStats['new'] ?></span>
+          <?php endif; ?>
+        </a>
+      </li>
+      <li>
+        <a href="subscribers.php" class="sidebar-nav-link">
+          <i class="bi bi-mailbox2"></i> Newsletter Subscribers
+          <span class="badge bg-light text-dark ms-auto rounded-pill px-2"><?= $subscriberCount ?></span>
         </a>
       </li>
       <li><a href="courses.php" class="sidebar-nav-link"><i class="bi bi-car-front-fill"></i> Courses &amp; Rates</a></li>
@@ -152,14 +173,10 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
 
   <!-- Main Content -->
   <div class="admin-main">
-    <header class="admin-topbar">
-      <div>
-        <h4 class="mb-0 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">Course Bookings &amp; Square Payment Approvals</h4>
-        <div class="small text-muted">Review student booking requests and authorize Square payments with 1-click SMTP notifications</div>
-      </div>
+    <header class="admin-topbar justify-content-end">
       <div class="d-flex gap-2">
         <a href="../courses#courses-catalog" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
-          <i class="bi bi-credit-card-2-front me-1"></i> Open Student Course Page
+          <i class="bi bi-credit-card-2-front me-1"></i>
         </a>
         <button type="button" id="btnHeaderRefresh" class="btn btn-dark btn-sm fw-bold" onclick="location.reload();">
           <i class="bi bi-arrow-clockwise me-1"></i> Refresh
@@ -175,90 +192,7 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
         </div>
       <?php endif; ?>
 
-      <!-- High Priority Banner when Square Approvals are Pending -->
-      <?php if (($stats['square_pending'] ?? 0) > 0): ?>
-        <div class="alert alert-warning border-warning border-2 shadow-sm rounded-4 p-3 mb-4 d-flex flex-wrap align-items-center justify-content-between gap-3">
-          <div class="d-flex align-items-center gap-3">
-            <span class="p-3 bg-warning text-dark rounded-circle shadow-sm">
-              <i class="bi bi-bell-fill fs-4"></i>
-            </span>
-            <div>
-              <h5 class="fw-bold mb-1 text-dark">
-                Action Required: <?= $stats['square_pending'] ?> Student Payment Request(s) Awaiting Approval!
-              </h5>
-              <div class="text-muted small">
-                Student submitted a Square Sandbox request. Click the green <strong>"Approve Payment"</strong> button to unlock checkout and automatically send an email to the student via SMTP.
-              </div>
-            </div>
-          </div>
-          <div class="d-flex gap-2">
-            <a href="enrollments.php?filter=square_pending" class="btn btn-dark fw-bold px-3 py-2 rounded-pill shadow-sm">
-              <i class="bi bi-funnel-fill me-1"></i> Filter Pending (<?= $stats['square_pending'] ?>)
-            </a>
-          </div>
-        </div>
-      <?php endif; ?>
 
-      <!-- Quick KPI Counters (Clickable for 1-Click Filtering) -->
-      <div class="row g-3 mb-4">
-        <div class="col-md-3">
-          <a href="enrollments.php" class="text-decoration-none">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100 transition-hover">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="text-muted small fw-bold">TOTAL BOOKINGS</div>
-                  <h3 class="fw-bold mb-0 text-dark"><?= $stats['total_bookings'] ?? 0 ?></h3>
-                  <small class="text-primary fw-semibold"><i class="bi bi-arrow-right-short"></i> Click to view all</small>
-                </div>
-                <div class="p-3 bg-light rounded-3 text-primary"><i class="bi bi-calendar3 fs-4"></i></div>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-md-3">
-          <a href="enrollments.php?filter=square_pending" class="text-decoration-none">
-            <div class="card border-0 shadow-sm rounded-4 p-3 h-100 <?= ($stats['square_pending'] ?? 0) > 0 ? 'bg-warning-subtle border border-warning shadow' : 'bg-white' ?>">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="text-danger small fw-bold">AWAITING SQUARE APPROVAL</div>
-                  <h3 class="fw-bold mb-0 text-danger"><?= $stats['square_pending'] ?? 0 ?></h3>
-                  <small class="text-danger fw-bold"><i class="bi bi-hourglass-split"></i> Requires attention</small>
-                </div>
-                <div class="p-3 bg-warning text-dark rounded-3"><i class="bi bi-exclamation-triangle-fill fs-4"></i></div>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-md-3">
-          <a href="enrollments.php?filter=paid_full" class="text-decoration-none">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-              <div class="d-flex align-items-center justify-content-between">
-                <div>
-                  <div class="text-muted small fw-bold">CONFIRMED / PAID</div>
-                  <h3 class="fw-bold mb-0 text-success"><?= $stats['confirmed'] ?? 0 ?></h3>
-                  <small class="text-success fw-semibold"><i class="bi bi-check-all"></i> Square captured</small>
-                </div>
-                <div class="p-3 bg-success-subtle text-success rounded-3"><i class="bi bi-check2-circle fs-4"></i></div>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-md-3">
-          <div class="card border-0 shadow-sm rounded-4 p-3 bg-white h-100">
-            <div class="d-flex align-items-center justify-content-between">
-              <div>
-                <div class="text-muted small fw-bold">TOTAL REVENUE</div>
-                <h3 class="fw-bold mb-0 text-primary">$<?= number_format((float)($stats['revenue'] ?? 0), 2) ?></h3>
-                <small class="text-muted">Paid lessons revenue</small>
-              </div>
-              <div class="p-3 bg-primary-subtle text-primary rounded-3"><i class="bi bi-currency-dollar fs-4"></i></div>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <!-- Quick Search & Filter Toolbar -->
       <div class="card border-0 shadow-sm rounded-4 mb-4 p-3 bg-white">
@@ -300,7 +234,7 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
               <i class="bi bi-person-check-fill fs-5"></i>
             </span>
             <div>
-              <h5 class="fw-bold mb-0 text-dark">Course Bookings List</h5>
+              <h5 class="fw-bold mb-0 text-dark">Pending Request List</h5>
               <small class="text-muted">Live student booking requests, transmissions &amp; payment state</small>
             </div>
           </div>
@@ -319,9 +253,9 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
                 <th>Student Details</th>
                 <th>Selected Course</th>
                 <th>Amount</th>
-                <th>Gateway &amp; Payment Status</th>
+                <th>Payment Status</th>
                 <th>Overall Status</th>
-                <th class="text-end pe-4" style="min-width: 240px;">Approval &amp; Action</th>
+                <th class="text-end pe-4" style="min-width: 250px;">Approval &amp; Action</th>
               </tr>
             </thead>
             <tbody>
@@ -338,7 +272,8 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
                   $isPendingSquare = ($payStatus === 'payment_requested');
                   $isApprovedSquare = ($payStatus === 'approved_to_pay');
                   $isPaidSquare = ($payStatus === 'paid_in_full');
-                  $rowClass = $isPendingSquare ? 'pending-row' : ($isPaidSquare ? 'approved-row' : '');
+                  $isRejected = ($payStatus === 'rejected' || ($e['status'] ?? '') === 'cancelled');
+                  $rowClass = $isPendingSquare ? 'pending-row' : ($isPaidSquare ? 'approved-row' : ($isRejected ? 'rejected-row' : ''));
                 ?>
                   <tr class="<?= $rowClass ?>" data-search="<?= strtolower(htmlspecialchars(($e['student_name'] ?? '') . ' ' . ($e['student_email'] ?? '') . ' ' . ($e['student_phone'] ?? '') . ' ' . ($e['booking_reference'] ?? '') . ' ' . ($e['course_name'] ?? ''))) ?>">
                     <td class="ps-4">
@@ -362,85 +297,104 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
                       <div class="fw-bold text-success fs-5">$<?= number_format((float)$e['course_price'], 2) ?></div>
                     </td>
                     <td>
-                      <!-- Gateway badge -->
-                      <div class="mb-1">
-                        <span class="square-badge">
-                          <i class="bi bi-square-fill" style="font-size: 0.65rem;"></i> Square Sandbox
-                        </span>
-                      </div>
-
                       <!-- Payment Status Tag -->
                       <?php if ($isPendingSquare): ?>
-                        <span class="badge bg-warning text-dark py-1 px-2 border border-warning-subtle shadow-sm">
-                          <i class="bi bi-hourglass-split me-1"></i> Payment Requested
+                        <span class="badge bg-warning-subtle text-dark py-1 px-2 border border-warning-subtle shadow-sm rounded-pill fw-semibold">
+                          <i class="bi bi-hourglass-split text-warning me-1"></i> Payment Requested
                         </span>
                       <?php elseif ($isApprovedSquare): ?>
-                        <span class="badge bg-info text-dark py-1 px-2 border border-info-subtle">
-                          <i class="bi bi-unlock-fill me-1"></i> Approved - Waiting Student
+                        <span class="badge bg-info-subtle text-primary-emphasis py-1 px-2 border border-info-subtle rounded-pill fw-semibold">
+                          <i class="bi bi-unlock-fill text-info me-1"></i> Approved - Waiting Student
                         </span>
                       <?php elseif ($isPaidSquare): ?>
-                        <span class="badge bg-success text-white py-1 px-2 shadow-sm">
-                          <i class="bi bi-check-all me-1"></i> Paid in Full
+                        <span class="badge bg-success-subtle text-success py-1 px-2 border border-success-subtle shadow-sm rounded-pill fw-semibold">
+                          <i class="bi bi-check-circle-fill text-success me-1"></i> Paid in Full
                         </span>
                         <?php if (!empty($e['payment_tx_id'])): ?>
                           <div class="small text-muted font-monospace mt-1" style="font-size: 0.7rem;">
                             Tx: <?= htmlspecialchars(substr($e['payment_tx_id'], 0, 18)) ?>...
                           </div>
                         <?php endif; ?>
+                      <?php elseif ($payStatus === 'rejected'): ?>
+                        <span class="badge bg-danger-subtle text-danger py-1 px-2 border border-danger-subtle rounded-pill fw-semibold">
+                          <i class="bi bi-x-circle-fill text-danger me-1"></i> Rejected
+                        </span>
                       <?php else: ?>
-                        <span class="badge bg-secondary-subtle text-dark">
+                        <span class="badge bg-secondary-subtle text-dark border py-1 px-2 rounded-pill fw-semibold">
                           <?= ucfirst(str_replace('_', ' ', $payStatus)) ?>
                         </span>
                       <?php endif; ?>
                     </td>
                     <td>
-                      <span class="badge bg-<?= ($e['status'] === 'confirmed' || $isPaidSquare) ? 'success' : ($isPendingSquare ? 'warning text-dark' : 'secondary') ?> px-2 py-1 rounded-pill">
-                        <?= ucfirst(str_replace('_', ' ', $e['status'] ?? 'pending')) ?>
+                      <?php 
+                        $statusBadgeClass = 'bg-secondary text-white';
+                        $statusIcon = 'bi-circle';
+                        $statusText = ucfirst(str_replace('_', ' ', $e['status'] ?? 'pending'));
+                        if ($e['status'] === 'confirmed' || $isPaidSquare) {
+                          $statusBadgeClass = 'bg-success text-white';
+                          $statusIcon = 'bi-check2-circle';
+                        } elseif ($isPendingSquare) {
+                          $statusBadgeClass = 'bg-warning text-dark';
+                          $statusIcon = 'bi-clock-history';
+                        } elseif ($e['status'] === 'approved_to_pay' || $isApprovedSquare) {
+                          $statusBadgeClass = 'bg-info-subtle text-primary border border-info-subtle';
+                          $statusIcon = 'bi-unlock';
+                          $statusText = 'Approved';
+                        } elseif ($e['status'] === 'cancelled' || $payStatus === 'rejected') {
+                          $statusBadgeClass = 'bg-danger-subtle text-danger border border-danger-subtle';
+                          $statusIcon = 'bi-x-circle';
+                          $statusText = 'Rejected';
+                        }
+                      ?>
+                      <span class="badge <?= $statusBadgeClass ?> px-2 py-1 rounded-pill fw-semibold">
+                        <i class="bi <?= $statusIcon ?> me-1"></i><?= $statusText ?>
                       </span>
                     </td>
                     <td class="text-end pe-4">
-                      <div class="d-inline-flex gap-1 align-items-center">
+                      <div class="d-inline-flex gap-2 align-items-center justify-content-end">
                         <?php if ($isPendingSquare): ?>
-                          <!-- Quick Approve or Reject Square Request -->
-                          <form method="POST" class="d-inline">
+                          <!-- Quick Approve Payment Request -->
+                          <form method="POST" class="d-inline m-0">
                             <input type="hidden" name="action" value="approve_square">
                             <input type="hidden" name="ref" value="<?= htmlspecialchars($e['booking_reference']) ?>">
-                            <button type="submit" class="btn btn-sm btn-success fw-bold py-1 px-3 shadow-sm rounded-pill" title="Approve student and send automated approval email via SMTP">
-                              <i class="bi bi-check-circle-fill me-1"></i> Approve Payment
+                            <button type="submit" class="btn btn-sm btn-success fw-bold py-1 px-3 shadow-sm rounded-pill d-inline-flex align-items-center" title="Approve booking and send payment link to student via SMTP">
+                              <i class="bi bi-check-circle-fill me-1"></i> Approve
                             </button>
                           </form>
-                          <form method="POST" class="d-inline">
+                          <!-- Dedicated Quick Reject Button -->
+                          <form method="POST" class="d-inline m-0">
                             <input type="hidden" name="action" value="reject_square">
                             <input type="hidden" name="ref" value="<?= htmlspecialchars($e['booking_reference']) ?>">
-                            <button type="submit" class="btn btn-sm btn-outline-danger py-1 px-2 rounded-circle" title="Reject request" onclick="return confirm('Are you sure you want to reject this request?')">
-                              <i class="bi bi-x"></i>
+                            <button type="submit" class="btn btn-sm btn-outline-danger fw-bold py-1 px-3 shadow-sm rounded-pill d-inline-flex align-items-center" title="Reject student booking request" onclick="return confirm('Are you sure you want to reject booking <?= htmlspecialchars($e['booking_reference']) ?> for <?= htmlspecialchars($e['student_name']) ?>?')">
+                              <i class="bi bi-x-circle-fill me-1"></i> Reject
                             </button>
                           </form>
                         <?php else: ?>
                           <!-- Standard Status Editor -->
-                          <form method="POST" class="d-inline-flex gap-1 align-items-center justify-content-end">
+                          <form method="POST" class="d-inline-flex gap-1 align-items-center justify-content-end m-0">
                             <input type="hidden" name="id" value="<?= $e['id'] ?>">
-                            <select name="status" class="form-select form-select-sm" style="width: 105px;">
+                            <select name="status" class="form-select form-select-sm rounded-pill" style="width: 105px;">
                               <option value="pending" <?= $e['status'] === 'pending' ? 'selected' : '' ?>>Pending</option>
                               <option value="confirmed" <?= $e['status'] === 'confirmed' ? 'selected' : '' ?>>Confirmed</option>
                               <option value="in_training" <?= $e['status'] === 'in_training' ? 'selected' : '' ?>>In Training</option>
                               <option value="completed" <?= $e['status'] === 'completed' ? 'selected' : '' ?>>Completed</option>
                               <option value="cancelled" <?= $e['status'] === 'cancelled' ? 'selected' : '' ?>>Cancelled</option>
                             </select>
-                            <select name="payment_status" class="form-select form-select-sm" style="width: 105px;">
+                            <select name="payment_status" class="form-select form-select-sm rounded-pill" style="width: 105px;">
                               <option value="unpaid" <?= $payStatus === 'unpaid' ? 'selected' : '' ?>>Unpaid</option>
                               <option value="payment_requested" <?= $payStatus === 'payment_requested' ? 'selected' : '' ?>>Requested</option>
                               <option value="approved_to_pay" <?= $payStatus === 'approved_to_pay' ? 'selected' : '' ?>>Approved</option>
                               <option value="paid_in_full" <?= $payStatus === 'paid_in_full' ? 'selected' : '' ?>>Paid Full</option>
+                              <option value="rejected" <?= $payStatus === 'rejected' ? 'selected' : '' ?>>Rejected</option>
                             </select>
-                            <button type="submit" class="btn btn-sm btn-outline-success" title="Save Changes">
+                            <button type="submit" class="btn btn-sm btn-outline-success rounded-circle py-1 px-2" title="Save Changes">
                               <i class="bi bi-check-lg"></i>
                             </button>
                           </form>
                         <?php endif; ?>
 
                         <!-- View Details Modal Trigger -->
-                        <button type="button" class="btn btn-sm btn-light border py-1 px-2 rounded-circle" data-bs-toggle="modal" data-bs-target="#detailsModal_<?= $e['id'] ?>" title="View Full Student Details">
+                        <button type="button" class="btn btn-sm btn-light border py-1 px-2 rounded-circle shadow-sm" data-bs-toggle="modal" data-bs-target="#detailsModal_<?= $e['id'] ?>" title="View Full Student Details">
                           <i class="bi bi-info-circle text-primary"></i>
                         </button>
                       </div>
@@ -489,11 +443,11 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
                               <div class="p-3 bg-light rounded-3 mb-3 small">
                                 <div class="d-flex justify-content-between mb-1">
                                   <span class="text-muted">Payment Gateway:</span>
-                                  <strong>Square Test Sandbox</strong>
+                                  <strong>Square Online</strong>
                                 </div>
                                 <div class="d-flex justify-content-between mb-1">
                                   <span class="text-muted">Payment Status:</span>
-                                  <span class="badge bg-<?= $isPaidSquare ? 'success' : ($isPendingSquare ? 'warning text-dark' : 'secondary') ?>">
+                                  <span class="badge bg-<?= $isPaidSquare ? 'success' : ($isPendingSquare ? 'warning text-dark' : ($payStatus === 'rejected' ? 'danger' : 'secondary')) ?>">
                                     <?= ucfirst(str_replace('_', ' ', $payStatus)) ?>
                                   </span>
                                 </div>
@@ -534,104 +488,6 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
               <?php endif; ?>
             </tbody>
           </table>
-        </div>
-      </div>
-
-      <!-- ====================================================================
-           SMTP EMAIL DISPATCH LOG CARD (AUTOMATED NOTIFICATIONS)
-           ==================================================================== -->
-      <div class="card border-0 shadow-sm rounded-4 mt-4 overflow-hidden mb-5">
-        <div class="card-header bg-white py-3 px-4 border-0 d-flex flex-wrap align-items-center justify-content-between gap-2 border-bottom">
-          <div class="d-flex align-items-center gap-2">
-            <span class="p-2 bg-success-subtle text-success rounded-3">
-              <i class="bi bi-envelope-check-fill fs-5"></i>
-            </span>
-            <div>
-              <h5 class="fw-bold mb-0 text-dark">SMTP Outgoing Email Dispatch Logs</h5>
-              <small class="text-muted">Automated SMTP alerts for Square Test Sandbox &amp; Admin Approvals</small>
-            </div>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <span class="badge bg-light text-dark border font-monospace small">
-              Host: <?= htmlspecialchars($smtpConfig['host'] ?? '127.0.0.1') ?>:<?= htmlspecialchars((string)($smtpConfig['port'] ?? 587)) ?>
-            </span>
-            <span class="badge bg-light text-muted border small">
-              Admin: <?= htmlspecialchars($smtpConfig['admin_email'] ?? 'admin@drivemaster-school.com') ?>
-            </span>
-            <span class="badge bg-dark text-white fw-bold">
-              Total Logged: <?= count($mailLogs) ?>
-            </span>
-          </div>
-        </div>
-
-        <div class="card-body p-0">
-          <?php if (empty($mailLogs)): ?>
-            <div class="text-center py-5 text-muted">
-              <i class="bi bi-mailbox2 fs-1 text-secondary opacity-50 d-block mb-2"></i>
-              <h6 class="fw-bold mb-1">No SMTP Emails Dispatched Yet</h6>
-              <p class="small text-muted mb-0">
-                Whenever a student requests Square payment or an admin approves a booking, an automated email will be recorded and displayed here.
-              </p>
-            </div>
-          <?php else: ?>
-            <div class="table-responsive">
-              <table class="table table-hover align-middle mb-0 small">
-                <thead class="table-light">
-                  <tr>
-                    <th class="ps-4">Time</th>
-                    <th>Recipient</th>
-                    <th>Subject</th>
-                    <th>SMTP Transport</th>
-                    <th>Delivery Status</th>
-                    <th class="pe-4">Snippet</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <?php foreach ($mailLogs as $log): ?>
-                    <tr>
-                      <td class="ps-4 font-monospace text-nowrap text-muted">
-                        <?= htmlspecialchars($log['timestamp'] ?? '-') ?>
-                      </td>
-                      <td>
-                        <strong class="text-dark d-block"><?= htmlspecialchars($log['to'] ?? '-') ?></strong>
-                        <?php if (!empty($log['recipient_name'])): ?>
-                          <span class="text-muted" style="font-size: 0.76rem;"><?= htmlspecialchars($log['recipient_name']) ?></span>
-                        <?php endif; ?>
-                      </td>
-                      <td class="fw-semibold text-dark">
-                        <?= htmlspecialchars($log['subject'] ?? '-') ?>
-                      </td>
-                      <td>
-                        <span class="badge bg-light text-dark border font-monospace" style="font-size: 0.72rem;">
-                          <?= htmlspecialchars($log['smtp_host'] ?? 'SMTP') ?>
-                        </span>
-                      </td>
-                      <td>
-                        <?php if (($log['status'] ?? '') === 'delivered_via_smtp'): ?>
-                          <span class="badge bg-success-subtle text-success border border-success">
-                            <i class="bi bi-check2-circle me-1"></i> Delivered (SMTP)
-                          </span>
-                        <?php elseif (($log['status'] ?? '') === 'smtp_fallback_logged'): ?>
-                          <span class="badge bg-warning-subtle text-dark border border-warning" title="Captured locally in mail_log.json because external SMTP socket timed out or was unauthenticated in test environment">
-                            <i class="bi bi-file-earmark-check me-1"></i> Logged (Sandbox Test)
-                          </span>
-                        <?php else: ?>
-                          <span class="badge bg-secondary">
-                            <?= htmlspecialchars($log['status'] ?? 'unknown') ?>
-                          </span>
-                        <?php endif; ?>
-                      </td>
-                      <td class="pe-4 text-muted font-monospace" style="font-size: 0.75rem; max-width: 250px;">
-                        <span class="text-truncate d-block" title="<?= htmlspecialchars($log['body_snippet'] ?? '') ?>">
-                          <?= htmlspecialchars($log['body_snippet'] ?? '-') ?>
-                        </span>
-                      </td>
-                    </tr>
-                  <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-          <?php endif; ?>
         </div>
       </div>
 

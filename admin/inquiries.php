@@ -4,11 +4,17 @@ declare(strict_types=1);
 require_once __DIR__ . '/../backend/src/Database.php';
 require_once __DIR__ . '/../backend/src/Auth.php';
 require_once __DIR__ . '/../backend/src/Models/Inquiry.php';
+require_once __DIR__ . '/../backend/src/Models/Enrollment.php';
+require_once __DIR__ . '/../backend/src/Models/Newsletter.php';
 
 use DriveMaster\Auth;
 use DriveMaster\Models\Inquiry;
+use DriveMaster\Models\Enrollment;
+use DriveMaster\Models\Newsletter;
 
 $admin = Auth::requireAuth();
+$enrollmentStats = Enrollment::countStats();
+$subscriberCount = Newsletter::count();
 
 // Handle Status Update or Delete
 $alert = null;
@@ -93,12 +99,32 @@ $counts = Inquiry::countByStatus();
       </div>
     </a>
     <ul class="sidebar-nav">
-      <li><a href="/admin/index.php" class="sidebar-nav-link"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
-      <li><a href="/admin/inquiries.php" class="sidebar-nav-link active"><i class="bi bi-envelope-fill"></i> Inquiries &amp; Leads</a></li>
-      <li><a href="/admin/enrollments.php" class="sidebar-nav-link"><i class="bi bi-calendar-check-fill"></i> Course Bookings</a></li>
-      <li><a href="/admin/courses.php" class="sidebar-nav-link"><i class="bi bi-car-front-fill"></i> Courses &amp; Rates</a></li>
+      <li><a href="index.php" class="sidebar-nav-link"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
+      <li>
+        <a href="enrollments.php" class="sidebar-nav-link">
+          <i class="bi bi-calendar-check-fill"></i> Pending Request
+          <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
+            <span class="badge bg-warning text-dark ms-auto rounded-pill"><?= $enrollmentStats['square_pending'] ?></span>
+          <?php endif; ?>
+        </a>
+      </li>
+      <li>
+        <a href="inquiries.php" class="sidebar-nav-link active">
+          <i class="bi bi-envelope-fill"></i> Contact Inquiries
+          <?php if (($counts['new'] ?? 0) > 0): ?>
+            <span class="badge bg-danger ms-auto rounded-pill"><?= $counts['new'] ?></span>
+          <?php endif; ?>
+        </a>
+      </li>
+      <li>
+        <a href="subscribers.php" class="sidebar-nav-link">
+          <i class="bi bi-mailbox2"></i> Newsletter Subscribers
+          <span class="badge bg-light text-dark ms-auto rounded-pill"><?= $subscriberCount ?></span>
+        </a>
+      </li>
+      <li><a href="courses.php" class="sidebar-nav-link"><i class="bi bi-car-front-fill"></i> Courses &amp; Rates</a></li>
       <li class="mt-3 pt-3 border-top border-white-10">
-        <a href="/backend/swagger/" target="_blank" class="sidebar-nav-link"><i class="bi bi-code-square text-info"></i> Swagger API Docs</a>
+        <a href="../backend/swagger/" target="_blank" class="sidebar-nav-link"><i class="bi bi-code-square text-info"></i> Swagger API Docs</a>
       </li>
       <li><a href="../home" target="_blank" class="sidebar-nav-link"><i class="bi bi-box-arrow-up-right text-success"></i> View Live Site</a></li>
     </ul>

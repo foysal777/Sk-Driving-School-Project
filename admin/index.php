@@ -6,12 +6,14 @@ require_once __DIR__ . '/../backend/src/Auth.php';
 require_once __DIR__ . '/../backend/src/Models/Inquiry.php';
 require_once __DIR__ . '/../backend/src/Models/Enrollment.php';
 require_once __DIR__ . '/../backend/src/Models/Course.php';
+require_once __DIR__ . '/../backend/src/Models/Newsletter.php';
 
 use DriveMaster\Auth;
 use DriveMaster\Database;
 use DriveMaster\Models\Inquiry;
 use DriveMaster\Models\Enrollment;
 use DriveMaster\Models\Course;
+use DriveMaster\Models\Newsletter;
 
 $admin = Auth::requireAuth();
 $db = Database::getInstance();
@@ -21,6 +23,8 @@ $inquiryStats = Inquiry::countByStatus();
 $enrollmentStats = Enrollment::countStats();
 $recentInquiries = Inquiry::all(['status' => 'all']);
 $recentEnrollments = Enrollment::all(['status' => 'all']);
+$newsletterCount = Newsletter::count();
+$recentSubscribers = Newsletter::all();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -187,19 +191,25 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         </a>
       </li>
       <li class="sidebar-nav-item">
+        <a href="enrollments.php" class="sidebar-nav-link">
+          <i class="bi bi-calendar-check-fill"></i> Pending Request
+          <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
+            <span class="badge bg-warning text-dark ms-auto rounded-pill"><?= $enrollmentStats['square_pending'] ?></span>
+          <?php endif; ?>
+        </a>
+      </li>
+      <li class="sidebar-nav-item">
         <a href="inquiries.php" class="sidebar-nav-link">
-          <i class="bi bi-envelope-fill"></i> Inquiries &amp; Leads
-          <?php if ($inquiryStats['new'] > 0): ?>
+          <i class="bi bi-envelope-fill"></i> Contact Inquiries
+          <?php if (($inquiryStats['new'] ?? 0) > 0): ?>
             <span class="badge bg-danger ms-auto rounded-pill"><?= $inquiryStats['new'] ?></span>
           <?php endif; ?>
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="enrollments.php" class="sidebar-nav-link">
-          <i class="bi bi-calendar-check-fill"></i> Course Bookings
-          <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
-            <span class="badge bg-warning text-dark ms-auto rounded-pill"><?= $enrollmentStats['square_pending'] ?></span>
-          <?php endif; ?>
+        <a href="subscribers.php" class="sidebar-nav-link">
+          <i class="bi bi-mailbox2"></i> Newsletter Subscribers
+          <span class="badge bg-light text-dark ms-auto rounded-pill"><?= $newsletterCount ?></span>
         </a>
       </li>
       <li class="sidebar-nav-item">
@@ -250,11 +260,14 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
       </div>
 
       <div class="d-flex align-items-center gap-2">
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 fw-bold me-2">
+          <i class="bi bi-cash-stack me-1"></i> Revenue: $<?= number_format((float)($enrollmentStats['revenue'] ?? 0), 2) ?>
+        </span>
         <a href="/backend/swagger/" target="_blank" class="btn btn-outline-secondary btn-sm fw-bold">
           <i class="bi bi-code-slash me-1"></i> Swagger UI
         </a>
-        <a href="../contact" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
-          <i class="bi bi-send me-1"></i> Test Contact Form
+        <a href="../courses#courses-catalog" target="_blank" class="btn btn-outline-success btn-sm fw-bold">
+          <i class="bi bi-credit-card-2-front me-1"></i> Course Catalog
         </a>
       </div>
     </header>
@@ -264,55 +277,68 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
       <!-- 4 KPI Cards -->
       <div class="row g-4 mb-4">
         <div class="col-xl-3 col-sm-6">
-          <div class="kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <span class="text-muted small fw-bold text-uppercase">Total Inquiries</span>
-              <div class="kpi-icon-wrap bg-primary-subtle text-primary">
-                <i class="bi bi-envelope-paper-fill"></i>
+          <a href="enrollments.php" class="text-decoration-none">
+            <div class="kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted small fw-bold text-uppercase">Total Bookings</span>
+                <div class="kpi-icon-wrap bg-primary-subtle text-primary">
+                  <i class="bi bi-calendar-check-fill"></i>
+                </div>
               </div>
+              <h2 class="display-6 fw-bold mb-1 text-dark"><?= $enrollmentStats['total_bookings'] ?? 0 ?></h2>
+              <div class="small text-muted">All registered students</div>
             </div>
-            <h2 class="display-6 fw-bold mb-1"><?= $inquiryStats['total'] ?></h2>
-            <div class="small text-muted">Messages from contact email box</div>
-          </div>
+          </a>
         </div>
 
         <div class="col-xl-3 col-sm-6">
-          <div class="kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <span class="text-muted small fw-bold text-uppercase">New / Unread</span>
-              <div class="kpi-icon-wrap bg-danger-subtle text-danger">
-                <i class="bi bi-bell-fill"></i>
+          <a href="enrollments.php?filter=square_pending" class="text-decoration-none">
+            <div class="kpi-card <?= ($enrollmentStats['square_pending'] ?? 0) > 0 ? 'border-warning shadow-sm' : '' ?>">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-danger small fw-bold text-uppercase">Pending Request</span>
+                <div class="kpi-icon-wrap bg-warning-subtle text-warning">
+                  <i class="bi bi-hourglass-split"></i>
+                </div>
               </div>
+              <h2 class="display-6 fw-bold mb-1 text-danger"><?= $enrollmentStats['square_pending'] ?? 0 ?></h2>
+              <div class="small text-danger fw-semibold">Awaiting payment approval</div>
             </div>
-            <h2 class="display-6 fw-bold mb-1 text-danger"><?= $inquiryStats['new'] ?></h2>
-            <div class="small text-muted">Awaiting instructor response</div>
-          </div>
+          </a>
         </div>
 
         <div class="col-xl-3 col-sm-6">
-          <div class="kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <span class="text-muted small fw-bold text-uppercase">Course Bookings</span>
-              <div class="kpi-icon-wrap bg-success-subtle text-success">
-                <i class="bi bi-journal-check"></i>
+          <a href="inquiries.php" class="text-decoration-none">
+            <div class="kpi-card <?= ($inquiryStats['new'] ?? 0) > 0 ? 'border-danger shadow-sm' : '' ?>">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted small fw-bold text-uppercase">Contact Inquiries</span>
+                <div class="kpi-icon-wrap bg-danger-subtle text-danger">
+                  <i class="bi bi-envelope-fill"></i>
+                </div>
               </div>
+              <div class="d-flex align-items-baseline gap-2 mb-1">
+                <h2 class="display-6 fw-bold mb-0 text-dark"><?= $inquiryStats['total'] ?? count($recentInquiries) ?></h2>
+                <?php if (($inquiryStats['new'] ?? 0) > 0): ?>
+                  <span class="badge bg-danger rounded-pill px-2 py-1 small"><?= $inquiryStats['new'] ?> New</span>
+                <?php endif; ?>
+              </div>
+              <div class="small text-muted">Frontend contact form submissions</div>
             </div>
-            <h2 class="display-6 fw-bold mb-1"><?= $enrollmentStats['total_bookings'] ?></h2>
-            <div class="small text-muted">Active &amp; pending students</div>
-          </div>
+          </a>
         </div>
 
         <div class="col-xl-3 col-sm-6">
-          <div class="kpi-card">
-            <div class="d-flex align-items-center justify-content-between mb-3">
-              <span class="text-muted small fw-bold text-uppercase">Est. Revenue</span>
-              <div class="kpi-icon-wrap bg-info-subtle text-info">
-                <i class="bi bi-currency-dollar"></i>
+          <a href="subscribers.php" class="text-decoration-none">
+            <div class="kpi-card">
+              <div class="d-flex align-items-center justify-content-between mb-3">
+                <span class="text-muted small fw-bold text-uppercase">Newsletter</span>
+                <div class="kpi-icon-wrap bg-success-subtle text-success">
+                  <i class="bi bi-mailbox2"></i>
+                </div>
               </div>
+              <h2 class="display-6 fw-bold mb-1 text-success"><?= $newsletterCount ?></h2>
+              <div class="small text-muted">Active newsletter subscribers</div>
             </div>
-            <h2 class="display-6 fw-bold mb-1 text-success">$<?= number_format($enrollmentStats['revenue'], 2) ?></h2>
-            <div class="small text-muted">From confirmed courses</div>
-          </div>
+          </a>
         </div>
       </div>
 
@@ -320,7 +346,7 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
       <div class="row g-4 mb-4">
         <div class="col-lg-8">
           <div class="chart-card">
-            <h5 class="fw-bold mb-3"><i class="bi bi-graph-up-arrow text-success me-2"></i>Weekly Student Inquiries Trend</h5>
+            <h5 class="fw-bold mb-3"><i class="bi bi-graph-up-arrow text-success me-2"></i>Weekly Student Bookings Trend</h5>
             <canvas id="inquiriesChart" height="95"></canvas>
           </div>
         </div>
@@ -332,58 +358,200 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         </div>
       </div>
 
-      <!-- Recent Inquiries Table -->
+      <!-- Recent Pending Requests Table -->
       <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4">
         <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
-          <h5 class="mb-0 fw-bold"><i class="bi bi-chat-left-dots-fill text-primary me-2"></i>Recent Contact Inquiries</h5>
-          <a href="/admin/inquiries.php" class="btn btn-outline-primary btn-sm fw-bold">View All Leads &rarr;</a>
+          <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history text-primary me-2"></i>Recent Pending Requests</h5>
+          <a href="enrollments.php" class="btn btn-outline-success btn-sm fw-bold">View All Pending Requests &rarr;</a>
         </div>
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light small text-uppercase">
               <tr>
-                <th class="ps-4">Student Name</th>
-                <th>Contact Info</th>
-                <th>Subject / Course</th>
-                <th>Schedule</th>
-                <th>Status</th>
-                <th>Submitted</th>
+                <th class="ps-4">Booking Ref</th>
+                <th>Student Details</th>
+                <th>Selected Course</th>
+                <th>Amount</th>
+                <th>Payment Status</th>
+                <th>Overall Status</th>
                 <th class="text-end pe-4">Action</th>
               </tr>
             </thead>
             <tbody>
-              <?php foreach (array_slice($recentInquiries, 0, 5) as $inq): ?>
+              <?php if (empty($recentEnrollments)): ?>
                 <tr>
-                  <td class="ps-4 fw-bold text-dark">
-                    <?= htmlspecialchars($inq['full_name']) ?>
-                  </td>
-                  <td>
-                    <div><a href="mailto:<?= htmlspecialchars($inq['email']) ?>" class="text-decoration-none"><?= htmlspecialchars($inq['email']) ?></a></div>
-                    <div class="small text-muted"><?= htmlspecialchars($inq['phone']) ?></div>
-                  </td>
-                  <td>
-                    <span class="badge bg-light text-dark border"><?= htmlspecialchars($inq['subject']) ?></span>
-                  </td>
-                  <td class="small text-muted">
-                    <?= htmlspecialchars($inq['preferred_schedule'] ?? 'Flexible') ?>
-                  </td>
-                  <td>
-                    <span class="badge status-badge-<?= $inq['status'] ?> px-2 py-1 rounded-pill">
-                      <?= ucfirst($inq['status']) ?>
-                    </span>
-                  </td>
-                  <td class="small text-muted">
-                    <?= date('M d, H:i', strtotime($inq['created_at'])) ?>
-                  </td>
-                  <td class="text-end pe-4">
-                    <a href="/admin/inquiries.php" class="btn btn-sm btn-light border">
-                      <i class="bi bi-pencil-square"></i> Manage
-                    </a>
-                  </td>
+                  <td colspan="7" class="text-center py-4 text-muted">No student booking requests found.</td>
                 </tr>
-              <?php endforeach; ?>
+              <?php else: ?>
+                <?php foreach (array_slice($recentEnrollments, 0, 5) as $e): 
+                  $payStatus = $e['payment_status'] ?? 'unpaid';
+                  $isPending = ($payStatus === 'payment_requested');
+                  $isPaid = ($payStatus === 'paid_in_full');
+                ?>
+                  <tr>
+                    <td class="ps-4">
+                      <span class="badge bg-dark font-monospace"><?= htmlspecialchars($e['booking_reference']) ?></span>
+                    </td>
+                    <td>
+                      <div class="fw-bold text-dark"><?= htmlspecialchars($e['student_name']) ?></div>
+                      <div class="small text-muted"><?= htmlspecialchars($e['student_email']) ?> &bull; <?= htmlspecialchars($e['student_phone']) ?></div>
+                    </td>
+                    <td>
+                      <div class="fw-bold text-dark small"><?= htmlspecialchars($e['course_name']) ?></div>
+                      <div class="small text-muted"><i class="bi bi-gear-fill me-1"></i><?= ucfirst(htmlspecialchars($e['preferred_transmission'] ?? 'automatic')) ?></div>
+                    </td>
+                    <td>
+                      <span class="fw-bold text-success">$<?= number_format((float)$e['course_price'], 2) ?></span>
+                    </td>
+                    <td>
+                      <?php if ($isPending): ?>
+                        <span class="badge bg-warning-subtle text-dark border border-warning-subtle rounded-pill py-1 px-2 fw-semibold">Payment Requested</span>
+                      <?php elseif ($isPaid): ?>
+                        <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill py-1 px-2 fw-semibold">Paid Full</span>
+                      <?php else: ?>
+                        <span class="badge bg-secondary-subtle text-dark rounded-pill py-1 px-2 fw-semibold"><?= ucfirst(str_replace('_', ' ', $payStatus)) ?></span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <span class="badge bg-<?= ($e['status'] === 'confirmed' || $isPaid) ? 'success' : ($isPending ? 'warning text-dark' : 'secondary') ?> rounded-pill px-2 py-1">
+                        <?= ucfirst(str_replace('_', ' ', $e['status'] ?? 'pending')) ?>
+                      </span>
+                    </td>
+                    <td class="text-end pe-4">
+                      <a href="enrollments.php" class="btn btn-sm btn-outline-success fw-bold rounded-pill px-3 py-1">
+                        Manage <i class="bi bi-arrow-right-short"></i>
+                      </a>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <!-- Two Columns: Recent Contact Inquiries & Recent Newsletter Subscribers -->
+      <div class="row g-4 mb-4">
+        <!-- Recent Contact Inquiries -->
+        <div class="col-lg-7">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+            <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
+              <div>
+                <h5 class="mb-0 fw-bold"><i class="bi bi-envelope-paper-fill text-danger me-2"></i>Recent Contact Inquiries</h5>
+                <small class="text-muted">Submissions from frontend contact form</small>
+              </div>
+              <a href="inquiries.php" class="btn btn-outline-danger btn-sm fw-bold">Manage Inquiries &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-uppercase">
+                  <tr>
+                    <th class="ps-4">Sender</th>
+                    <th>Subject / Message</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th class="text-end pe-4">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (empty($recentInquiries)): ?>
+                    <tr>
+                      <td colspan="5" class="text-center py-4 text-muted">No contact messages received yet.</td>
+                    </tr>
+                  <?php else: ?>
+                    <?php foreach (array_slice($recentInquiries, 0, 5) as $inq): ?>
+                      <tr>
+                        <td class="ps-4">
+                          <div class="fw-bold text-dark"><?= htmlspecialchars($inq['full_name'] ?? $inq['name'] ?? 'Visitor') ?></div>
+                          <div class="small text-muted"><?= htmlspecialchars($inq['email'] ?? '') ?></div>
+                          <?php if (!empty($inq['phone'])): ?>
+                            <div class="small text-muted font-monospace" style="font-size: 0.75rem;"><i class="bi bi-telephone me-1"></i><?= htmlspecialchars($inq['phone']) ?></div>
+                          <?php endif; ?>
+                        </td>
+                        <td>
+                          <div class="fw-semibold text-dark small"><?= htmlspecialchars($inq['subject'] ?? 'Website Inquiry') ?></div>
+                          <div class="small text-muted text-truncate" style="max-width: 220px;" title="<?= htmlspecialchars($inq['message'] ?? '') ?>">
+                            <?= htmlspecialchars($inq['message'] ?? '') ?>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="small text-muted"><?= htmlspecialchars(date('M d, Y', strtotime($inq['created_at'] ?? 'now'))) ?></div>
+                          <div class="small text-muted" style="font-size: 0.72rem;"><?= htmlspecialchars(date('h:i A', strtotime($inq['created_at'] ?? 'now'))) ?></div>
+                        </td>
+                        <td>
+                          <span class="badge status-badge-<?= htmlspecialchars($inq['status'] ?? 'new') ?> rounded-pill px-2 py-1">
+                            <?= ucfirst(str_replace('_', ' ', $inq['status'] ?? 'new')) ?>
+                          </span>
+                        </td>
+                        <td class="text-end pe-4">
+                          <a href="inquiries.php?search=<?= urlencode($inq['email'] ?? '') ?>" class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1" title="View details in inquiries manager">
+                            <i class="bi bi-eye"></i>
+                          </a>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Newsletter Subscribers -->
+        <div class="col-lg-5">
+          <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
+            <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
+              <div>
+                <h5 class="mb-0 fw-bold"><i class="bi bi-mailbox2 text-success me-2"></i>Newsletter Signups</h5>
+                <small class="text-muted">Submissions from frontend newsletter</small>
+              </div>
+              <a href="subscribers.php" class="btn btn-outline-success btn-sm fw-bold">View All &rarr;</a>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-hover align-middle mb-0">
+                <thead class="table-light small text-uppercase">
+                  <tr>
+                    <th class="ps-4">Email</th>
+                    <th>Source</th>
+                    <th>Date</th>
+                    <th class="text-end pe-4">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php if (empty($recentSubscribers)): ?>
+                    <tr>
+                      <td colspan="4" class="text-center py-4 text-muted">No newsletter subscribers yet.</td>
+                    </tr>
+                  <?php else: ?>
+                    <?php foreach (array_slice($recentSubscribers, 0, 5) as $sub): ?>
+                      <tr>
+                        <td class="ps-4">
+                          <div class="fw-bold text-dark text-truncate" style="max-width: 180px;" title="<?= htmlspecialchars($sub['email'] ?? '') ?>">
+                            <i class="bi bi-envelope me-1 text-primary"></i>
+                            <?= htmlspecialchars($sub['email'] ?? '') ?>
+                          </div>
+                        </td>
+                        <td>
+                          <span class="badge bg-light text-dark border rounded-pill px-2 py-1 small">
+                            <?= htmlspecialchars($sub['source'] ?? 'website') ?>
+                          </span>
+                        </td>
+                        <td>
+                          <div class="small text-muted"><?= htmlspecialchars(date('M d', strtotime($sub['created_at'] ?? 'now'))) ?></div>
+                          <div class="small text-muted" style="font-size: 0.72rem;"><?= htmlspecialchars(date('h:i A', strtotime($sub['created_at'] ?? 'now'))) ?></div>
+                        </td>
+                        <td class="text-end pe-4">
+                          <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1">
+                            <?= ucfirst(htmlspecialchars($sub['status'] ?? 'active')) ?>
+                          </span>
+                        </td>
+                      </tr>
+                    <?php endforeach; ?>
+                  <?php endif; ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -396,14 +564,14 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
   </div>
 
   <script>
-    // Chart 1: Inquiries Timeline
+    // Chart 1: Bookings Timeline
     const ctx1 = document.getElementById('inquiriesChart').getContext('2d');
     new Chart(ctx1, {
       type: 'line',
       data: {
         labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         datasets: [{
-          label: 'Contact Inquiries',
+          label: 'Student Bookings',
           data: [12, 19, 15, 25, 22, 30, 28],
           borderColor: '#00b060',
           backgroundColor: 'rgba(0, 176, 96, 0.1)',

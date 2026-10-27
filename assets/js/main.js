@@ -301,6 +301,71 @@ $(document).ready(function () {
   });
 
   // ==========================================
+  // NEWSLETTER SUBSCRIPTION HANDLER
+  // ==========================================
+  function showNewsletterFeedback(type, message) {
+    const icon = type === 'success' ? 'bi-check-circle-fill' : 'bi-exclamation-circle-fill';
+    const $box = $('#newsletterFeedback');
+    $box.removeClass('is-success is-error is-visible').empty()
+      .append($('<i>').addClass('bi ' + icon))
+      .append($('<span>').text(message))
+      .addClass('is-' + type + ' is-visible');
+  }
+
+  $('#newsletterForm').on('submit', function (e) {
+    e.preventDefault();
+    const $input = $('#newsletterEmail');
+    const $group = $input.closest('.newsletter-input-group');
+    const $btn = $('#btnNewsletterSubscribe');
+    const email = $input.val().trim();
+
+    $group.removeClass('is-invalid');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      void $group[0].offsetWidth; // restart shake animation
+      $group.addClass('is-invalid');
+      showNewsletterFeedback('error', 'Please enter a valid email address.');
+      $input.trigger('focus');
+      return;
+    }
+
+    const originalBtnHtml = $btn.html();
+    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Subscribing...');
+
+    fetch(getApiEndpoint('backend/api/newsletter.php'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        source: (window.location.pathname.split('/').pop() || 'home'),
+        website: $('#newsletterWebsite').val()
+      })
+    })
+    .then(function (res) {
+      return res.json().catch(function () { return { success: false }; });
+    })
+    .then(function (data) {
+      if (data && data.success) {
+        showNewsletterFeedback('success', data.message || "You're subscribed! Check your inbox soon.");
+        $input.val('');
+      } else {
+        const fieldError = data && data.errors && data.errors.email;
+        $group.addClass('is-invalid');
+        showNewsletterFeedback('error', fieldError || (data && data.message) || 'Subscription failed. Please try again.');
+      }
+    })
+    .catch(function () {
+      showNewsletterFeedback('error', 'Could not reach the server. Please try again in a moment.');
+    })
+    .finally(function () {
+      $btn.prop('disabled', false).html(originalBtnHtml);
+    });
+  });
+
+  $('#newsletterEmail').on('input', function () {
+    $(this).closest('.newsletter-input-group').removeClass('is-invalid');
+  });
+
+  // ==========================================
   // SQUARE PAYMENT GATEWAY & APPROVAL WORKFLOW
   // ==========================================
   let activeSquareRef = null;

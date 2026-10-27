@@ -106,3 +106,16 @@ CREATE TABLE IF NOT EXISTS `system_settings` (
   `description` VARCHAR(255) DEFAULT NULL,
   `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- ------------------------------------------------------------------------------
+-- Table 6: newsletter_subscribers (Email subscribers from frontend forms)
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS `newsletter_subscribers` (
+  `id` BIGINT UNSIGNED PRIMARY KEY,
+  `email` VARCHAR(254) NOT NULL UNIQUE,
+  `source` VARCHAR(60) DEFAULT 'website',
+  `status` VARCHAR(20) DEFAULT 'subscribed',
+  `ip_address` VARCHAR(45) NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+

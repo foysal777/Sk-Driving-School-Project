@@ -156,6 +156,55 @@
   </main>
 
   <!-- ==========================================================================
+       GLOBAL NEWSLETTER SECTION
+       ========================================================================== -->
+  <section class="newsletter-section" id="newsletter" aria-labelledby="newsletterTitle">
+    <div class="container">
+      <div class="newsletter-card">
+        <span class="newsletter-deco-chevrons" aria-hidden="true">&gt;&gt;&gt;</span>
+        <div class="row align-items-center g-4 position-relative">
+          <div class="col-lg-6">
+            <span class="newsletter-eyebrow">
+              <i class="bi bi-envelope-paper-heart-fill"></i> Drive Master Newsletter
+            </span>
+            <h2 class="newsletter-title" id="newsletterTitle">
+              Get Driving Tips &amp; <span>Exclusive Offers</span>
+            </h2>
+            <p class="newsletter-desc">
+              Join our learner community for test-day checklists, road-safety tips and subscriber-only lesson discounts — delivered straight to your inbox.
+            </p>
+            <ul class="newsletter-perks">
+              <li><i class="bi bi-check-circle-fill"></i> Monthly test prep tips</li>
+              <li><i class="bi bi-check-circle-fill"></i> Early access to offers</li>
+              <li><i class="bi bi-check-circle-fill"></i> No spam, ever</li>
+            </ul>
+          </div>
+
+          <div class="col-lg-6">
+            <form id="newsletterForm" class="newsletter-form" novalidate>
+              <label for="newsletterEmail" class="visually-hidden">Email address</label>
+              <div class="newsletter-input-group">
+                <i class="bi bi-envelope newsletter-input-icon" aria-hidden="true"></i>
+                <input type="email" id="newsletterEmail" name="email" class="newsletter-input" placeholder="Enter your email address" autocomplete="email" maxlength="254" required>
+                <button type="submit" id="btnNewsletterSubscribe" class="newsletter-btn">
+                  <span class="newsletter-btn-label">Subscribe</span>
+                  <i class="bi bi-send-fill"></i>
+                </button>
+              </div>
+              <!-- Honeypot (hidden from humans) -->
+              <input type="text" name="website" id="newsletterWebsite" class="newsletter-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+              <div id="newsletterFeedback" class="newsletter-feedback" role="status" aria-live="polite"></div>
+              <p class="newsletter-note">
+                <i class="bi bi-shield-lock-fill"></i> We respect your privacy and never share your email.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
        GLOBAL FOOTER SECTION
        ========================================================================== -->
   <footer class="site-footer" id="contact">
