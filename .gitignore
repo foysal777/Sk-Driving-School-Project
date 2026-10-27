@@ -1,0 +1,54 @@
+# ==============================================================================
+# Git Ignore Configuration
+# ==============================================================================
+
+# Environment & Sensitive Credentials (NEVER commit secrets!)
+.env
+.env.backup
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# IDE & Editor Configuration
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+*.swo
+*~
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Logs & Error Dumps
+*.log
+error_log
+access_log
+/backend/logs/
+
+# Cache & Temporary Files
+.cache/
+.phpunit.cache/
+tmp/
+temp/
+*.tmp
+
+# PHP / Web Server Local Overrides
+.phpunit.result.cache

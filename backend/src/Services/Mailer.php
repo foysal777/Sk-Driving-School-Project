@@ -312,7 +312,7 @@ class Mailer
         $appUrl     = $this->config['url'] ?? 'http://localhost:8000';
         $adminUrl   = $appUrl . '/admin/enrollments.php';
 
-        $subject = "🚗 [ACTION REQUIRED] New Square Payment Request: {$ref} - {$student}";
+        $subject = "New Square Payment Request: {$ref} - {$student}";
 
         $html = <<<HTML
 <!DOCTYPE html>
@@ -511,6 +511,10 @@ HTML;
         $last4      = $enrollment['card_last4'] ?? '4242';
         $cardBrand  = $enrollment['card_brand'] ?? 'Square Sandbox Visa';
         $paidAt     = $enrollment['paid_at'] ?? date('Y-m-d H:i:s');
+        $receiptUrl = $enrollment['receipt_url'] ?? '';
+        $receiptBtnHtml = (!empty($receiptUrl) && $receiptUrl !== '#')
+            ? "<div style=\"text-align: center; margin: 20px 0;\"><a href=\"{$receiptUrl}\" target=\"_blank\" style=\"display: inline-block; background: #00b060; color: #ffffff; padding: 12px 26px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 14px;\">View Official Square Receipt &rarr;</a></div>"
+            : '';
 
         $subject = "🎉 Payment Successful! Driving Course Confirmed - {$ref}";
 
@@ -574,6 +578,8 @@ HTML;
           </tr>
         </table>
       </div>
+
+      {$receiptBtnHtml}
 
       <h4 style="margin: 20px 0 8px; color: #0f172a;">What happens next?</h4>
       <ul style="color: #475569; font-size: 14px; padding-left: 20px; line-height: 1.7;">

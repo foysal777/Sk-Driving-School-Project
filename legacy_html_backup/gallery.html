@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Photo Gallery | Drive Master Professional Driving School</title>
+  <meta name="description" content="Explore real student test pass moments, behind-the-wheel lessons, modern dual-control training cars, and instructor guidance at Drive Master Driving School.">
+
+  <!-- Instant Clean URL Manager (Ensures /gallery in address bar and zero .html) -->
+  <script>
+    (function () {
+      try {
+        var p = window.location.pathname;
+        var h = window.location.hash;
+        var s = window.location.search;
+        if (p === '/' || p === '' || p.endsWith('/index.html') || p === '/index.html' || p === 'index.html') {
+          var base = p.replace(/(^|\/)index\.html$/i, '');
+          if (base === '/') base = '';
+          var clean = (base || '') + '/home' + s + h;
+          window.history.replaceState(null, '', clean);
+        } else if (p.endsWith('.html')) {
+          var clean = p.replace(/\.html$/i, '') + s + h;
+          window.history.replaceState(null, '', clean);
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Favicon -->
+  <!-- <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🚗</text></svg>"> -->
+
+  <!-- Local Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
+
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Top Dark Green Header Strip -->
+  <div class="topbar-strip">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="d-flex align-items-center">
+        <span class="topbar-chevron-pattern">
+          <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
+        </span>
+        <i class="bi bi-grid-fill me-2 text-success"></i>
+        <span>Driving, Start Dialing <a href="tel:+66120003456" class="text-white fw-bold text-decoration-none ms-1">+66 12 000 3456</a></span>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="about" class="topbar-link">
+          <i class="bi bi-geo-alt-fill text-success me-1"></i> Starting Locations <i class="bi bi-chevron-down ms-1 small"></i>
+        </a>
+        <span class="topbar-divider"></span>
+        <a href="courses" class="topbar-link">
+          <i class="bi bi-clock-fill text-success me-1"></i> Mor Classes: 7.00 to 11.00 <i class="bi bi-chevron-down ms-1 small"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navbar -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg py-3">
+        <!-- Logo -->
+        <a class="navbar-brand-custom" href="home">
+          <div class="brand-icon-logo">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title-top">Drive</span>
+            <span class="brand-title-bottom">
+              <span class="chevrons">&gt;&gt;&gt;</span>Master
+            </span>
+          </div>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-2 text-dark"></i>
+        </button>
+
+        <!-- Nav Items -->
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="courses">Our Package</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="gallery">Gallery</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact">Contact</a>
+            </li>
+          </ul>
+
+          <!-- Right Action Tools & Start Driving Button -->
+          <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+            <!-- Shopping Cart Button -->
+            <button type="button" class="nav-icon-action position-relative border-0 bg-transparent text-dark" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="View Shopping Cart">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge cart-total-count" style="display:none; font-size: 0.65rem;">0</span>
+            </button>
+            <a href="courses" class="nav-icon-action" title="Search Courses" aria-label="Search">
+              <i class="bi bi-search"></i>
+            </a>
+            <a href="contact" class="nav-icon-action" title="Student Portal" aria-label="User Account">
+              <i class="bi bi-person-circle"></i>
+            </a>
+            <a href="home#features" class="nav-icon-action" title="Instructors & Services" aria-label="Grid Menu">
+              <i class="bi bi-grid-3x3-gap-fill"></i>
+            </a>
+
+            <!-- Reference START DRIVING Chevron Ribbon Button -->
+            <a href="courses" class="btn-start-driving-wrap ms-2">
+              <span class="btn-start-driving-label">START DRIVING</span>
+              <span class="btn-start-driving-arrows">&gt;&gt;&gt;</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       PAGE INNER HERO / BANNER
+       ========================================================================== -->
+  <section class="page-banner text-center">
+    <div class="container position-relative">
+      <span class="section-pill-badge mb-3 bg-white text-dark border-0 shadow-sm">
+        <i class="bi bi-camera-fill text-success"></i> Training Academy Moments
+      </span>
+      <h1 class="page-banner-title text-white">Our Photo Gallery</h1>
+      <p class="page-banner-desc">
+        Take a look at real behind-the-wheel driving sessions, student test-pass celebrations, precision parking manoeuvres, and modern dual-control training cars.
+      </p>
+      <nav aria-label="breadcrumb">
+        <div class="page-breadcrumb">
+          <a href="home"><i class="bi bi-house-door-fill"></i> Home</a>
+          <i class="bi bi-chevron-right small text-white-50"></i>
+          <span>Photo Gallery</span>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       GALLERY SECTION
+       ========================================================================== -->
+  <section class="gallery-section section-padding" id="gallery">
+    <div class="container">
+      <!-- Filter Buttons -->
+      <div class="gallery-filter-wrap">
+        <button type="button" class="gallery-filter-btn active" data-filter="all">All Photos</button>
+        <button type="button" class="gallery-filter-btn" data-filter="pass" >Student Passes</button>
+        <button type="button" class="gallery-filter-btn" data-filter="lessons">In-Car Lessons</button>
+        <button type="button" class="gallery-filter-btn" data-filter="manoeuvres">Parking &amp; Manoeuvres</button>
+        <button type="button" class="gallery-filter-btn" data-filter="highway">Highway Driving</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="row g-4 align-items-stretch" id="galleryGrid">
+        <!-- Item 1: Student Pass Celebration -->
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="pass">
+          <div class="gallery-card">
+            <div class="gallery-thumb-wrap">
+              <img src="assets/images/gallery-pass.jpg" alt="Student First-Time Test Pass" loading="lazy">
+              <span class="gallery-tag-pill">
+                <i class="bi bi-trophy-fill text-warning"></i> Test Pass
+              </span>
+              <div class="gallery-zoom-overlay">
+                <div class="gallery-zoom-btn gallery-trigger-btn" title="View Full Photo">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </div>
+                <h4 class="gallery-overlay-title">First-Time Test Pass</h4>
+                <p class="gallery-overlay-desc">Proud student with her official pass certificate.</p>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <h3 class="gallery-card-title">First-Time Test Pass Success</h3>
+              <p class="gallery-card-desc">
+                Celebrating a clean practical driving test pass with our certified instructor on the very first attempt.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 2: Precision Parking Manoeuvre -->
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="manoeuvres">
+          <div class="gallery-card">
+            <div class="gallery-thumb-wrap">
+              <img src="assets/images/gallery-parking.jpg" alt="Parallel Parking Pad Drill" loading="lazy">
+              <span class="gallery-tag-pill">
+                <i class="bi bi-cone-striped text-warning"></i> Manoeuvres
+              </span>
+              <div class="gallery-zoom-overlay">
+                <div class="gallery-zoom-btn gallery-trigger-btn" title="View Full Photo">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </div>
+                <h4 class="gallery-overlay-title">Precision Parking Pad</h4>
+                <p class="gallery-overlay-desc">Dedicated cone drills for bay &amp; parallel parking.</p>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <h3 class="gallery-card-title">Bay &amp; Parallel Parking Practice</h3>
+              <p class="gallery-card-desc">
+                Instructor-guided spatial control drills ensuring flawless parking during the official DVSA driving exam.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 3: Automatic Dual-Control Cockpit Drill -->
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="lessons">
+          <div class="gallery-card">
+            <div class="gallery-thumb-wrap">
+              <img src="assets/images/course-automatic.jpg" alt="Automatic Transmission In-Car Lesson" loading="lazy">
+              <span class="gallery-tag-pill">
+                <i class="bi bi-gear-wide text-info"></i> In-Car Lesson
+              </span>
+              <div class="gallery-zoom-overlay">
+                <div class="gallery-zoom-btn gallery-trigger-btn" title="View Full Photo">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </div>
+                <h4 class="gallery-overlay-title">Automatic In-Car Drill</h4>
+                <p class="gallery-overlay-desc">Cockpit setup, steering balance, and blind-spot mirrors.</p>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <h3 class="gallery-card-title">Automatic Dual-Control Training</h3>
+              <p class="gallery-card-desc">
+                Stress-free beginner sessions focusing on steering coordination and smooth acceleration in traffic.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 4: Manual Transmission Clutch Control -->
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="lessons">
+          <div class="gallery-card">
+            <div class="gallery-thumb-wrap">
+              <img src="assets/images/course-manual.jpg" alt="Manual Gear Clutch Instruction" loading="lazy">
+              <span class="gallery-tag-pill">
+                <i class="bi bi-speedometer2 text-success"></i> Manual Control
+              </span>
+              <div class="gallery-zoom-overlay">
+                <div class="gallery-zoom-btn gallery-trigger-btn" title="View Full Photo">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </div>
+                <h4 class="gallery-overlay-title">Clutch &amp; Gear Transitions</h4>
+                <p class="gallery-overlay-desc">Mastering the bite point and stall prevention.</p>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <h3 class="gallery-card-title">Clutch &amp; Shifting Mastery</h3>
+              <p class="gallery-card-desc">
+                Tackle hill starts, roundabouts, and precise downshifting with total confidence under patient instructor coaching.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 5: High-Speed Motorway & Dual-Carriageway -->
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="highway">
+          <div class="gallery-card">
+            <div class="gallery-thumb-wrap">
+              <img src="assets/images/course-defensive.jpg" alt="High Speed Highway Driving Session" loading="lazy">
+              <span class="gallery-tag-pill">
+                <i class="bi bi-signpost-split-fill text-danger"></i> Highway
+              </span>
+              <div class="gallery-zoom-overlay">
+                <div class="gallery-zoom-btn gallery-trigger-btn" title="View Full Photo">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </div>
+                <h4 class="gallery-overlay-title">Motorway Training</h4>
+                <p class="gallery-overlay-desc">Slip road merging, lane discipline, and hazard safety.</p>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <h3 class="gallery-card-title">Motorway &amp; Highway Experience</h3>
+              <p class="gallery-card-desc">
+                Advanced road awareness, multi-lane overtaking, and high-speed braking in adverse weather conditions.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Item 6: Patient 1-on-1 Instructor Coaching -->
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="lessons">
+          <div class="gallery-card">
+            <div class="gallery-thumb-wrap">
+              <img src="assets/images/about-instructor.jpg" alt="Certified Instructor 1-on-1 Coaching" loading="lazy">
+              <span class="gallery-tag-pill">
+                <i class="bi bi-award-fill text-primary"></i> Certified Instructor
+              </span>
+              <div class="gallery-zoom-overlay">
+                <div class="gallery-zoom-btn gallery-trigger-btn" title="View Full Photo">
+                  <i class="bi bi-arrows-fullscreen"></i>
+                </div>
+                <h4 class="gallery-overlay-title">Certified DVSA Instructors</h4>
+                <p class="gallery-overlay-desc">Patient, encouraging 1-on-1 personalized lessons.</p>
+              </div>
+            </div>
+            <div class="gallery-card-info">
+              <h3 class="gallery-card-title">Dedicated 1-on-1 Instructor Care</h3>
+              <p class="gallery-card-desc">
+                Friendly guidance that puts nervous beginners at ease, tailored to each student's personal learning pace.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER SECTION
+       ========================================================================== -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <!-- Pre-Footer Action Banner -->
+      <div class="footer-cta-box">
+        <div class="row align-items-center">
+          <div class="col-lg-8 mb-3 mb-lg-0">
+            <h3 class="footer-cta-title">Ready To Hit The Road &amp; Pass Your Test?</h3>
+            <p class="footer-cta-desc">
+              Book your introductory lesson today and get 15% off your first driving session. Friendly, patient instructors ready in your area.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="tel:+66120003456" class="btn-footer-cta">
+              <i class="bi bi-telephone-fill"></i> Call +66 12 000 3456
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Footer Columns -->
+      <div class="row g-4 pb-4">
+        <!-- Col 1: Brand & About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand-custom mb-3 d-inline-flex" href="home">
+            <div class="brand-icon-logo">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <div class="brand-title-wrap">
+              <span class="brand-title-top text-white">Drive</span>
+              <span class="brand-title-bottom text-white">
+                <span class="chevrons">&gt;&gt;&gt;</span>Master
+              </span>
+            </div>
+          </a>
+          <p class="footer-about-text">
+            Premier DVSA certified driving academy dedicated to transforming nervous beginners into confident, responsible drivers with dual-control vehicles and guaranteed pass support.
+          </p>
+          <div class="footer-social-wrap">
+            <a href="#" class="footer-social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-nav-list">
+            <li><a href="home"><i class="bi bi-chevron-right small"></i> Home</a></li>
+            <li><a href="about"><i class="bi bi-chevron-right small"></i> About Us</a></li>
+            <li><a href="home#features"><i class="bi bi-chevron-right small"></i> Features</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Our Package</a></li>
+            <li><a href="home#why-choose-us"><i class="bi bi-chevron-right small"></i> Why Choose Us</a></li>
+            <li><a href="gallery"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
+            <li><a href="contact"><i class="bi bi-chevron-right small"></i> Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Popular Courses -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <h4 class="footer-col-title">Our Courses</h4>
+          <ul class="footer-nav-list">
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact & Working Hours -->
+        <div class="col-lg-3 col-md-6">
+          <h4 class="footer-col-title">Get In Touch</h4>
+          <div class="footer-contact-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <div>
+              124 Highway Central Blvd, Suite 400<br>
+              City Driving Test Center District
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <div>
+              <a href="tel:+66120003456">+66 12 000 3456</a><br>
+              <span class="small text-muted">24/7 Student Booking Line</span>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-envelope-fill"></i>
+            <div>
+              <a href="mailto:info@drivemaster-school.com">info@drivemaster-school.com</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-clock-fill"></i>
+            <div>
+              Mon - Sun: 7:00 AM - 9:00 PM<br>
+              <span class="badge bg-success-subtle text-success small px-2 py-1 mt-1">Open All Week</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+            &copy; 2026 DriveMaster Driving School. All rights reserved.
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <a href="#" class="me-3">Privacy Policy</a>
+            <a href="#" class="me-3">Terms &amp; Conditions</a>
+            <a href="#">DVSA Approved</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       GALLERY LIGHTBOX MODAL
+       ========================================================================== -->
+  <div class="modal fade gallery-modal" id="galleryModal" tabindex="-1" aria-labelledby="galleryModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <button type="button" class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">
+          <i class="bi bi-x-lg"></i>
+        </button>
+        <div class="modal-body">
+          <div class="modal-img-wrap">
+            <img src="" id="galleryModalImg" alt="Gallery Preview" class="img-fluid">
+          </div>
+          <div class="modal-caption">
+            <div>
+              <h4 class="h5 mb-1 text-white" id="galleryModalTitle">Photo Preview</h4>
+              <p class="mb-0 text-white-50 small" id="galleryModalDesc"></p>
+            </div>
+            <button type="button" class="btn btn-outline-light btn-sm rounded-pill px-3" data-bs-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SHOPPING CART OFFCANVAS DRAWER
+       ========================================================================== -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 420px; max-width: 95vw;">
+    <div class="offcanvas-header border-bottom py-3">
+      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="cartOffcanvasLabel">
+        <i class="bi bi-cart3 text-primary"></i> Your Selected Packages
+        <span class="badge bg-primary rounded-pill cart-total-count" style="font-size: 0.75rem;">0</span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-3">
+      <!-- Items Container -->
+      <div id="cartItemsContainer" class="flex-grow-1 overflow-auto pe-1">
+        <!-- Rendered dynamically via main.js -->
+      </div>
+
+      <!-- Cart Footer / Summary -->
+      <div id="cartFooterSection" class="border-top pt-3 mt-3">
+        <div class="d-flex justify-content-between mb-2 text-muted small">
+          <span>Subtotal:</span>
+          <span class="fw-bold text-dark" id="cartSubtotalAmount">$0.00</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3 fs-5">
+          <span class="fw-bold">Total:</span>
+          <span class="fw-bold text-primary" id="cartFinalTotalAmount">$0.00</span>
+        </div>
+        <div class="d-grid gap-2">
+          <a href="courses" class="btn btn-primary py-2 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm">
+            <i class="bi bi-square-fill text-warning"></i> View Courses &amp; Checkout
+          </a>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <button type="button" class="btn btn-link text-danger text-decoration-none p-0 small" id="btnClearCart">
+              <i class="bi bi-trash3 me-1"></i> Clear Cart
+            </button>
+            <span class="text-muted small"><i class="bi bi-shield-check text-success"></i> 2-Step Protected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Sticky Cart Trigger -->
+  <div class="floating-cart-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="Open Cart">
+    <i class="bi bi-cart-fill fs-5"></i>
+    <span>Cart (<span class="cart-total-count">0</span>) &bull; <span id="floatingCartTotal">$0.00</span></span>
+  </div>
+
+  <!-- Cart Notification Toast -->
+  <div class="cart-toast-wrap">
+    <div class="cart-toast" id="cartNotificationToast">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+        <div>
+          <strong id="toastItemTitle">Package</strong> added to your cart!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Vendor Scripts -->
+  <script src="assets/vendor/jquery/jquery-3.7.1.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

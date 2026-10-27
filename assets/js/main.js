@@ -166,7 +166,9 @@ $(document).ready(function () {
   // API URL Endpoint Helper (Resolves accurately on localhost, subdirectories, or direct file testing)
   function getApiEndpoint(relativePath) {
     const clean = relativePath.replace(/^\/+/, '');
-    if (window.location.protocol === 'file:') {
+    const port = String(window.location.port || '');
+    // If opened via VS Code Live Server (5500, 5501...) or file:// protocol, route API calls to the PHP backend
+    if (window.location.protocol === 'file:' || port.startsWith('550') || port === '3000') {
       return 'http://localhost:8000/' + clean;
     }
     return clean;
@@ -538,6 +540,13 @@ $(document).ready(function () {
     $('#sqReceiptName').text(data.student_name || $('#sqStudentName').val() || 'Alex Johnson');
     $('#sqReceiptMethod').text((data.payment_gateway || 'Square') + ' (•••• ' + (data.card_last4 || '4242') + ')');
     $('#sqReceiptTotal').text('$' + parseFloat(data.course_price || $('#sqHiddenCoursePrice').val() || 0).toFixed(2));
+
+    if (data.receipt_url && data.receipt_url !== '#') {
+      $('#sqReceiptUrlLink').attr('href', data.receipt_url);
+      $('#sqReceiptUrlRow').show();
+    } else {
+      $('#sqReceiptUrlRow').hide();
+    }
 
     $('#sqStageCheckout').hide();
     $('#sqStageWaiting').hide();

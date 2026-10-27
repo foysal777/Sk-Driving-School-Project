@@ -111,7 +111,7 @@ if ($action === 'pay_square' || $action === 'complete_square_payment') {
         'status'            => 'confirmed',
         'email_sent'        => $mailInfo['delivered'] ?? false,
         'email_status'      => $mailInfo['status'] ?? 'sent',
-        'receipt_url'       => '#'
+        'receipt_url'       => !empty($result['receipt_url']) ? $result['receipt_url'] : '#'
     ], 'Square Sandbox payment of $' . number_format((float)$result['course_price'], 2) . ' authorized & confirmed! Receipt emailed to student via SMTP.', 200);
 }
 

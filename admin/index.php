@@ -216,11 +216,6 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         </a>
       </li>
       <li class="sidebar-nav-item">
-        <a href="../backend/install.php" target="_blank" class="sidebar-nav-link">
-          <i class="bi bi-database-gear text-warning"></i> DB Installer
-        </a>
-      </li>
-      <li class="sidebar-nav-item">
         <a href="../home" target="_blank" class="sidebar-nav-link">
           <i class="bi bi-box-arrow-up-right text-success"></i> View Live Site
         </a>
@@ -233,8 +228,8 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
           <i class="bi bi-person-fill"></i>
         </div>
         <div class="overflow-hidden">
-          <div class="small fw-bold text-truncate text-white"><?= htmlspecialchars($admin['full_name']) ?></div>
-          <div class="small text-white-50" style="font-size: 0.72rem;"><?= htmlspecialchars($admin['role']) ?></div>
+          <div class="small fw-bold text-truncate text-white"><?= htmlspecialchars($admin['full_name'] ?? $admin['username'] ?? 'Administrator') ?></div>
+          <div class="small text-white-50" style="font-size: 0.72rem;"><?= htmlspecialchars($admin['role'] ?? 'Operations') ?></div>
         </div>
       </div>
       <a href="logout.php" class="btn btn-outline-light btn-sm w-100 fw-semibold">
@@ -251,10 +246,6 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
         <h4 class="mb-0 fw-bold" style="font-family: 'Space Grotesk', sans-serif;">Dashboard Overview</h4>
         <?php if ($dbOnline): ?>
           <span class="badge bg-success-subtle text-success small px-2 py-1"><i class="bi bi-check-circle-fill me-1"></i> MySQL Connected</span>
-        <?php else: ?>
-          <a href="/backend/install.php" class="badge bg-warning-subtle text-dark text-decoration-none small px-2 py-1" title="Click to run installer">
-            <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Dev Mode (Click to install DB)
-          </a>
         <?php endif; ?>
       </div>
 
@@ -269,20 +260,6 @@ $recentEnrollments = Enrollment::all(['status' => 'all']);
     </header>
 
     <div class="p-4 flex-grow-1">
-      <?php if (($enrollmentStats['square_pending'] ?? 0) > 0): ?>
-        <div class="alert alert-warning border border-warning d-flex align-items-center justify-content-between p-3 rounded-4 shadow-sm mb-4">
-          <div class="d-flex align-items-center gap-3">
-            <div class="bg-warning text-dark p-2 rounded-3 fs-4"><i class="bi bi-credit-card-2-front-fill"></i></div>
-            <div>
-              <h6 class="fw-bold mb-0 text-dark"><?= $enrollmentStats['square_pending'] ?> Square Payment Request(s) Awaiting Approval</h6>
-              <div class="small text-muted">Students have requested to pay via Square dummy gateway and need your authorization to unlock checkout.</div>
-            </div>
-          </div>
-          <a href="enrollments.php?filter=square_pending" class="btn btn-warning fw-bold px-3 py-2 text-dark shadow-sm">
-            <i class="bi bi-check-circle-fill me-1"></i> Review &amp; Approve
-          </a>
-        </div>
-      <?php endif; ?>
 
       <!-- 4 KPI Cards -->
       <div class="row g-4 mb-4">

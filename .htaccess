@@ -2,27 +2,31 @@
     RewriteEngine On
     RewriteBase /
 
-    # Redirect /index.html to /home
-    RewriteCond %{THE_REQUEST} \s/index\.html[?\s] [NC]
-    RewriteRule ^index\.html$ /home [R=301,L]
+    DirectoryIndex index.php index.html
+
+    # Redirect /index.html or /index.php to clean /home
+    RewriteCond %{THE_REQUEST} \s/index\.(html|php)[?\s] [NC]
+    RewriteRule ^index\.(html|php)$ /home [R=301,L]
 
     # Redirect any /page.html to clean /page
     RewriteCond %{THE_REQUEST} \s/([^.]+)\.html[?\s] [NC]
     RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
 
-    # Map / or /home to index.html
-    RewriteRule ^$ index.html [L]
-    RewriteRule ^home/?$ index.html [L]
+    # Map / or /home to index.php with page=home
+    RewriteRule ^$ index.php?page=home [L,QSA]
+    RewriteRule ^home/?$ index.php?page=home [L,QSA]
 
-    # Map /about, /courses, /gallery, /contact to .html
-    RewriteRule ^about/?$ about.html [L]
-    RewriteRule ^courses/?$ courses.html [L]
-    RewriteRule ^gallery/?$ gallery.html [L]
-    RewriteRule ^contact/?$ contact.html [L]
+    # Map /about, /courses, /gallery, /contact
+    RewriteRule ^about/?$ index.php?page=about [L,QSA]
+    RewriteRule ^courses/?$ index.php?page=courses [L,QSA]
+    RewriteRule ^gallery/?$ index.php?page=gallery [L,QSA]
+    RewriteRule ^contact/?$ index.php?page=contact [L,QSA]
 
-    # Generic: if requested filename without .html exists, serve it
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-    RewriteRule ^([^/]+)/?$ $1.html [L]
+    # Existing files and directories serve directly (assets, admin, backend)
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Generic: if requested name without extension maps to a view, route to index.php
+    RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
 </IfModule>

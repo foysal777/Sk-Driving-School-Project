@@ -503,6 +503,12 @@ $smtpConfig = require __DIR__ . '/../backend/config/smtp.php';
                                     <span class="font-monospace fw-bold text-dark"><?= htmlspecialchars($e['payment_tx_id']) ?></span>
                                   </div>
                                 <?php endif; ?>
+                                <?php if (!empty($e['receipt_url']) && $e['receipt_url'] !== '#'): ?>
+                                  <div class="d-flex justify-content-between mb-1">
+                                    <span class="text-muted">Square Receipt:</span>
+                                    <a href="<?= htmlspecialchars($e['receipt_url']) ?>" target="_blank" class="fw-bold text-success text-decoration-none">Open Receipt <i class="bi bi-box-arrow-up-right ms-1"></i></a>
+                                  </div>
+                                <?php endif; ?>
                                 <div class="d-flex justify-content-between">
                                   <span class="text-muted">Created Timestamp:</span>
                                   <span><?= htmlspecialchars($e['created_at'] ?? 'now') ?></span>

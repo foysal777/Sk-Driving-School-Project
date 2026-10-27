@@ -4,8 +4,10 @@ declare(strict_types=1);
 namespace DriveMaster\Models;
 
 require_once __DIR__ . '/../Database.php';
+require_once __DIR__ . '/../Services/SquareService.php';
 
 use DriveMaster\Database;
+use DriveMaster\Services\SquareService;
 
 /**
  * Enrollment Model - Manages driving lesson course bookings & Square Dummy Payment Gateway
@@ -311,9 +313,21 @@ final class Enrollment
         }
 
         $now = date('Y-m-d H:i:s');
-        $txId = 'sq_sandbox_tx_' . substr(bin2hex(random_bytes(8)), 0, 16);
-        $cardLast4 = substr(preg_replace('/\D/', '', (string)($cardDetails['card_number'] ?? '4242')), -4) ?: '4242';
-        $brand = !empty($cardDetails['brand']) ? $cardDetails['brand'] : 'Square Sandbox Visa';
+
+        // Execute payment via Square Payments API (Sandbox / Live)
+        $squareResult = SquareService::getInstance()->createPayment([
+            'amount'            => (float)($item['course_price'] ?? 780.00),
+            'booking_reference' => $ref,
+            'student_name'      => $item['student_name'] ?? '',
+            'student_email'     => $item['student_email'] ?? '',
+            'source_id'         => !empty($cardDetails['source_id']) ? $cardDetails['source_id'] : 'cnon:card-nonce-ok',
+            'note'              => "DriveMaster: " . ($item['course_name'] ?? 'Driving Course') . " ({$ref})"
+        ]);
+
+        $txId = $squareResult['payment_id'] ?? ('sq_sandbox_tx_' . substr(bin2hex(random_bytes(8)), 0, 16));
+        $cardLast4 = $squareResult['card_last_4'] ?? (substr(preg_replace('/\D/', '', (string)($cardDetails['card_number'] ?? '4242')), -4) ?: '4242');
+        $brand = $squareResult['card_brand'] ?? (!empty($cardDetails['brand']) ? $cardDetails['brand'] : 'Square Sandbox Visa');
+        $receiptUrl = $squareResult['receipt_url'] ?? '';
 
         // Update Store
         $store = self::readStore();
@@ -323,10 +337,11 @@ final class Enrollment
                 $rec['payment_status'] = 'paid_in_full';
                 $rec['status'] = 'confirmed';
                 $rec['payment_tx_id'] = $txId;
+                $rec['receipt_url'] = $receiptUrl;
                 $rec['card_last4'] = $cardLast4;
                 $rec['card_brand'] = $brand;
                 $rec['paid_at'] = $now;
-                $rec['admin_notes'] = "Square Test Sandbox Payment of \${$rec['course_price']} successfully captured. TX ID: {$txId}.";
+                $rec['admin_notes'] = "Square Sandbox Payment of \${$rec['course_price']} successfully captured. TX ID: {$txId}.";
                 $rec['updated_at'] = $now;
                 $updated = $rec;
                 break;

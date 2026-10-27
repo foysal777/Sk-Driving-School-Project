@@ -82,8 +82,8 @@ final class Auth
         }
 
         // 2. Check Bearer Token header
-        $headers = getallheaders();
-        $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? null;
+        $headers = function_exists('getallheaders') ? getallheaders() : [];
+        $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? ($_SERVER['HTTP_AUTHORIZATION'] ?? null);
 
         if ($authHeader && preg_match('/Bearer\s+(.*)$/i', $authHeader, $matches)) {
             $token = trim($matches[1]);

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drive Master | Certified Professional Driving School</title>
+  <meta name="description" content="Drive Safe & Smart With Our School. Top certified driving school with 98.4% first-time pass rate, modern dual-control automatic and manual fleet.">
+
+  <!-- Instant Clean URL Manager (Ensures /home in address bar and zero .html) -->
+  <script>
+    (function () {
+      try {
+        var p = window.location.pathname;
+        var h = window.location.hash;
+        var s = window.location.search;
+        if (p === '/' || p === '' || p.endsWith('/index.html') || p === '/index.html' || p === 'index.html') {
+          var base = p.replace(/(^|\/)index\.html$/i, '');
+          if (base === '/') base = '';
+          var clean = (base || '') + '/home' + s + h;
+          window.history.replaceState(null, '', clean);
+        } else if (p.endsWith('.html')) {
+          var clean = p.replace(/\.html$/i, '') + s + h;
+          window.history.replaceState(null, '', clean);
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('sw.js').catch(function () {});
+        }
+      } catch (e) {}
+    })();
+  </script>
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22></text></svg>">
+
+  <!-- Local Fonts: Plus Jakarta Sans & Space Grotesk -->
+  <link rel="stylesheet" href="assets/vendor/fonts/fonts.css">
+
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link rel="stylesheet" href="assets/vendor/bootstrap/css/bootstrap.min.css">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="assets/vendor/bootstrap-icons/bootstrap-icons.min.css">
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Top Dark Green Header Strip According to Reference -->
+  <div class="topbar-strip">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-2">
+      <div class="d-flex align-items-center">
+        <span class="topbar-chevron-pattern">
+          <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
+          <i class="bi bi-chevron-right"></i>
+        </span>
+        <i class="bi bi-grid-fill me-2 text-success"></i>
+        <span>Driving, Start Dialing <a href="tel:+66120003456" class="text-white fw-bold text-decoration-none ms-1">+66 12 000 3456</a></span>
+      </div>
+
+      <div class="d-flex align-items-center gap-3">
+        <a href="#locations" class="topbar-link">
+          <i class="bi bi-geo-alt-fill text-success me-1"></i> Starting Locations <i class="bi bi-chevron-down ms-1 small"></i>
+        </a>
+        <span class="topbar-divider"></span>
+        <a href="#schedule" class="topbar-link">
+          <i class="bi bi-clock-fill text-success me-1"></i> Mor Classes: 7.00 to 11.00 <i class="bi bi-chevron-down ms-1 small"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Navbar (Clean White Background) -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg py-3">
+        <!-- Logo -->
+        <a class="navbar-brand-custom" href="home">
+          <div class="brand-icon-logo">
+            <i class="bi bi-speedometer2"></i>
+          </div>
+          <div class="brand-title-wrap">
+            <span class="brand-title-top">Drive</span>
+            <span class="brand-title-bottom">
+              <span class="chevrons">&gt;&gt;&gt;</span>Master
+            </span>
+          </div>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+          <i class="bi bi-list fs-2 text-dark"></i>
+        </button>
+
+        <!-- Nav Items -->
+        <div class="collapse navbar-collapse" id="navContent">
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" href="home">
+                Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="about">
+                About
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="courses">
+                Our Package
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="gallery">
+                Gallery
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="contact">
+                Contact
+              </a>
+            </li>
+          </ul>
+
+          <!-- Right Action Tools & Start Driving Button -->
+          <div class="d-flex align-items-center gap-2 mt-3 mt-lg-0">
+            <!-- Shopping Cart Button -->
+            <button type="button" class="nav-icon-action position-relative border-0 bg-transparent text-dark" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="View Shopping Cart">
+              <i class="bi bi-cart3 fs-5"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-badge cart-total-count" style="display:none; font-size: 0.65rem;">0</span>
+            </button>
+            <a href="courses" class="nav-icon-action" title="Search Courses" aria-label="Search">
+              <i class="bi bi-search"></i>
+            </a>
+            <a href="#contact" class="nav-icon-action" title="Student Portal" aria-label="User Account">
+              <i class="bi bi-person-circle"></i>
+            </a>
+            <a href="#features" class="nav-icon-action" title="Instructors & Services" aria-label="Grid Menu">
+              <i class="bi bi-grid-3x3-gap-fill"></i>
+            </a>
+
+            <!-- Reference START DRIVING Chevron Ribbon Button -->
+            <a href="courses" class="btn-start-driving-wrap ms-2">
+              <span class="btn-start-driving-label">START DRIVING</span>
+              <span class="btn-start-driving-arrows">&gt;&gt;&gt;</span>
+            </a>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section According to Reference with 3 Moving Images -->
+  <section class="hero-slider-section" id="hero">
+    <!-- Carousel Slides Container -->
+    <div class="hero-carousel-inner">
+      <!-- Slide 1: Instructor with clipboard & student -->
+      <div class="hero-slide active" style="background-image: url('assets/images/hero-slide-1.jpg');"></div>
+      <!-- Slide 2: Confident smiling woman driver -->
+      <div class="hero-slide" style="background-image: url('assets/images/hero-slide-asian-driver.jpg');"></div>
+      <!-- Slide 3: Instructor pointing forward -->
+      <div class="hero-slide" style="background-image: url('assets/images/hero-slide-3.png');"></div>
+    </div>
+
+    <!-- Hero Content Overlay (Matching Exact Reference Layout) -->
+    <div class="container hero-content-wrap">
+      <div class="row">
+        <div class="col-lg-8 col-xl-7">
+          <!-- Main Hero Headline -->
+          <h1 class="hero-main-title">
+            Drive Safe<br>
+            &amp; Smart With<br>
+            Our School.
+          </h1>
+
+          <!-- Trustpilot Rating Badge -->
+          <div class="trustpilot-badge-wrap mb-4">
+            <div class="trustpilot-circle-score">4.9</div>
+            <div>
+              <div class="trustpilot-stars">
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+                <i class="bi bi-star-fill"></i>
+              </div>
+              <div class="trustpilot-label">2.8K REVIEWS BY TRUSTPILOT</div>
+            </div>
+          </div>
+
+          <!-- Hero Action Button & Price Hexagon Pointer -->
+          <div class="hero-actions-row">
+            <!-- Discover Courses Button -->
+            <a href="#courses" class="btn-discover-courses">
+              DISCOVER COURSES
+            </a>
+
+            <!-- Curved Arrow and Label -->
+            <div class="pricing-pointer-wrap">
+              <svg class="curved-arrow-svg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20,25 C50,15 75,35 60,65 C55,75 75,80 85,82" stroke="#ffffff" stroke-width="4" stroke-linecap="round" fill="none"/>
+                <path d="M75,75 L87,83 L80,95" stroke="#ffffff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              </svg>
+              <div class="pricing-starts-label">
+                Courses Starts<br>From
+              </div>
+            </div>
+
+            <!-- Green Hexagon Price Badge -->
+            <a href="courses" class="price-hexagon-badge text-decoration-none" title="View Course Pricing">
+              <span class="price-hexagon-amount">$59</span>
+              <span class="price-hexagon-unit">Per hour</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stacked Right-Side Carousel Control Buttons -->
+    <div class="hero-carousel-controls">
+      <button type="button" class="hero-nav-arrow-btn" id="heroPrevBtn" aria-label="Previous Slide">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <button type="button" class="hero-nav-arrow-btn" id="heroNextBtn" aria-label="Next Slide">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+
+    <!-- Carousel Dots Indicators -->
+    <div class="hero-dots-indicator">
+      <span class="hero-dot active" data-slide="0"></span>
+      <span class="hero-dot" data-slide="1"></span>
+      <span class="hero-dot" data-slide="2"></span>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       ABOUT US SECTION (ACCORDING TO REFERENCE DESIGN)
+       ========================================================================== -->
+  <section class="about-section section-padding" id="about">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <!-- Left Column: Visual Composition with 16 Years Ribbon & Badges -->
+        <div class="col-lg-6">
+          <div class="about-visual-container">
+            <!-- Vertical 16 Years of Experience Ribbon -->
+            <div class="experience-vertical-ribbon">
+              <span class="experience-vertical-label">Years of Experience</span>
+              <span class="experience-vertical-number">16</span>
+            </div>
+
+            <!-- Instructor Main Photo -->
+            <div class="about-image-wrapper">
+              <img src="assets/images/about-instructor.jpg" alt="Glenn Davidson - Approved Driving Instructor" class="about-main-img" loading="lazy">
+            </div>
+
+            <!-- Floating Overlapping Learners Card -->
+            <div class="about-floating-learners-card">
+              <div class="learners-avatar-group">
+                <img src="assets/images/avatar-1.jpg" alt="Successful Driver" class="learner-avatar">
+                <img src="assets/images/avatar-2.jpg" alt="Successful Driver" class="learner-avatar">
+                <div class="learner-avatar-plus">
+                  <i class="bi bi-plus"></i>
+                </div>
+              </div>
+              <div class="learners-count-text">
+                <strong>2k+ Successful</strong>
+                <span>Learners</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Content & Credentials -->
+        <div class="col-lg-6">
+          <div class="about-content-wrap">
+            <!-- Reference Tag Pill Badge -->
+            <div class="about-tag-badge">
+              <span class="about-tag-bar"></span>
+              <span class="about-tag-text">ABOUT US</span>
+            </div>
+
+            <!-- Main Heading -->
+            <h2 class="about-main-heading">
+              Driving Excellence<br>Since Day One
+            </h2>
+
+            <!-- Lead Paragraph -->
+            <p class="about-lead-desc">
+              Every pain avoided but in certain circumstances and owing to the claims of duty or the obligations of business it will frequently occur that pleasures have to be repudiated and annoyances accepted selection he rejects pleasures to secure.
+            </p>
+
+            <!-- Approved Driving Instructor (ADI) Credential Card -->
+            <div class="adi-credential-card">
+              <!-- Left: ADI Shield Badge -->
+              <div class="adi-shield-box">
+                <svg class="adi-shield-svg" viewBox="0 0 100 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Outer Shield & Gold Rim -->
+                  <path d="M50 4 L88 20 V64 C88 88 50 106 50 106 C50 106 12 88 12 64 V20 L50 4 Z" fill="#b48328" stroke="#f6c243" stroke-width="2"/>
+                  <!-- Inner Shield Gradient (Forest Green) -->
+                  <path d="M50 9 L83 23 V62 C83 83 50 100 50 100 C50 100 17 83 17 62 V23 L50 9 Z" fill="url(#adiShieldGrad)"/>
+                  <!-- Inner Border Glow -->
+                  <path d="M50 13 L80 26 V61 C80 80 50 96 50 96 C50 96 20 80 20 61 V26 L50 13 Z" stroke="#34d399" stroke-width="1.2" opacity="0.45"/>
+                  <!-- Golden Crown -->
+                  <path d="M36 39 L40 28 L50 35 L60 28 L64 39 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="0.8"/>
+                  <circle cx="40" cy="27" r="1.5" fill="#fef08a"/>
+                  <circle cx="50" cy="34" r="1.5" fill="#fef08a"/>
+                  <circle cx="60" cy="27" r="1.5" fill="#fef08a"/>
+                  <!-- Ribbon Banner -->
+                  <rect x="6" y="65" width="88" height="18" rx="3" fill="#d97706" stroke="#fbbf24" stroke-width="1.5"/>
+                  <text x="50" y="77" fill="#ffffff" font-size="6.8" font-family="'Space Grotesk', sans-serif" font-weight="800" text-anchor="middle" letter-spacing="0.5">DRIVING INSTRUCTOR</text>
+                  <defs>
+                    <linearGradient id="adiShieldGrad" x1="50" y1="9" x2="50" y2="100" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#144f42"/>
+                      <stop offset="50%" stop-color="#1e6b5a"/>
+                      <stop offset="100%" stop-color="#0e3a30"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+
+              <!-- Center: Text Info -->
+              <div class="adi-info-text">
+                <span class="adi-subtitle">Approved</span>
+                <div class="adi-title">Driving Instructor (ADI)</div>
+                <span class="adi-year">2010</span>
+              </div>
+
+              <!-- Right: Twin Golden Trophies -->
+              <div class="adi-trophies-wrap">
+                <svg class="adi-trophies-svg" viewBox="0 0 110 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Sparkles -->
+                  <path d="M15 25 L17 21 L19 25 L23 27 L19 29 L17 33 L15 29 L11 27 Z" fill="#fcd34d" opacity="0.85"/>
+                  <path d="M96 15 L97.5 11 L99 15 L103 16.5 L99 18 L97.5 22 L96 18 L92 16.5 Z" fill="#fcd34d" opacity="0.9"/>
+                  <circle cx="8" cy="42" r="1.5" fill="#fde68a"/>
+                  <circle cx="102" cy="38" r="1.5" fill="#fde68a"/>
+
+                  <!-- Back Trophy (Right) -->
+                  <g transform="translate(48, 8) scale(0.85)">
+                    <path d="M12 40 C12 50 24 54 30 54 C36 54 48 50 48 40 V15 H12 V40 Z" fill="url(#tropBackCup)"/>
+                    <path d="M12 18 C3 18 3 34 12 34" stroke="#d97706" stroke-width="3" fill="none"/>
+                    <path d="M48 18 C57 18 57 34 48 34" stroke="#d97706" stroke-width="3" fill="none"/>
+                    <path d="M26 54 H34 V65 H26 Z" fill="#b45309"/>
+                    <path d="M16 65 H44 V74 H16 Z" fill="#78350f" rx="2"/>
+                    <polygon points="30,24 33,31 40,31 34,35 37,42 30,37 23,42 26,35 20,31 27,31" fill="#fef08a"/>
+                  </g>
+
+                  <!-- Front Trophy (Left) -->
+                  <g transform="translate(14, 14)">
+                    <path d="M14 42 C14 54 27 58 34 58 C41 58 54 54 54 42 V14 H14 V42 Z" fill="url(#tropFrontCup)"/>
+                    <path d="M14 18 C4 18 4 36 14 36" stroke="#f59e0b" stroke-width="3.5" fill="none"/>
+                    <path d="M54 18 C64 18 64 36 54 36" stroke="#f59e0b" stroke-width="3.5" fill="none"/>
+                    <path d="M30 58 H38 V70 H30 Z" fill="#d97706"/>
+                    <path d="M18 70 H50 V80 H18 Z" fill="#92400e" rx="2"/>
+                    <polygon points="34,25 37,32 44,32 38,37 41,44 34,39 27,44 30,37 24,32 31,32" fill="#fffbeb"/>
+                  </g>
+
+                  <defs>
+                    <linearGradient id="tropFrontCup" x1="14" y1="14" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#fde047"/>
+                      <stop offset="50%" stop-color="#f59e0b"/>
+                      <stop offset="100%" stop-color="#d97706"/>
+                    </linearGradient>
+                    <linearGradient id="tropBackCup" x1="12" y1="15" x2="48" y2="54" gradientUnits="userSpaceOnUse">
+                      <stop offset="0%" stop-color="#fbbf24"/>
+                      <stop offset="60%" stop-color="#d97706"/>
+                      <stop offset="100%" stop-color="#b45309"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Founder Signature & Meta -->
+            <div class="founder-meta-row">
+              <div class="founder-signature-box">
+                <svg class="founder-signature-svg" viewBox="0 0 160 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Flowing Realistic Handwritten Signature for Glenn Davidson -->
+                  <path d="M12 36C22 18 36 12 48 22C56 30 46 44 34 40C24 37 28 20 42 16C58 12 74 28 88 25C102 22 114 15 125 21C136 27 144 34 152 38" stroke="#111827" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M38 27L64 14M80 30L98 18M110 34L122 16" stroke="#111827" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M25 43C55 45 95 43 145 42" stroke="#111827" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="2 1"/>
+                </svg>
+              </div>
+              <div class="founder-info-text">
+                <strong class="founder-name">Glenn Davidson,</strong>
+                <span class="founder-role">Founder</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURES SECTION
+       ========================================================================== -->
+  <section class="features-section section-padding" id="features">
+    <div class="container">
+      <!-- Section Title Header -->
+      <div class="text-center mb-5">
+        <span class="section-pill-badge">
+          <i class="bi bi-patch-check-fill text-success"></i> Why DriveMaster Academy
+        </span>
+        <h2 class="section-heading-title">Engineered For Your First-Time Pass</h2>
+        <p class="section-heading-desc">
+          We combine patient, DVSA certified coaching with modern dual-control hybrid cars to give you the highest level of confidence behind the wheel.
+        </p>
+      </div>
+
+      <!-- Feature Cards Grid -->
+      <div class="row g-4">
+        <!-- Feature 1 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="feature-card-title">DVSA Certified Coaches</h3>
+            <p class="feature-card-desc">
+              Patient, DBS-cleared professional instructors trained in anxiety-reduction and customized pacing for nervous learners.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 2 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i class="bi bi-trophy-fill"></i>
+            </div>
+            <h3 class="feature-card-title">98.4% Pass Rate</h3>
+            <p class="feature-card-desc">
+              Practice on actual DVSA test center routes with full mock driving tests and examiner-level feedback reports.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 3 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i class="bi bi-car-front-fill"></i>
+            </div>
+            <h3 class="feature-card-title">Dual-Control Fleet</h3>
+            <p class="feature-card-desc">
+              Learn in brand-new 2024 hybrid cars equipped with dual pedals, reverse cameras, emergency sensors, and air conditioning.
+            </p>
+          </div>
+        </div>
+
+        <!-- Feature 4 -->
+        <div class="col-lg-3 col-md-6">
+          <div class="feature-card">
+            <div class="feature-icon-box">
+              <i class="bi bi-calendar2-week-fill"></i>
+            </div>
+            <h3 class="feature-card-title">Flexible Doorstep Pickup</h3>
+            <p class="feature-card-desc">
+              Lessons available 7 days a week (7 AM - 9 PM) with complimentary home, office, or university pickup and return.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- High-Impact Stats Ribbon -->
+      <div class="feature-stats-ribbon">
+        <div class="row g-3">
+          <div class="col-6 col-md-3 stat-item-box">
+            <span class="stat-number">25,000+</span>
+            <span class="stat-label">Graduated Drivers</span>
+          </div>
+          <div class="col-6 col-md-3 stat-item-box">
+            <span class="stat-number">98.4%</span>
+            <span class="stat-label">First-Time Pass Rate</span>
+          </div>
+          <div class="col-6 col-md-3 stat-item-box">
+            <span class="stat-number">100%</span>
+            <span class="stat-label">Dual-Control Safety</span>
+          </div>
+          <div class="col-6 col-md-3 stat-item-box">
+            <span class="stat-number">4.9 / 5</span>
+            <span class="stat-label">Trustpilot Rating</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       COURSES & PRICING SECTION
+       ========================================================================== -->
+  <section class="courses-section section-padding" id="courses">
+    <div class="container">
+      <!-- Section Title Header -->
+      <div class="text-center mb-5">
+        <span class="section-pill-badge" id="pricing">
+          <i class="bi bi-tags-fill text-success"></i> Course Packages &amp; Pricing
+        </span>
+        <h2 class="section-heading-title">Popular Driving Courses &amp; Transparent Rates</h2>
+        <p class="section-heading-desc mb-3">
+          No hidden fees, no registration charges. All packages include door-to-door pickup, dual-control car use, and complete theory test study apps.
+        </p>
+        <div>
+          <a href="courses" class="btn btn-outline-success rounded-pill px-4 py-2 fw-bold small">
+            View All Detailed Courses &amp; Syllabi <i class="bi bi-arrow-right ms-1"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Course Pricing Cards Grid: 4 Simple Packages matching Reference Image -->
+      <div class="row g-4 align-items-stretch">
+        <!-- Card 1: $225 -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">225</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="simple-desc-box">
+              One 45-minute driving lesson
+            </div>
+
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-225" data-title="One 45-minute driving lesson" data-price="225">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: $280 -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">280</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="simple-desc-box">
+              Two 45-minute driving lessons
+            </div>
+
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-280" data-title="Two 45-minute driving lessons" data-price="280">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: $335 -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">335</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="simple-desc-box">
+              Three 45-minute driving lessons
+            </div>
+
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-335" data-title="Three 45-minute driving lessons" data-price="335">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: $390 (Dark Theme) -->
+        <div class="col-xl-3 col-lg-6 col-md-6">
+          <div class="simple-package-card dark-theme-card">
+            <div class="simple-card-ribbon">POPULAR</div>
+            <div class="simple-price-header">
+              <div class="simple-price-row">
+                <span class="simple-price-currency">$</span>
+                <span class="simple-price-amount">390</span>
+                <div class="simple-price-details">
+                  <span class="simple-price-cents">.00</span>
+                  <span class="simple-price-label">Per Package</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="simple-desc-box">
+              Four 45-minute driving lessons
+            </div>
+
+            <ul class="simple-feature-list">
+              <li><i class="bi bi-check-circle-fill"></i> 45 mins per lesson</li>
+              <li><i class="bi bi-check-circle-fill"></i> Car for road test</li>
+              <li><i class="bi bi-check-circle-fill"></i> Rush road test appointment</li>
+              <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
+            </ul>
+
+            <div class="simple-card-actions">
+              <button type="button" class="btn-add-to-cart" data-id="pkg-390" data-title="Four 45-minute driving lessons" data-price="390">
+                <i class="bi bi-cart-plus-fill"></i> Add to Cart
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pay As You Go Hourly Lesson Options -->
+      <div class="hourly-rates-banner">
+        <div class="row align-items-center">
+          <div class="col-lg-4 mb-3 mb-lg-0">
+            <div class="d-flex align-items-center gap-3">
+              <div class="hourly-rate-icon">
+                <i class="bi bi-clock-history"></i>
+              </div>
+              <div>
+                <h4 class="mb-1 fw-bold fs-5">Prefer Pay-As-You-Go?</h4>
+                <p class="mb-0 text-muted small">Flexible hourly bookings with zero commitment.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="row g-2">
+              <div class="col-md-4">
+                <div class="hourly-rate-item">
+                  <div>
+                    <strong class="d-block text-dark small">Single 1-Hr Lesson</strong>
+                    <span class="text-muted small">Standard hourly</span>
+                  </div>
+                  <span class="hourly-rate-price">$55</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="hourly-rate-item">
+                  <div>
+                    <strong class="d-block text-dark small">2-Hour Block Session</strong>
+                    <span class="text-muted small">Save $12 on pair</span>
+                  </div>
+                  <span class="hourly-rate-price">$98</span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="hourly-rate-item">
+                  <div>
+                    <strong class="d-block text-dark small">Test Car Rental</strong>
+                    <span class="text-muted small">Warm-up + Exam</span>
+                  </div>
+                  <span class="hourly-rate-price">$160</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       WHY CHOOSE US SECTION (AFTER POPULAR COURSES & TRANSPARENT RATES)
+       ========================================================================== -->
+  <section class="why-choose-section section-padding" id="why-choose-us">
+    <div class="container">
+      <!-- Section Header -->
+      <div class="text-center mb-5">
+        <span class="section-pill-badge">
+          <i class="bi bi-shield-check-fill text-success"></i> The DriveMaster Advantage
+        </span>
+        <h2 class="section-heading-title">Why Choose Us For Your Driving Journey</h2>
+        <p class="section-heading-desc">
+          We do not just train you to pass the test — we build safe, lifelong driving habits with certified Grade-A coaching, modern dual-control hybrid cars, and an industry-leading 98.4% first-time pass rate.
+        </p>
+      </div>
+
+      <div class="row g-4 align-items-stretch">
+        <!-- Left Column: 6 Key Value Proposition Cards Grid -->
+        <div class="col-lg-7">
+          <div class="row g-3 g-md-4">
+            <!-- Reason 1: High Pass Rate -->
+            <div class="col-md-6">
+              <div class="why-feature-card">
+                <div class="why-feature-header">
+                  <div class="why-icon-box">
+                    <i class="bi bi-trophy-fill"></i>
+                  </div>
+                  <span class="why-feature-tag"><i class="bi bi-graph-up-arrow"></i> 2x National Avg</span>
+                </div>
+                <h3 class="why-feature-title">98.4% First-Time Pass</h3>
+                <p class="why-feature-desc">
+                  More than double the national average. Learn on exact test routes with official examiner mock assessment scoring.
+                </p>
+              </div>
+            </div>
+
+            <!-- Reason 2: DVSA Grade-A Coaches -->
+            <div class="col-md-6">
+              <div class="why-feature-card">
+                <div class="why-feature-header">
+                  <div class="why-icon-box">
+                    <i class="bi bi-patch-check-fill"></i>
+                  </div>
+                  <span class="why-feature-tag"><i class="bi bi-shield-check"></i> 100% DBS Verified</span>
+                </div>
+                <h3 class="why-feature-title">Grade-A DVSA Certified</h3>
+                <p class="why-feature-desc">
+                  Top-tier instructors trained in anxiety management and calm, patient pacing for nervous and first-time learners.
+                </p>
+              </div>
+            </div>
+
+            <!-- Reason 3: Dual-Control Hybrid Fleet -->
+            <div class="col-md-6">
+              <div class="why-feature-card">
+                <div class="why-feature-header">
+                  <div class="why-icon-box">
+                    <i class="bi bi-car-front-fill"></i>
+                  </div>
+                  <span class="why-feature-tag"><i class="bi bi-stars"></i> 2024 Models</span>
+                </div>
+                <h3 class="why-feature-title">Dual-Control Hybrids</h3>
+                <p class="why-feature-desc">
+                  Drive in clean, eco-friendly 2024 Toyota &amp; VW dual-pedal vehicles equipped with reverse cameras and emergency braking.
+                </p>
+              </div>
+            </div>
+
+            <!-- Reason 4: Doorstep Pickup & Return -->
+            <div class="col-md-6">
+              <div class="why-feature-card">
+                <div class="why-feature-header">
+                  <div class="why-icon-box">
+                    <i class="bi bi-geo-alt-fill"></i>
+                  </div>
+                  <span class="why-feature-tag"><i class="bi bi-house-check"></i> Free Service</span>
+                </div>
+                <h3 class="why-feature-title">Free Doorstep Pickup</h3>
+                <p class="why-feature-desc">
+                  Zero commute stress. We pick you up and drop you off directly at your home, office, college, or train station.
+                </p>
+              </div>
+            </div>
+
+            <!-- Reason 5: Pass Protection Assurance -->
+            <div class="col-md-6">
+              <div class="why-feature-card">
+                <div class="why-feature-header">
+                  <div class="why-icon-box">
+                    <i class="bi bi-shield-fill-check"></i>
+                  </div>
+                  <span class="why-feature-tag"><i class="bi bi-award"></i> Guarantee</span>
+                </div>
+                <h3 class="why-feature-title">Pass Assurance Guarantee</h3>
+                <p class="why-feature-desc">
+                  Enroll in our Standard Pass package with complete peace of mind. If you do not pass, we pay your re-test fee.
+                </p>
+              </div>
+            </div>
+
+            <!-- Reason 6: Free Theory Suite & App -->
+            <div class="col-md-6">
+              <div class="why-feature-card">
+                <div class="why-feature-header">
+                  <div class="why-icon-box">
+                    <i class="bi bi-phone-fill"></i>
+                  </div>
+                  <span class="why-feature-tag"><i class="bi bi-gift-fill"></i> $35 Value Free</span>
+                </div>
+                <h3 class="why-feature-title">Free Theory &amp; Hazard App</h3>
+                <p class="why-feature-desc">
+                  Get full unlimited mobile app access to official DVSA multiple-choice questions, hazard perception clips, and track progress.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Comparison Table & Student Proof Card -->
+        <div class="col-lg-5">
+          <div class="why-showcase-wrapper">
+            <!-- Modern Side-by-Side Comparison Box -->
+            <div class="why-comparison-box">
+              <div class="why-comparison-header">
+                <div>
+                  <span class="comparison-pill">Direct Comparison</span>
+                  <h3 class="why-comparison-title mb-0">The DriveMaster Difference</h3>
+                </div>
+                <div class="why-badge-trophy">
+                  <i class="bi bi-star-fill text-warning"></i> #1 Choice
+                </div>
+              </div>
+
+              <div class="comparison-table-wrapper">
+                <div class="comparison-row header-row">
+                  <div class="col-feature">Key Factors</div>
+                  <div class="col-school text-muted">Other Schools</div>
+                  <div class="col-drivemaster text-brand-light">DriveMaster</div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="col-feature">First-Time Pass Rate</div>
+                  <div class="col-school"><span class="badge-other">~48% avg</span></div>
+                  <div class="col-drivemaster"><span class="badge-us"><i class="bi bi-check-circle-fill"></i> 98.4%</span></div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="col-feature">Instructor Standards</div>
+                  <div class="col-school"><span class="badge-other">Trainees / PDIs</span></div>
+                  <div class="col-drivemaster"><span class="badge-us"><i class="bi bi-check-circle-fill"></i> Grade-A ADI</span></div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="col-feature">Vehicle Age &amp; Safety</div>
+                  <div class="col-school"><span class="badge-other">5-10 yrs old</span></div>
+                  <div class="col-drivemaster"><span class="badge-us"><i class="bi bi-check-circle-fill"></i> 2024 Hybrids</span></div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="col-feature">Door-to-Door Pickup</div>
+                  <div class="col-school"><span class="badge-other">Extra charges</span></div>
+                  <div class="col-drivemaster"><span class="badge-us"><i class="bi bi-check-circle-fill"></i> 100% Free</span></div>
+                </div>
+
+                <div class="comparison-row">
+                  <div class="col-feature">Test Day Vehicle Use</div>
+                  <div class="col-school"><span class="badge-other">+$150 extra</span></div>
+                  <div class="col-drivemaster"><span class="badge-us"><i class="bi bi-check-circle-fill"></i> Included</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Student Success Card -->
+            <div class="why-student-success-card">
+              <div class="d-flex align-items-center gap-3 mb-3">
+                <div class="student-thumb-box">
+                  <img src="assets/images/gallery-pass.jpg" alt="Student test pass certificate" class="student-pass-img">
+                  <span class="student-pass-badge"><i class="bi bi-check-circle-fill"></i> PASSED</span>
+                </div>
+                <div>
+                  <div class="star-rating text-warning mb-1">
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                    <i class="bi bi-star-fill"></i>
+                  </div>
+                  <h4 class="student-name mb-0">Liam Chen</h4>
+                  <span class="student-course-info text-muted small">Standard Pass Course • 0 Minor Faults</span>
+                </div>
+              </div>
+              <p class="student-quote mb-3">
+                &ldquo;I was so nervous after struggling with another instructor. My DriveMaster coach was exceptionally patient and gave me the exact confidence I needed. Passed first try!&rdquo;
+              </p>
+              <div class="d-flex align-items-center justify-content-between pt-2 border-top border-light-subtle">
+                <span class="small text-muted"><i class="bi bi-geo-alt-fill text-success"></i> West London Test Centre</span>
+                <a href="#contact" class="why-enroll-link">
+                  Book A Lesson <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FOOTER SECTION
+       ========================================================================== -->
+  <footer class="site-footer" id="contact">
+    <div class="container">
+      <!-- Pre-Footer Action Banner -->
+      <div class="footer-cta-box">
+        <div class="row align-items-center">
+          <div class="col-lg-8 mb-3 mb-lg-0">
+            <h3 class="footer-cta-title">Ready To Hit The Road &amp; Pass Your Test?</h3>
+            <p class="footer-cta-desc">
+              Book your introductory lesson today and get 15% off your first driving session. Friendly, patient instructors ready in your area.
+            </p>
+          </div>
+          <div class="col-lg-4 text-lg-end">
+            <a href="tel:+66120003456" class="btn-footer-cta">
+              <i class="bi bi-telephone-fill"></i> Call +66 12 000 3456
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Footer Columns -->
+      <div class="row g-4 pb-4">
+        <!-- Col 1: Brand & About -->
+        <div class="col-lg-4 col-md-6">
+          <a class="navbar-brand-custom mb-3 d-inline-flex" href="home">
+            <div class="brand-icon-logo">
+              <i class="bi bi-speedometer2"></i>
+            </div>
+            <div class="brand-title-wrap">
+              <span class="brand-title-top text-white">Drive</span>
+              <span class="brand-title-bottom text-white">
+                <span class="chevrons">&gt;&gt;&gt;</span>Master
+              </span>
+            </div>
+          </a>
+          <p class="footer-about-text">
+            Premier DVSA certified driving academy dedicated to transforming nervous beginners into confident, responsible drivers with dual-control vehicles and guaranteed pass support.
+          </p>
+          <div class="footer-social-wrap">
+            <a href="#" class="footer-social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="YouTube"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="TikTok"><i class="bi bi-tiktok"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Navigation Links -->
+        <div class="col-lg-2 col-md-6 col-6">
+          <h4 class="footer-col-title">Quick Links</h4>
+          <ul class="footer-nav-list">
+            <li><a href="home"><i class="bi bi-chevron-right small"></i> Home</a></li>
+            <li><a href="about"><i class="bi bi-chevron-right small"></i> About Us</a></li>
+            <li><a href="#features"><i class="bi bi-chevron-right small"></i> Features</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Our Package</a></li>
+            <li><a href="#why-choose-us"><i class="bi bi-chevron-right small"></i> Why Choose Us</a></li>
+            <li><a href="gallery"><i class="bi bi-chevron-right small"></i> Photo Gallery</a></li>
+            <li><a href="contact"><i class="bi bi-chevron-right small"></i> Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Popular Courses -->
+        <div class="col-lg-3 col-md-6 col-6">
+          <h4 class="footer-col-title">Our Courses</h4>
+          <ul class="footer-nav-list">
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Automatic Driving Lessons</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Manual Transmission Course</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Intensive Fast-Track Pass</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Motorway &amp; Highway Training</a></li>
+            <li><a href="courses"><i class="bi bi-chevron-right small"></i> Refresher &amp; Pass Plus</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact & Working Hours -->
+        <div class="col-lg-3 col-md-6">
+          <h4 class="footer-col-title">Get In Touch</h4>
+          <div class="footer-contact-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <div>
+              124 Highway Central Blvd, Suite 400<br>
+              City Driving Test Center District
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-telephone-fill"></i>
+            <div>
+              <a href="tel:+66120003456">+66 12 000 3456</a><br>
+              <span class="small text-muted">24/7 Student Booking Line</span>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-envelope-fill"></i>
+            <div>
+              <a href="mailto:info@drivemaster-school.com">info@drivemaster-school.com</a>
+            </div>
+          </div>
+          <div class="footer-contact-item">
+            <i class="bi bi-clock-fill"></i>
+            <div>
+              Mon - Sun: 7:00 AM - 9:00 PM<br>
+              <span class="badge bg-success-subtle text-success small px-2 py-1 mt-1">Open All Week</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Copyright Bottom Bar -->
+      <div class="footer-bottom">
+        <div class="row align-items-center">
+          <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+            &copy; 2026 DriveMaster Driving School. All rights reserved.
+          </div>
+          <div class="col-md-6 text-center text-md-end">
+            <a href="backend/swagger/" target="_blank" class="me-3 text-decoration-none"><i class="bi bi-code-slash me-1"></i>Swagger API</a>
+            <a href="admin/" target="_blank" class="me-3 text-decoration-none"><i class="bi bi-shield-lock me-1"></i>Admin Portal</a>
+            <a href="#" class="me-3">Privacy Policy</a>
+            <a href="#">DVSA Approved</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       SQUARE DUMMY PAYMENT GATEWAY & ADMIN APPROVAL MODAL
+       ========================================================================== -->
+  <div class="modal fade" id="squarePaymentModal" tabindex="-1" aria-labelledby="squarePaymentModalLabel" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 520px;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        
+        <!-- Modal Top Bar with Square Branding -->
+        <div class="modal-header bg-dark text-white px-4 py-3 border-0">
+          <div class="d-flex align-items-center gap-2">
+            <span class="square-brand-badge">
+              <i class="bi bi-square-fill"></i> Square
+            </span>
+            <span class="badge bg-warning text-dark fw-bold" style="font-size: 0.72rem;">
+              <i class="bi bi-cpu-fill me-1"></i> TEST SANDBOX
+            </span>
+            <span class="small text-white-50 ms-1 d-none d-sm-inline">| SMTP Email Connected</span>
+          </div>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body p-4">
+          <!-- STAGE 1: Student Information & Request -->
+          <div id="sqStageRequest">
+            <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+              <div>
+                <span class="text-muted small">Selected Driving Course</span>
+                <h5 class="fw-bold mb-0 text-dark" id="sqCourseTitle">Standard Pass Course</h5>
+              </div>
+              <div class="text-end">
+                <span class="text-muted small">Course Fee</span>
+                <h4 class="fw-bold text-success mb-0" id="sqCoursePrice">$780</h4>
+              </div>
+            </div>
+
+            <!-- Two-step approval explanation -->
+            <div class="alert alert-light border small text-muted mb-3 d-flex gap-2">
+              <i class="bi bi-envelope-paper-fill fs-5 text-success"></i>
+              <div>
+                <strong class="text-dark d-block">2-Step Admin Approval &amp; SMTP Email Alert:</strong>
+                Submitting this form dispatches an automated notification email to the <strong>Administrator</strong> via SMTP. Once approved in the admin panel, an approval email will be sent to your inbox and this window will unlock for Square Sandbox payment.
+              </div>
+            </div>
+
+            <form id="sqRequestForm">
+              <input type="hidden" id="sqHiddenCourseName" value="Standard Pass Course">
+              <input type="hidden" id="sqHiddenCoursePrice" value="780">
+
+              <div class="mb-3">
+                <label for="sqStudentName" class="form-label small fw-bold">Student Full Name *</label>
+                <input type="text" class="form-control" id="sqStudentName" placeholder="e.g. Alex Johnson" required>
+              </div>
+
+              <div class="row g-2 mb-3">
+                <div class="col-6">
+                  <label for="sqStudentPhone" class="form-label small fw-bold">Phone Number *</label>
+                  <input type="tel" class="form-control" id="sqStudentPhone" placeholder="+66 12 000 3456" required>
+                </div>
+                <div class="col-6">
+                  <label for="sqStudentEmail" class="form-label small fw-bold">Email Address (For SMTP Receipt) *</label>
+                  <input type="email" class="form-control" id="sqStudentEmail" placeholder="alex@example.com" required>
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="sqTransmission" class="form-label small fw-bold">Transmission Preference</label>
+                <select class="form-select" id="sqTransmission">
+                  <option value="automatic">Automatic (Modern Hybrid Dual-Control)</option>
+                  <option value="manual">Manual (Full Category B License)</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="sqPickupArea" class="form-label small fw-bold">Pickup Area / Postal Code *</label>
+                <input type="text" class="form-control" id="sqPickupArea" placeholder="e.g. Sukhumvit / City Center" required>
+              </div>
+
+              <button type="submit" id="btnSubmitSquareRequest" class="btn btn-dark w-100 py-3 fw-bold rounded-pill d-flex align-items-center justify-content-center gap-2">
+                <span>Request Square Payment &amp; Send to Admin</span>
+                <i class="bi bi-arrow-right"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- STAGE 2: Waiting for Admin Approval -->
+          <div id="sqStageWaiting" style="display: none;" class="text-center py-3">
+            <div class="square-status-pulse">
+              <i class="bi bi-hourglass-split fs-2 text-warning"></i>
+            </div>
+            <h5 class="fw-bold mb-1 text-dark">Payment Request Sent to Admin!</h5>
+            <p class="text-muted small mb-3">
+              Your booking for <strong id="sqWaitCourse">Standard Pass Course</strong> has been emailed to the administrator via SMTP and is awaiting approval.
+            </p>
+
+            <div class="card bg-light border p-3 rounded-3 mb-3 text-start small">
+              <div class="d-flex justify-content-between mb-1">
+                <span class="text-muted">Booking Reference:</span>
+                <span class="badge bg-dark font-monospace" id="sqWaitRef">DM-SQ-XXXXX</span>
+              </div>
+              <div class="d-flex justify-content-between mb-1">
+                <span class="text-muted">Payment Status:</span>
+                <span class="badge bg-warning text-dark"><i class="bi bi-clock-history me-1"></i> Awaiting Admin Approval</span>
+              </div>
+              <div class="d-flex justify-content-between">
+                <span class="text-muted">Total Payable:</span>
+                <strong class="text-success" id="sqWaitAmount">$780.00</strong>
+              </div>
+            </div>
+
+            <div class="p-2 mb-3 bg-warning-subtle text-dark rounded-3 small">
+              <div class="spinner-grow spinner-grow-sm text-warning me-1" role="status"></div>
+              <strong>Live Auto-Check Active:</strong> Checking every 3s. As soon as the admin approves, an email is dispatched to your inbox and this window will automatically unlock Square checkout!
+            </div>
+
+            <div class="d-flex gap-2 justify-content-center mb-3">
+              <button type="button" id="btnCheckStatusManual" class="btn btn-outline-dark btn-sm fw-bold px-3">
+                <i class="bi bi-arrow-clockwise me-1"></i> Check Status Now
+              </button>
+              <a href="/admin/enrollments.php" target="_blank" class="btn btn-outline-success btn-sm fw-bold px-3">
+                <i class="bi bi-box-arrow-up-right me-1"></i> Open Admin Panel
+              </a>
+            </div>
+
+            <div class="small text-muted" style="font-size: 0.78rem;">
+              <i class="bi bi-lightbulb text-warning me-1"></i> <em>Demo Tip: Open Admin Panel in another tab, go to <strong>Course Bookings</strong>, and click <strong>"Approve Payment"</strong> to test live unlock!</em>
+            </div>
+          </div>
+
+          <!-- STAGE 3: Admin Approved! Square Payment Terminal -->
+          <div id="sqStageCheckout" style="display: none;">
+            <div class="alert alert-success d-flex align-items-center gap-2 py-2 px-3 rounded-3 mb-3 small">
+              <i class="bi bi-check-circle-fill text-success fs-5"></i>
+              <div>
+                <strong>Admin Approved!</strong> Confirmation sent to your email. You are authorized to complete your Square Sandbox payment below.
+              </div>
+            </div>
+
+            <!-- Square Dummy Card Terminal -->
+            <div class="square-card-terminal mb-3">
+              <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="square-brand-badge">
+                    <i class="bi bi-square-fill"></i> Square
+                  </span>
+                  <span class="badge bg-warning text-dark font-monospace" style="font-size: 0.68rem;">SANDBOX</span>
+                </div>
+                <div class="text-end">
+                  <span class="small text-muted">Amount: </span>
+                  <strong class="text-success fs-5" id="sqPayAmount">$780.00</strong>
+                </div>
+              </div>
+
+              <!-- Quick Demo Fill Button -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-muted">Test Card Information</span>
+                <button type="button" id="btnSquareDemoFill" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold small text-success">
+                  <i class="bi bi-magic me-1"></i> Quick Fill Sandbox Card
+                </button>
+              </div>
+
+              <form id="sqCardForm">
+                <div class="square-card-input-group p-2 mb-2">
+                  <div class="d-flex align-items-center gap-2 mb-2">
+                    <i class="bi bi-credit-card fs-5 text-secondary"></i>
+                    <input type="text" class="form-control border-0 p-0 shadow-none font-monospace" id="sqCardNumber" placeholder="4242 •••• •••• 4242" maxlength="19" required>
+                    <span class="badge bg-light text-dark border small" id="sqCardBrandBadge">Square Sandbox Visa</span>
+                  </div>
+                  <div class="row g-2 pt-2 border-top">
+                    <div class="col-4">
+                      <input type="text" class="form-control form-control-sm border-0 p-0 shadow-none font-monospace" id="sqCardExp" placeholder="MM / YY" maxlength="5" required>
+                    </div>
+                    <div class="col-4 border-start ps-2">
+                      <input type="password" class="form-control form-control-sm border-0 p-0 shadow-none font-monospace" id="sqCardCvv" placeholder="CVV" maxlength="4" required>
+                    </div>
+                    <div class="col-4 border-start ps-2">
+                      <input type="text" class="form-control form-control-sm border-0 p-0 shadow-none font-monospace" id="sqCardZip" placeholder="ZIP" maxlength="6" required>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="sqCardholder" class="form-label small text-muted mb-1">Cardholder Name</label>
+                  <input type="text" class="form-control form-control-sm" id="sqCardholder" placeholder="Name on card" required>
+                </div>
+
+                <!-- Digital Wallets simulated badges -->
+                <div class="d-flex gap-2 mb-3">
+                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
+                    <i class="bi bi-apple me-1"></i> Apple Pay
+                  </div>
+                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
+                    <i class="bi bi-google me-1"></i> Google Pay
+                  </div>
+                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
+                    <i class="bi bi-cash me-1"></i> Cash App Pay
+                  </div>
+                </div>
+
+                <button type="submit" id="btnSquarePaySubmit" class="square-pay-btn">
+                  <i class="bi bi-lock-fill"></i>
+                  <span>Pay <span id="sqPayBtnAmount">$780.00</span> via Square Sandbox</span>
+                </button>
+              </form>
+            </div>
+
+            <div class="text-center text-muted small" style="font-size: 0.75rem;">
+              <i class="bi bi-shield-lock-fill text-dark me-1"></i> Square Test Sandbox mode &bull; Official receipt will be sent to your email via SMTP
+            </div>
+          </div>
+
+          <!-- STAGE 4: Payment Confirmed Receipt -->
+          <div id="sqStageSuccess" style="display: none;" class="text-center py-2">
+            <div class="display-3 text-success mb-2">
+              <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <h4 class="fw-bold mb-1 text-dark">Square Payment Successful!</h4>
+            <p class="text-muted small mb-3">
+              Your driving course booking is confirmed and paid in full. An official receipt has been emailed to you via SMTP.
+            </p>
+
+            <div class="square-receipt-box mb-3 small">
+              <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+                <span class="text-muted">Square Sandbox Tx ID:</span>
+                <span class="font-monospace fw-bold text-dark" id="sqReceiptTxId">sq_sandbox_tx_...</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Booking Reference:</span>
+                <span class="font-monospace fw-bold" id="sqReceiptRef">DM-SQ-...</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Course:</span>
+                <strong id="sqReceiptCourse">Standard Pass Course</strong>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Student Name:</span>
+                <span id="sqReceiptName">Alex Johnson</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">Payment Method:</span>
+                <span id="sqReceiptMethod">Square Sandbox Visa (•••• 4242)</span>
+              </div>
+              <div class="d-flex justify-content-between pt-2 border-top">
+                <span class="fw-bold">Total Paid:</span>
+                <strong class="text-success fs-6" id="sqReceiptTotal">$780.00</strong>
+              </div>
+            </div>
+
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-dark w-100 py-2 rounded-pill fw-bold" data-bs-dismiss="modal">
+                Close &amp; Finish
+              </button>
+              <a href="/admin/enrollments.php" target="_blank" class="btn btn-outline-success w-100 py-2 rounded-pill fw-bold">
+                View in Admin
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       SHOPPING CART OFFCANVAS DRAWER
+       ========================================================================== -->
+  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 420px; max-width: 95vw;">
+    <div class="offcanvas-header border-bottom py-3">
+      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="cartOffcanvasLabel">
+        <i class="bi bi-cart3 text-primary"></i> Your Selected Packages
+        <span class="badge bg-primary rounded-pill cart-total-count" style="font-size: 0.75rem;">0</span>
+      </h5>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body d-flex flex-column p-3">
+      <!-- Items Container -->
+      <div id="cartItemsContainer" class="flex-grow-1 overflow-auto pe-1">
+        <!-- Rendered dynamically via main.js -->
+      </div>
+
+      <!-- Cart Footer / Summary -->
+      <div id="cartFooterSection" class="border-top pt-3 mt-3">
+        <div class="d-flex justify-content-between mb-2 text-muted small">
+          <span>Subtotal:</span>
+          <span class="fw-bold text-dark" id="cartSubtotalAmount">$0.00</span>
+        </div>
+        <div class="d-flex justify-content-between mb-3 fs-5">
+          <span class="fw-bold">Total:</span>
+          <span class="fw-bold text-primary" id="cartFinalTotalAmount">$0.00</span>
+        </div>
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-primary py-2 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm" id="btnCartProceedSquare">
+            <i class="bi bi-square-fill text-warning"></i> Proceed to Square Checkout
+          </button>
+          <div class="d-flex justify-content-between align-items-center mt-1">
+            <button type="button" class="btn btn-link text-danger text-decoration-none p-0 small" id="btnClearCart">
+              <i class="bi bi-trash3 me-1"></i> Clear Cart
+            </button>
+            <span class="text-muted small"><i class="bi bi-shield-check text-success"></i> 2-Step Protected</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating Sticky Cart Trigger -->
+  <div class="floating-cart-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="Open Cart">
+    <i class="bi bi-cart-fill fs-5"></i>
+    <span>Cart (<span class="cart-total-count">0</span>) &bull; <span id="floatingCartTotal">$0.00</span></span>
+  </div>
+
+  <!-- Cart Notification Toast -->
+  <div class="cart-toast-wrap">
+    <div class="cart-toast" id="cartNotificationToast">
+      <div class="d-flex align-items-center gap-2">
+        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+        <div>
+          <strong id="toastItemTitle">Package</strong> added to your cart!
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Vendor Scripts -->
+  <script src="assets/vendor/jquery/jquery-3.7.1.min.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
