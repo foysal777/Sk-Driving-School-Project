@@ -38,6 +38,18 @@ if (!function_exists('getPagesConfig')) {
                 'description' => 'Get in touch with DriveMaster Driving School. Send us an email inquiry for driving lessons, intensive courses, test dates, and prices. Quick response guaranteed.',
                 'active'      => 'contact',
             ],
+            'product' => [
+                'view'        => 'pages/product.php',
+                'title'       => 'Course Package Details | DriveMaster Driving Academy',
+                'description' => 'Explore lesson syllabus, dual-control hybrid vehicle specs, transmission options and customize your driving package with DriveMaster.',
+                'active'      => 'courses',
+            ],
+            'cart' => [
+                'view'        => 'pages/cart.php',
+                'title'       => 'Shopping Cart & Booking Summary | DriveMaster Driving Academy',
+                'description' => 'Review your selected driving lesson packages, customize lessons, apply promo codes, and proceed to secure Square payment.',
+                'active'      => 'cart',
+            ],
         ];
     }
 }

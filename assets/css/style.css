@@ -3644,6 +3644,53 @@ h1, h2, h3, h4, h5, h6 {
   background: #f1f5f9;
 }
 
+/* ==========================================================================
+   PRODUCT DETAILS & DEDICATED CART PAGE STYLES
+   ========================================================================== */
+.product-thumb-btn {
+  background: #ffffff;
+  border: 2px solid #e2e8f0 !important;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 0;
+}
+
+.product-thumb-btn:hover {
+  border-color: var(--primary) !important;
+  transform: translateY(-2px);
+}
+
+.product-thumb-btn.active {
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 2px rgba(19, 58, 48, 0.25);
+}
+
+.cart-page-item-card {
+  transition: all 0.25s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.cart-page-item-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  transform: translateY(-1px);
+}
+
+.btn-check:checked + label.btn-outline-dark {
+  background-color: #133a30 !important;
+  border-color: #133a30 !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(19, 58, 48, 0.2);
+}
+
+.btn-check:checked + label.btn-outline-dark .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.btn-check:checked + label.btn-outline-dark i {
+  color: #34d399 !important;
+}
+
 
 
 

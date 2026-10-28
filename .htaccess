@@ -4,29 +4,40 @@
 
     DirectoryIndex index.php index.html
 
-    # Redirect /index.html or /index.php to clean /home
+    # 1. Remove trailing slashes from non-directories (e.g. /home/ or /home/?aaa -> /home)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{THE_REQUEST} \s/([^?]+?)/+[?\s] [NC]
+    RewriteRule ^ /%1 [R=301,L]
+
+    # 2. Prevent and strip invalid query strings on /home (e.g. /home?aaa -> /home)
+    RewriteCond %{THE_REQUEST} \s/home\?([^\s]*) [NC]
+    RewriteRule ^home$ /home? [R=301,L]
+
+    # 3. Redirect /index.html or /index.php to clean /home
     RewriteCond %{THE_REQUEST} \s/index\.(html|php)[?\s] [NC]
     RewriteRule ^index\.(html|php)$ /home [R=301,L]
 
-    # Redirect any /page.html to clean /page
+    # 4. Redirect any /page.html to clean /page
     RewriteCond %{THE_REQUEST} \s/([^.]+)\.html[?\s] [NC]
     RewriteRule ^([^.]+)\.html$ /$1 [R=301,L]
 
-    # Map / or /home to index.php with page=home
-    RewriteRule ^$ index.php?page=home [L,QSA]
-    RewriteRule ^home/?$ index.php?page=home [L,QSA]
-
-    # Map /about, /courses, /gallery, /contact
-    RewriteRule ^about/?$ index.php?page=about [L,QSA]
-    RewriteRule ^courses/?$ index.php?page=courses [L,QSA]
-    RewriteRule ^gallery/?$ index.php?page=gallery [L,QSA]
-    RewriteRule ^contact/?$ index.php?page=contact [L,QSA]
-
-    # Existing files and directories serve directly (assets, admin, backend)
+    # 5. Existing files and directories serve directly (assets, admin, backend)
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Generic: if requested name without extension maps to a view, route to index.php
-    RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
+    # 6. Map / or /home to index.php with page=home
+    RewriteRule ^$ index.php?page=home [L,QSA]
+    RewriteRule ^home$ index.php?page=home [L,QSA]
+
+    # 7. Map /about, /courses, /gallery, /contact, /product, /cart
+    RewriteRule ^about$ index.php?page=about [L,QSA]
+    RewriteRule ^courses$ index.php?page=courses [L,QSA]
+    RewriteRule ^gallery$ index.php?page=gallery [L,QSA]
+    RewriteRule ^contact$ index.php?page=contact [L,QSA]
+    RewriteRule ^product$ index.php?page=product [L,QSA]
+    RewriteRule ^cart$ index.php?page=cart [L,QSA]
+
+    # 8. Generic: if requested name without extension maps to a view, route to index.php
+    RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]
 </IfModule>

@@ -6,22 +6,45 @@
   <title>About Us | DriveMaster Professional Driving Academy</title>
   <meta name="description" content="Learn about DriveMaster Driving Academy. 16+ years of DVSA certified excellence, our patient Grade-A instructors, modern dual-control hybrid cars, and our 98.4% first-time pass mission.">
 
-  <!-- Instant Clean URL Manager (Ensures /about in address bar and zero .html) -->
+  <base href="/">
+
+  <!-- Instant Clean URL Manager (Ensures clean address bar, strips trailing slashes & invalid queries) -->
   <script>
     (function () {
       try {
         var p = window.location.pathname;
         var h = window.location.hash;
         var s = window.location.search;
+
+        // Strip trailing slash if present (e.g. /about/ -> /about)
+        if (p.length > 1 && p.endsWith('/')) {
+          p = p.replace(/\/+$/, '');
+        }
+
+        // Sanitize queries on pages
+        var cleanSearch = '';
+        if (s && s.length > 1) {
+          var params = new URLSearchParams(s);
+          var allowed = ['ref', 'filter', 'tab', 'page'];
+          var validParams = new URLSearchParams();
+          allowed.forEach(function (k) {
+            if (params.has(k)) validParams.set(k, params.get(k));
+          });
+          cleanSearch = validParams.toString() ? ('?' + validParams.toString()) : '';
+        }
+
         if (p === '/' || p === '' || p.endsWith('/index.html') || p === '/index.html' || p === 'index.html') {
           var base = p.replace(/(^|\/)index\.html$/i, '');
           if (base === '/') base = '';
-          var clean = (base || '') + '/home' + s + h;
+          var clean = (base || '') + '/home' + cleanSearch + h;
           window.history.replaceState(null, '', clean);
         } else if (p.endsWith('.html')) {
-          var clean = p.replace(/\.html$/i, '') + s + h;
+          var clean = p.replace(/\.html$/i, '') + cleanSearch + h;
           window.history.replaceState(null, '', clean);
+        } else if (window.location.pathname.endsWith('/') || (s && s !== cleanSearch)) {
+          window.history.replaceState(null, '', p + cleanSearch + h);
         }
+
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('sw.js').catch(function () {});
         }
@@ -708,6 +731,6 @@
   <!-- Local Vendor Scripts -->
   <script src="assets/vendor/jquery/jquery-3.7.1.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=3.0"></script>
 </body>
 </html>

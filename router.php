@@ -12,7 +12,7 @@ $uri = urldecode(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH));
 $filePath = __DIR__ . $uri;
 
 // 1. Redirect legacy .html to clean URL (301 Permanent Redirect)
-if (preg_match('#^/(index|home|about|courses|gallery|contact)\.html$#i', $uri, $matches)) {
+if (preg_match('#^/(index|home|about|courses|gallery|contact|cart|product)\.html$#i', $uri, $matches)) {
     $name = strtolower($matches[1]);
     $target = ($name === 'index') ? '/home' : '/' . $name;
     header("Location: {$target}", true, 301);
@@ -29,7 +29,21 @@ if (is_dir($filePath) && file_exists(rtrim($filePath, '/') . '/index.php')) {
     return false;
 }
 
-// 4. Map clean URL routes
+// 4. Redirect trailing slashes on clean routes (e.g. /home/ or /home/?aaa -> /home)
+if ($uri !== '/' && str_ends_with($uri, '/')) {
+    $cleanTarget = rtrim($uri, '/');
+    header("Location: {$cleanTarget}", true, 301);
+    exit();
+}
+
+// 5. Prevent and redirect invalid query strings on /home
+$rawQuery = $_SERVER['QUERY_STRING'] ?? '';
+if (!empty($rawQuery) && ($uri === '/' || $uri === '/home')) {
+    header("Location: /home", true, 301);
+    exit();
+}
+
+// 6. Map clean URL routes
 $routes = [
     '/'        => 'home',
     '/home'    => 'home',
@@ -37,15 +51,12 @@ $routes = [
     '/courses' => 'courses',
     '/gallery' => 'gallery',
     '/contact' => 'contact',
+    '/product' => 'product',
+    '/cart'    => 'cart',
 ];
 
-$normalizedUri = rtrim($uri, '/');
-if ($normalizedUri === '') {
-    $normalizedUri = '/';
-}
-
-if (isset($routes[$normalizedUri])) {
-    renderPage($routes[$normalizedUri]);
+if (isset($routes[$uri])) {
+    renderPage($routes[$uri]);
     exit();
 }
 

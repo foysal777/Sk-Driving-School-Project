@@ -37,7 +37,7 @@
       <!-- Gallery Grid -->
       <div class="row g-4 align-items-stretch" id="galleryGrid">
         <!-- Item 1: Student Pass Celebration -->
-        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="pass">
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="pass highway">
           <div class="gallery-card">
             <div class="gallery-thumb-wrap">
               <img src="assets/images/gallery-pass.jpg" alt="Student First-Time Test Pass" loading="lazy">
@@ -62,7 +62,7 @@
         </div>
 
         <!-- Item 2: Precision Parking Manoeuvre -->
-        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="manoeuvres">
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="manoeuvres,highway">
           <div class="gallery-card">
             <div class="gallery-thumb-wrap">
               <img src="assets/images/gallery-parking.jpg" alt="Parallel Parking Pad Drill" loading="lazy">
@@ -162,7 +162,7 @@
         </div>
 
         <!-- Item 6: Patient 1-on-1 Instructor Coaching -->
-        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="lessons">
+        <div class="col-lg-4 col-md-6 gallery-item-col" data-category="lessons pass">
           <div class="gallery-card">
             <div class="gallery-thumb-wrap">
               <img src="assets/images/about-instructor.jpg" alt="Certified Instructor 1-on-1 Coaching" loading="lazy">

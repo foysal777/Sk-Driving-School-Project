@@ -52,6 +52,14 @@ if ($method === 'GET') {
     ], 'Status fetched successfully.');
 }
 
+// ==========================================
+// 1.5 GET / POST: Retrieve Square SDK Public Configuration
+// ==========================================
+if ($action === 'square_config' || $action === 'get_square_config') {
+    require_once __DIR__ . '/../src/Services/SquareService.php';
+    Response::success(\DriveMaster\Services\SquareService::getInstance()->getConfig(), 'Square SDK configuration loaded.');
+}
+
 if ($method !== 'POST') {
     Response::error('Method not allowed. Use GET or POST.', 405);
 }
@@ -77,6 +85,7 @@ if ($action === 'pay_square' || $action === 'complete_square_payment') {
     }
 
     $cardDetails = [
+        'source_id'   => $body['source_id'] ?? null,
         'card_number' => $body['card_number'] ?? '4242424242424242',
         'exp_month'   => $body['exp_month'] ?? '12',
         'exp_year'    => $body['exp_year'] ?? '28',

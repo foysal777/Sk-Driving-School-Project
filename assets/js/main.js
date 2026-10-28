@@ -76,37 +76,30 @@ $(document).ready(function () {
   // ==========================================
   // PHOTO GALLERY FILTER & LIGHTBOX MODAL
   // ==========================================
-  // Category Filter Tabs
-  $('.gallery-filter-btn').on('click', function () {
+  // Category Filter Tabs (100% Dynamic - Zero Hardcoding)
+  $(document).on('click', '.gallery-filter-btn', function () {
     $('.gallery-filter-btn').removeClass('active');
     $(this).addClass('active');
 
-    const filterVal = $(this).data('filter');
+    const filterVal = String($(this).data('filter') || 'all').trim().toLowerCase();
     const $items = $('.gallery-item-col');
 
     if (filterVal === 'all') {
       $items.stop().fadeIn(300);
-    } else if (filterVal === 'pass') {
-      // Show both category pass + highway
-      $items.each(function () {
-        const itemCat = String($(this).data('category') || '').toLowerCase();
-        if (itemCat === 'pass' || itemCat === 'highway' || itemCat.includes('pass') || itemCat.includes('highway')) {
-          console.log(itemCat)
-          $(this).stop().fadeIn(300);
-        } else {
-          $(this).stop().fadeOut(200);
-        }
-      });
-    } else {
-      $items.each(function () {
-        const itemCat = $(this).data('category');
-        if (itemCat === filterVal) {
-          $(this).stop().fadeIn(300);
-        } else {
-          $(this).stop().fadeOut(200);
-        }
-      });
+      return;
     }
+
+    $items.each(function () {
+      // Direct DOM attribute read for reliability (supports multiple categories: comma or space separated)
+      const rawCat = String($(this).attr('data-category') || $(this).data('category') || '').toLowerCase();
+      const categories = rawCat.split(/[\s,]+/).map(function (c) { return c.trim(); }).filter(Boolean);
+
+      if (categories.includes(filterVal)) {
+        $(this).stop().fadeIn(300);
+      } else {
+        $(this).stop().fadeOut(200);
+      }
+    });
   });
 
   // Lightbox Modal Trigger
@@ -476,10 +469,11 @@ $(document).ready(function () {
               clearInterval(squarePollingTimer);
               squarePollingTimer = null;
             }
-            // Transition to Stage 3: Checkout Unlocked
+            // Transition to Stage 3: Checkout Unlocked (Square SDK)
             $('#sqStageWaiting').hide();
             $('#sqStageCheckout').fadeIn(300);
             $('#sqCardholder').val($('#sqStudentName').val() || res.data.student_name);
+            initSquareWebPaymentsSdk();
           } else if (status === 'paid_in_full') {
             if (squarePollingTimer) {
               clearInterval(squarePollingTimer);
@@ -517,8 +511,39 @@ $(document).ready(function () {
     checkSquareApprovalStatus(activeSquareRef, true);
   });
 
+  // Square Web Payments SDK Integration
+  let squarePaymentsSdk = null;
+  let squareCardComponent = null;
+
+  async function initSquareWebPaymentsSdk() {
+    const cardEl = document.getElementById('card-container');
+    if (!cardEl || squareCardComponent) return;
+
+    if (typeof window.Square === 'undefined') {
+      console.log('Square Web Payments SDK not loaded; fallback fields active.');
+      $('#squareManualFields').show();
+      return;
+    }
+
+    try {
+      const cfgRes = await fetch(getApiEndpoint('backend/api/enrollments.php?action=square_config')).then(r => r.json());
+      const cfg = (cfgRes && cfgRes.data) || {};
+      const appId = cfg.application_id || 'sandbox-sq0idb-ZLtIuIX9uJcAbZE0aN8SSQ';
+      const locationId = cfg.location_id || 'LH2K1E77XZPS1';
+
+      squarePaymentsSdk = window.Square.payments(appId, locationId);
+      squareCardComponent = await squarePaymentsSdk.card();
+      await squareCardComponent.attach('#card-container');
+      $('#squareManualFields').hide();
+    } catch (e) {
+      console.warn('Square Web Payments SDK could not attach, fallback to manual inputs:', e);
+      $('#squareManualFields').show();
+    }
+  }
+
   // Quick Fill Demo Card
   $(document).on('click', '#btnSquareDemoFill', function () {
+    $('#squareManualFields').show();
     $('#sqCardNumber').val('4242 4242 4242 4242');
     $('#sqCardExp').val('12/28');
     $('#sqCardCvv').val('123');
@@ -553,22 +578,42 @@ $(document).ready(function () {
     $(this).val(val);
   });
 
-  // Stage 3 Form Submission -> Complete Square Payment
-  $('#sqCardForm').on('submit', function (e) {
+  // Stage 3 Form Submission -> Complete Square Payment via Official SDK
+  $('#sqCardForm').on('submit', async function (e) {
     e.preventDefault();
     const $btn = $('#btnSquarePaySubmit');
     const origHtml = $btn.html();
-    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span> Authorizing Square Payment...');
+    $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span> Authorizing with Square SDK...');
+
+    let sourceId = 'cnon:card-nonce-ok';
+
+    // If Square Web Payments SDK component is active and attached
+    if (squareCardComponent && $('#card-container').is(':visible') && $('#card-container').children().length > 0) {
+      try {
+        const tokenResult = await squareCardComponent.tokenize();
+        if (tokenResult.status === 'OK') {
+          sourceId = tokenResult.token;
+        } else {
+          const errMsg = tokenResult.errors ? tokenResult.errors.map(err => err.message).join(' ') : 'Tokenization failed';
+          alert('Square Card Validation: ' + errMsg);
+          $btn.prop('disabled', false).html(origHtml);
+          return;
+        }
+      } catch (tokErr) {
+        console.warn('Square SDK tokenization fallback to sandbox nonce:', tokErr);
+      }
+    }
 
     const payload = {
       action: 'pay_square',
       booking_reference: activeSquareRef,
+      source_id: sourceId,
       card_number: $('#sqCardNumber').val().replace(/\s/g, ''),
       exp: $('#sqCardExp').val(),
       cvv: $('#sqCardCvv').val(),
       postal_code: $('#sqCardZip').val(),
       cardholder: $('#sqCardholder').val(),
-      card_brand: $('#sqCardBrandBadge').text()
+      card_brand: $('#sqCardBrandBadge').text() || 'Square Sandbox Visa'
     };
 
     fetch(getApiEndpoint('backend/api/enrollments.php'), {
@@ -592,7 +637,7 @@ $(document).ready(function () {
         payment_tx_id: 'sq_tx_live_' + Math.random().toString(16).substring(2, 12),
         course_name: $('#sqHiddenCourseName').val(),
         student_name: $('#sqStudentName').val() || 'Student',
-        card_last4: '4242',
+        card_last4: '5858',
         course_price: $('#sqHiddenCoursePrice').val()
       });
     });
@@ -623,6 +668,83 @@ $(document).ready(function () {
   // SHOPPING CART ENGINE (LOCALSTORAGE + UI)
   // ==========================================
   const CART_KEY = 'drivemaster_cart';
+  const PROMO_KEY = 'drivemaster_promo';
+
+  // Course Catalog Database
+  const COURSE_CATALOG = {
+    'pkg-225': {
+      id: 'pkg-225',
+      title: 'One 45-minute driving lesson',
+      category: 'DVSA Approved Starter',
+      price: 225,
+      duration: '45 Mins / Lesson',
+      desc: 'Focused behind-the-wheel coaching designed for mastering road test maneuvers, hazard anticipation, and roundabouts with an accredited Grade-A DVSA instructor.',
+      image: 'assets/images/course-automatic.jpg',
+      badge: 'Popular Starter',
+      metaDuration: '45 Mins / Lesson',
+      vehicleBadge: 'Dual-Control Hybrid'
+    },
+    'pkg-280': {
+      id: 'pkg-280',
+      title: 'Two 45-minute driving lessons',
+      category: 'Comprehensive Prep',
+      price: 280,
+      duration: '90 Mins (2 x 45m)',
+      desc: 'Comprehensive 2-session training package. Ideal for practicing parallel parking, bay parking, reverse bay, and emergency braking under actual test conditions.',
+      image: 'assets/images/course-manual.jpg',
+      badge: 'Best Value',
+      metaDuration: '90 Mins (2 x 45m)',
+      vehicleBadge: 'Manual 6-Speed Dual'
+    },
+    'pkg-335': {
+      id: 'pkg-335',
+      title: 'Three 45-minute driving lessons',
+      category: 'Accelerated Program',
+      price: 335,
+      duration: '135 Mins (3 x 45m)',
+      desc: 'Master multi-lane roundabouts, dual carriageways, complex junction navigation, and mock test drills with personalized examiner assessment sheet.',
+      image: 'assets/images/course-defensive.jpg',
+      badge: 'Most Comprehensive',
+      metaDuration: '135 Mins (3 x 45m)',
+      vehicleBadge: 'Dual-Control Hybrid'
+    },
+    'pkg-390': {
+      id: 'pkg-390',
+      title: 'Four 45-minute driving lessons',
+      category: 'Full Mastery Pack',
+      price: 390,
+      duration: '180 Mins (4 x 45m)',
+      desc: 'Our complete driving test guarantee syllabus. Includes mock test simulation, independent driving coaching, and test route familiarization.',
+      image: 'assets/images/gallery-testpass.jpg',
+      badge: 'Test Pass Guarantee',
+      metaDuration: '180 Mins (4 x 45m)',
+      vehicleBadge: 'Dual-Control Hybrid'
+    },
+    'course-standard': {
+      id: 'course-standard',
+      title: 'Standard Driving Course',
+      category: 'Beginner Friendly',
+      price: 299,
+      duration: '10 Hours Program',
+      desc: 'Comprehensive 10-hour curriculum covering cockpit drills, clutch control, traffic signs, lane discipline, and road safety essentials.',
+      image: 'assets/images/course-automatic.jpg',
+      badge: 'Top Starter',
+      metaDuration: '10 Hours',
+      vehicleBadge: 'Dual-Control Hybrid'
+    },
+    'course-intensive': {
+      id: 'course-intensive',
+      title: 'Fast-Track Intensive Course',
+      category: 'Rush Fast-Pass',
+      price: 499,
+      duration: '20 Hours Intensive',
+      desc: 'Accelerated 1-to-2 week crash course designed to take you from learner to licensed driver rapidly with guaranteed test booking assistance.',
+      image: 'assets/images/course-manual.jpg',
+      badge: 'Fast Pass',
+      metaDuration: '20 Hours',
+      vehicleBadge: 'Dual-Control Hybrid'
+    }
+  };
 
   function getCart() {
     try {
@@ -638,23 +760,31 @@ $(document).ready(function () {
       localStorage.setItem(CART_KEY, JSON.stringify(cart));
     } catch (e) {}
     renderCartUI();
+    renderCartPageUI();
   }
 
   function addToCart(item) {
     const cart = getCart();
-    const existing = cart.find(x => x.id === item.id);
+    const itemId = String(item.id || ('pkg-' + Date.now()));
+    const itemPrice = parseFloat(String(item.price).replace(/[^0-9.]/g, '')) || 0;
+    const itemQty = parseInt(item.qty, 10) || 1;
+    const itemImage = item.image || 'assets/images/course-automatic.jpg';
+    const itemTitle = String(item.title || 'Driving Package').trim();
+
+    const existing = cart.find(x => x.id === itemId);
     if (existing) {
-      existing.qty += (item.qty || 1);
+      existing.qty += itemQty;
     } else {
       cart.push({
-        id: item.id,
-        title: item.title,
-        price: parseFloat(item.price) || 0,
-        qty: item.qty || 1
+        id: itemId,
+        title: itemTitle,
+        price: itemPrice,
+        qty: itemQty,
+        image: itemImage
       });
     }
     saveCart(cart);
-    showCartToast(item.title);
+    showCartToast(itemTitle);
   }
 
   function updateCartQty(id, delta) {
@@ -693,83 +823,328 @@ $(document).ready(function () {
     $('.cart-total-count').text(totalCount);
     if (totalCount > 0) {
       $('.cart-badge').show();
-      $('.floating-cart-btn').fadeIn(200);
+      // Only show floating button if not already on cart page
+      const curPath = window.location.pathname.toLowerCase();
+      if (!curPath.endsWith('/cart') && !curPath.endsWith('/cart.html') && !$('#cartPageMainSection').length) {
+        $('.floating-cart-btn').fadeIn(200);
+      } else {
+        $('.floating-cart-btn').hide();
+      }
     } else {
       $('.cart-badge').hide();
+      $('.floating-cart-btn').hide();
     }
 
     // Update totals
     $('#floatingCartTotal').text('$' + subtotal.toFixed(2));
     $('#cartSubtotalAmount').text('$' + subtotal.toFixed(2));
     $('#cartFinalTotalAmount').text('$' + subtotal.toFixed(2));
+  }
 
-    // Render drawer list
-    const $container = $('#cartItemsContainer');
-    if ($container.length) {
-      if (cart.length === 0) {
-        $container.html(`
-          <div class="text-center py-5 text-muted">
-            <i class="bi bi-cart-x fs-1 d-block mb-3 text-secondary opacity-50"></i>
-            <h6 class="fw-bold text-dark">Your cart is empty</h6>
-            <p class="small mb-3">Add driving packages to customize your curriculum before checkout.</p>
-            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-dismiss="offcanvas">
-              Browse Packages
-            </button>
+  // ==========================================
+  // FULL SHOPPING CART PAGE RENDERER
+  // ==========================================
+  function renderCartPageUI() {
+    const $cartSection = $('#cartPageMainSection');
+    if (!$cartSection.length) return;
+
+    const cart = getCart();
+    const $activeView = $('#cartPageActiveView');
+    const $emptyView = $('#cartPageEmptyView');
+    const $list = $('#cartPageList');
+
+    if (cart.length === 0) {
+      $activeView.hide();
+      $emptyView.show();
+      return;
+    }
+
+    $emptyView.hide();
+    $activeView.show();
+
+    let subtotal = 0;
+    let listHtml = '';
+
+    cart.forEach(item => {
+      const itemPrice = parseFloat(item.price) || 0;
+      const itemTotal = (itemPrice * item.qty).toFixed(2);
+      subtotal += itemPrice * item.qty;
+
+      listHtml += `
+        <div class="cart-page-item-card p-3 border rounded-3 bg-white d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 shadow-2xs" data-id="${item.id}">
+          <div class="d-flex align-items-center gap-3">
+            <img src="${item.image || 'assets/images/course-automatic.jpg'}" alt="${item.title}" class="rounded-3 shadow-sm flex-shrink-0" width="80" height="65" style="object-fit: cover;">
+            <div>
+              <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.98rem;">${item.title}</h6>
+              <div class="text-muted small">
+                <i class="bi bi-shield-check text-success me-1"></i> DVSA Approved &bull; Dual-Control Vehicle
+              </div>
+              <span class="text-primary fw-bold font-monospace small">$${itemPrice.toFixed(2)} each</span>
+            </div>
           </div>
-        `);
-        $('#btnCartProceedSquare').prop('disabled', true);
-      } else {
-        let html = '';
-        cart.forEach(item => {
-          const itemTotal = (item.price * item.qty).toFixed(2);
-          html += `
-            <div class="cart-item-row" data-id="${item.id}">
-              <div class="d-flex justify-content-between align-items-start mb-2">
-                <div>
-                  <h6 class="fw-bold mb-1 text-dark" style="font-size: 0.95rem;">${item.title}</h6>
-                  <span class="text-primary fw-bold small">$${parseFloat(item.price).toFixed(2)} each</span>
-                </div>
-                <button type="button" class="btn btn-link text-danger p-0 cart-remove-btn" data-id="${item.id}" title="Remove item">
-                  <i class="bi bi-trash3-fill"></i>
+          <div class="d-flex align-items-center justify-content-between justify-content-md-end gap-3 w-100 w-md-auto">
+            <div class="d-flex align-items-center gap-2">
+              <span class="text-muted small d-none d-sm-inline">Qty:</span>
+              <div class="btn-group btn-group-sm border rounded-pill overflow-hidden" role="group">
+                <button type="button" class="btn btn-light cart-qty-btn px-3" data-id="${item.id}" data-delta="-1" title="Decrease">
+                  <i class="bi bi-dash"></i>
+                </button>
+                <span class="btn btn-light disabled px-3 text-dark fw-bold">${item.qty}</span>
+                <button type="button" class="btn btn-light cart-qty-btn px-3" data-id="${item.id}" data-delta="1" title="Increase">
+                  <i class="bi bi-plus"></i>
                 </button>
               </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group btn-group-sm" role="group">
-                  <button type="button" class="btn btn-outline-secondary cart-qty-btn py-0 px-2" data-id="${item.id}" data-delta="-1">-</button>
-                  <span class="btn btn-outline-secondary disabled px-3 py-0 text-dark fw-bold">${item.qty}</span>
-                  <button type="button" class="btn btn-outline-secondary cart-qty-btn py-0 px-2" data-id="${item.id}" data-delta="1">+</button>
-                </div>
-                <div class="fw-bold text-dark font-monospace">$${itemTotal}</div>
-              </div>
             </div>
-          `;
-        });
-        $container.html(html);
-        $('#btnCartProceedSquare').prop('disabled', false);
-      }
+            <div class="text-end" style="min-width: 90px;">
+              <span class="fw-bold text-dark fs-5 font-monospace">$${itemTotal}</span>
+            </div>
+            <button type="button" class="btn btn-outline-danger btn-sm rounded-circle cart-remove-btn flex-shrink-0" data-id="${item.id}" title="Remove package" style="width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;">
+              <i class="bi bi-trash3-fill"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    });
+
+    $list.html(listHtml);
+
+    // Calculate Promo Discount
+    const promoCode = (sessionStorage.getItem(PROMO_KEY) || '').toUpperCase();
+    let discount = 0;
+    if (promoCode === 'DRIVE10') {
+      discount = subtotal * 0.10;
+      $('#cartPromoDiscountRow').show();
+      $('#cartPageDiscountDisplay').text('-$' + discount.toFixed(2));
+      $('#promoFeedback').removeClass('text-danger').addClass('text-success').text('10% Promotional discount applied!').show();
+      $('#cartPromoInput').val('DRIVE10');
+    } else {
+      $('#cartPromoDiscountRow').hide();
+      $('#promoFeedback').hide();
     }
+
+    const finalTotal = Math.max(0, subtotal - discount);
+
+    $('#cartPageSubtotalDisplay').text('$' + subtotal.toFixed(2));
+    $('#cartPageFinalTotalDisplay').text('$' + finalTotal.toFixed(2));
   }
+
+  // Handle Promo Code Submission on Cart Page
+  $(document).on('click', '#btnApplyPromo', function () {
+    const code = ($('#cartPromoInput').val() || '').trim().toUpperCase();
+    const $fb = $('#promoFeedback');
+
+    if (!code) {
+      $fb.removeClass('text-success').addClass('text-danger').text('Please enter a promo code.').show();
+      return;
+    }
+
+    if (code === 'DRIVE10') {
+      sessionStorage.setItem(PROMO_KEY, 'DRIVE10');
+      $fb.removeClass('text-danger').addClass('text-success').text('Coupon DRIVE10 applied! 10% discount on tuition.').show();
+      renderCartPageUI();
+    } else {
+      $fb.removeClass('text-success').addClass('text-danger').text('Invalid coupon code. Try DRIVE10').show();
+    }
+  });
+
+  // Handle Cart Page Clear
+  $(document).on('click', '#btnPageClearCart', function () {
+    if (confirm('Are you sure you want to clear your cart?')) {
+      clearCart();
+    }
+  });
+
+  // Handle Proceed to Square Checkout from Cart Page
+  $(document).on('click', '#btnCartPageProceedSquare', function () {
+    const cart = getCart();
+    if (!cart.length) return;
+
+    let subtotal = 0;
+    const names = [];
+    cart.forEach(item => {
+      subtotal += item.price * item.qty;
+      names.push(`${item.title} (x${item.qty})`);
+    });
+
+    const promoCode = (sessionStorage.getItem(PROMO_KEY) || '').toUpperCase();
+    let discount = 0;
+    if (promoCode === 'DRIVE10') {
+      discount = subtotal * 0.10;
+    }
+    const finalTotal = Math.max(0, subtotal - discount).toFixed(2);
+    const bundleTitle = names.join(', ') + (discount > 0 ? ' [Promo DRIVE10 Applied]' : '');
+
+    // Reset Stages & Polling
+    $('#sqStageRequest').show();
+    $('#sqStageWaiting').hide();
+    $('#sqStageCheckout').hide();
+    $('#sqStageSuccess').hide();
+    if (squarePollingTimer) {
+      clearInterval(squarePollingTimer);
+      squarePollingTimer = null;
+    }
+
+    // Populate Square modal with cart bundle
+    $('#sqCourseTitle').text('Cart Order: ' + cart.length + ' Package' + (cart.length > 1 ? 's' : ''));
+    $('#sqCoursePrice').text('$' + finalTotal);
+    $('#sqHiddenCourseName').val(bundleTitle);
+    $('#sqHiddenCoursePrice').val(finalTotal);
+    $('#sqPayAmount').text('$' + finalTotal);
+    $('#sqPayBtnAmount').text('$' + finalTotal);
+    $('#sqWaitCourse').text(bundleTitle);
+    $('#sqWaitAmount').text('$' + finalTotal);
+
+    // Open Square payment modal
+    const sqModalEl = document.getElementById('squarePaymentModal');
+    if (sqModalEl && typeof bootstrap !== 'undefined') {
+      const sqModal = bootstrap.Modal.getOrCreateInstance(sqModalEl);
+      sqModal.show();
+    }
+  });
+
+  // ==========================================
+  // PRODUCT / COURSE DETAILS PAGE LOGIC
+  // ==========================================
+  function calculateProductPrice() {
+    const base = parseFloat($('#productBasePrice').val()) || 225;
+    let addOns = 0;
+    $('.product-addon-checkbox:checked').each(function () {
+      addOns += parseFloat($(this).data('price')) || 0;
+    });
+    return base + addOns;
+  }
+
+  function updateProductPriceDisplay() {
+    const total = calculateProductPrice();
+    $('#productFinalCalculatedPrice').text('$' + total.toFixed(2));
+  }
+
+  function initProductPage() {
+    const $form = $('#productConfigForm');
+    if (!$form.length) return;
+
+    // Detect package id from URL query (e.g. ?id=pkg-280)
+    const urlParams = new URLSearchParams(window.location.search);
+    const queryId = urlParams.get('id') || $('#productHiddenId').val() || 'pkg-225';
+    const pkg = COURSE_CATALOG[queryId] || COURSE_CATALOG['pkg-225'];
+
+    // Populate Product Page DOM
+    $('#productHiddenId').val(pkg.id);
+    $('#productBasePrice').val(pkg.price);
+    $('#productHeroTitle').text(pkg.title);
+    $('#productBreadcrumbTitle').text(pkg.title);
+    $('#productTitle').text(pkg.title);
+    $('#productShortDesc').text(pkg.desc);
+    $('#productPriceDisplay').text(pkg.price);
+    $('#productMainImg').attr('src', pkg.image);
+    $('#productMetaDuration').text(pkg.metaDuration || pkg.duration);
+    if (pkg.category) {
+      $('#productCategoryBadge').html(`<i class="bi bi-award-fill text-warning me-1"></i> ${pkg.category}`);
+    }
+    if (pkg.vehicleBadge) {
+      $('#productVehicleBadge').html(`<i class="bi bi-car-front-fill text-primary me-1"></i> ${pkg.vehicleBadge}`);
+    }
+
+    // Set first thumbnail active matching image
+    $('.product-thumb-btn').removeClass('active');
+    $('.product-thumb-btn[data-img="' + pkg.image + '"]').addClass('active');
+
+    updateProductPriceDisplay();
+  }
+
+  // Product page thumbnail switcher
+  $(document).on('click', '.product-thumb-btn', function () {
+    $('.product-thumb-btn').removeClass('active');
+    $(this).addClass('active');
+    const targetImg = $(this).data('img');
+    if (targetImg) {
+      $('#productMainImg').attr('src', targetImg);
+    }
+  });
+
+  // Product page add-on price update
+  $(document).on('change', '.product-addon-checkbox', function () {
+    updateProductPriceDisplay();
+  });
+
+  // Product Add to Cart CTA
+  $(document).on('click', '#btnProductAddToCart', function (e) {
+    e.preventDefault();
+    const $btn = $(this);
+    const pkgId = $('#productHiddenId').val() || 'pkg-225';
+    const pkg = COURSE_CATALOG[pkgId] || { title: 'Driving Package', price: 225, image: 'assets/images/course-automatic.jpg' };
+    const transmission = $('input[name="transmissionType"]:checked').val() || 'automatic';
+    const transLabel = transmission === 'automatic' ? 'Automatic Hybrid' : 'Manual 6-Speed';
+    const schedule = $('#productSchedule option:selected').text();
+
+    const addOns = [];
+    $('.product-addon-checkbox:checked').each(function () {
+      addOns.push($(this).val());
+    });
+
+    let fullTitle = `${pkg.title} (${transLabel})`;
+    if (addOns.length) {
+      fullTitle += ` + [${addOns.join(', ')}]`;
+    }
+
+    const finalPrice = calculateProductPrice();
+    const itemId = `${pkgId}-${transmission}${addOns.length ? '-addon' : ''}`;
+
+    addToCart({
+      id: itemId,
+      title: fullTitle,
+      price: finalPrice,
+      qty: 1,
+      image: $('#productMainImg').attr('src') || pkg.image
+    });
+
+    $btn.prop('disabled', true).html('<i class="bi bi-check2-circle text-success fs-5"></i> <span>Added! Opening Cart...</span>');
+    setTimeout(() => {
+      window.location.href = 'cart';
+    }, 380);
+  });
+
+  // Product Buy Now & Checkout CTA (Adds and redirects straight to /cart page)
+  $(document).on('click', '#btnProductBuyNow', function (e) {
+    e.preventDefault();
+    $('#btnProductAddToCart').trigger('click');
+  });
 
   let toastTimeout = null;
   function showCartToast(title) {
     $('#toastItemTitle').text(title || 'Driving Package');
     const $toast = $('#cartNotificationToast');
-    $toast.stop().fadeIn(250);
-    if (toastTimeout) clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => {
-      $toast.fadeOut(300);
-    }, 3200);
+    if ($toast.length) {
+      $toast.stop().fadeIn(250);
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        $toast.fadeOut(300);
+      }, 3500);
+    }
   }
 
-  // Click handler: Add to Cart button
+  // Click handler: Add to Cart button from packages list
   $(document).on('click', '.btn-add-to-cart', function (e) {
     e.preventDefault();
-    const id = $(this).data('id') || ('item-' + Date.now());
-    const title = $(this).data('title') || $(this).closest('.simple-package-card').find('.simple-desc-box').text().trim() || 'Driving Package';
-    const rawPrice = $(this).data('price') || $(this).closest('.simple-package-card').find('.simple-price-amount').text().trim() || '225';
+    const $btn = $(this);
+    const id = $btn.data('id') || ('item-' + Date.now());
+    const title = $btn.data('title') || $btn.closest('.simple-package-card, .course-card').find('.simple-desc-box, .course-card-title').first().text().trim() || 'Driving Package';
+    const rawPrice = $btn.data('price') || $btn.closest('.simple-package-card, .course-card').find('.simple-price-amount, .course-price-amount').first().text().trim() || '225';
     const price = String(rawPrice).replace(/[^0-9.]/g, '');
-    
-    addToCart({ id, title, price, qty: 1 });
+    const image = $btn.data('image') || $btn.closest('.simple-package-card, .course-card').find('img').first().attr('src') || 'assets/images/course-automatic.jpg';
+
+    addToCart({ id, title, price, qty: 1, image });
+
+    $btn.html('<i class="bi bi-check-circle-fill"></i> Added!').css('background', '#007a43');
+    setTimeout(() => {
+      window.location.href = 'cart';
+    }, 350);
+  });
+
+  // Click handler: Any Cart Trigger (Navbar icon, floating button, legacy offcanvas buttons)
+  $(document).on('click', '.nav-icon-action[href*="cart"], .floating-cart-btn, [data-bs-target="#cartOffcanvas"], a[href="cart"]', function (e) {
+    e.preventDefault();
+    window.location.href = 'cart';
   });
 
   // Click handler: Qty change
@@ -785,69 +1160,21 @@ $(document).ready(function () {
     removeFromCart(id);
   });
 
-  // Click handler: Clear cart
+  // Click handler: Clear cart (generic)
   $(document).on('click', '#btnClearCart', function () {
     if (confirm('Are you sure you want to clear your cart?')) {
       clearCart();
     }
   });
 
-  // Click handler: Proceed to Square Checkout from Cart
-  $(document).on('click', '#btnCartProceedSquare', function () {
-    const cart = getCart();
-    if (!cart.length) return;
-
-    let subtotal = 0;
-    const names = [];
-    cart.forEach(item => {
-      subtotal += item.price * item.qty;
-      names.push(`${item.title} (x${item.qty})`);
-    });
-
-    const bundleTitle = names.join(', ');
-    const numPrice = subtotal.toFixed(2);
-
-    // Close offcanvas
-    const offcanvasEl = document.getElementById('cartOffcanvas');
-    if (offcanvasEl && typeof bootstrap !== 'undefined') {
-      const oc = bootstrap.Offcanvas.getInstance(offcanvasEl);
-      if (oc) oc.hide();
-    }
-
-    // Reset Stages & Polling
-    $('#sqStageRequest').show();
-    $('#sqStageWaiting').hide();
-    $('#sqStageCheckout').hide();
-    $('#sqStageSuccess').hide();
-    if (squarePollingTimer) {
-      clearInterval(squarePollingTimer);
-      squarePollingTimer = null;
-    }
-
-    // Populate Square modal with cart bundle
-    $('#sqCourseTitle').text('Cart Order: ' + cart.length + ' Package' + (cart.length > 1 ? 's' : ''));
-    $('#sqCoursePrice').text('$' + numPrice);
-    $('#sqHiddenCourseName').val(bundleTitle);
-    $('#sqHiddenCoursePrice').val(numPrice);
-    $('#sqPayAmount').text('$' + numPrice);
-    $('#sqPayBtnAmount').text('$' + numPrice);
-    $('#sqWaitCourse').text(bundleTitle);
-    $('#sqWaitAmount').text('$' + numPrice);
-
-    // Open Square payment modal
-    const sqModalEl = document.getElementById('squarePaymentModal');
-    if (sqModalEl && typeof bootstrap !== 'undefined') {
-      const sqModal = bootstrap.Modal.getOrCreateInstance(sqModalEl);
-      sqModal.show();
-    }
-  });
-
-  // Initial cart UI render
+  // Initial cart UI renders
   renderCartUI();
+  renderCartPageUI();
+  initProductPage();
 
   // ==========================================
   // CLEAN URL LINK HANDLER (Live Server & Static Host Fallback)
-  // Ensures clicking /home, /about, /courses, /gallery, /contact never 404s
+  // Ensures clicking /home, /about, /courses, /gallery, /contact, /product, /cart never 404s
   // ==========================================
   const CLEAN_PAGE_MAP = {
     'home': 'index.html',
@@ -859,7 +1186,11 @@ $(document).ready(function () {
     'gallery': 'gallery.html',
     '/gallery': 'gallery.html',
     'contact': 'contact.html',
-    '/contact': 'contact.html'
+    '/contact': 'contact.html',
+    'cart': 'cart.html',
+    '/cart': 'cart.html',
+    'product': 'product.html',
+    '/product': 'product.html'
   };
 
   $(document).on('click', 'a', function (e) {
@@ -880,8 +1211,13 @@ $(document).ready(function () {
     }
 
     const parts = rawHref.split('#');
-    const pathPart = parts[0];
+    const pathAndQuery = parts[0];
     const hashPart = parts[1] || '';
+
+    // Split path and query parameters (e.g. product?id=pkg-280)
+    const pqParts = pathAndQuery.split('?');
+    const pathPart = pqParts[0];
+    const queryPart = pqParts[1] || '';
     const cleanKey = pathPart.replace(/^\/+|\/+$/g, '').toLowerCase();
 
     // If clicking home while already on index/home page
@@ -917,7 +1253,7 @@ $(document).ready(function () {
     if (CLEAN_PAGE_MAP[cleanKey] || CLEAN_PAGE_MAP[pathPart]) {
       const targetHtml = CLEAN_PAGE_MAP[cleanKey] || CLEAN_PAGE_MAP[pathPart];
       e.preventDefault();
-      const dest = targetHtml + (hashPart ? '#' + hashPart : '');
+      const dest = targetHtml + (queryPart ? '?' + queryPart : '') + (hashPart ? '#' + hashPart : '');
       window.location.href = dest;
     }
   });

@@ -1,14 +1,16 @@
 // SK Driving School - Service Worker for Clean URL Routing
 // Enables /home, /about, /courses, /gallery, /contact on Live Server & static hosts without 404
 
-const CACHE_NAME = 'sk-driving-v1';
+const CACHE_NAME = 'sk-driving-v3';
 
 const ROUTE_MAP = {
   '/home': '/index.html',
   '/about': '/about.html',
   '/courses': '/courses.html',
   '/gallery': '/gallery.html',
-  '/contact': '/contact.html'
+  '/contact': '/contact.html',
+  '/product': '/product.html',
+  '/cart': '/cart.html'
 };
 
 self.addEventListener('install', (event) => {
@@ -16,7 +18,13 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
-  event.waitUntil(self.clients.claim());
+  event.waitUntil(
+    caches.keys().then((keys) => {
+      return Promise.all(
+        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+      );
+    }).then(() => self.clients.claim())
+  );
 });
 
 self.addEventListener('fetch', (event) => {

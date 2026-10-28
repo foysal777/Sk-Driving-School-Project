@@ -384,8 +384,11 @@
               <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
             </ul>
 
-            <div class="simple-card-actions">
-              <button type="button" class="btn-add-to-cart" data-id="pkg-225" data-title="One 45-minute driving lesson" data-price="225">
+            <div class="simple-card-actions d-flex gap-2">
+              <a href="product?id=pkg-225" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold flex-grow-1 d-flex align-items-center justify-content-center">
+                <i class="bi bi-info-circle me-1"></i> Details
+              </a>
+              <button type="button" class="btn-add-to-cart flex-grow-1" data-id="pkg-225" data-title="One 45-minute driving lesson" data-price="225" data-image="assets/images/course-automatic.jpg">
                 <i class="bi bi-cart-plus-fill"></i> Add to Cart
               </button>
             </div>
@@ -418,8 +421,11 @@
               <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
             </ul>
 
-            <div class="simple-card-actions">
-              <button type="button" class="btn-add-to-cart" data-id="pkg-280" data-title="Two 45-minute driving lessons" data-price="280">
+            <div class="simple-card-actions d-flex gap-2">
+              <a href="product?id=pkg-280" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold flex-grow-1 d-flex align-items-center justify-content-center">
+                <i class="bi bi-info-circle me-1"></i> Details
+              </a>
+              <button type="button" class="btn-add-to-cart flex-grow-1" data-id="pkg-280" data-title="Two 45-minute driving lessons" data-price="280" data-image="assets/images/course-manual.jpg">
                 <i class="bi bi-cart-plus-fill"></i> Add to Cart
               </button>
             </div>
@@ -452,8 +458,11 @@
               <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
             </ul>
 
-            <div class="simple-card-actions">
-              <button type="button" class="btn-add-to-cart" data-id="pkg-335" data-title="Three 45-minute driving lessons" data-price="335">
+            <div class="simple-card-actions d-flex gap-2">
+              <a href="product?id=pkg-335" class="btn btn-outline-secondary btn-sm rounded-pill px-3 fw-semibold flex-grow-1 d-flex align-items-center justify-content-center">
+                <i class="bi bi-info-circle me-1"></i> Details
+              </a>
+              <button type="button" class="btn-add-to-cart flex-grow-1" data-id="pkg-335" data-title="Three 45-minute driving lessons" data-price="335" data-image="assets/images/course-defensive.jpg">
                 <i class="bi bi-cart-plus-fill"></i> Add to Cart
               </button>
             </div>
@@ -486,8 +495,11 @@
               <li><i class="bi bi-check-circle-fill"></i> New fully equipped vehicle</li>
             </ul>
 
-            <div class="simple-card-actions">
-              <button type="button" class="btn-add-to-cart" data-id="pkg-390" data-title="Four 45-minute driving lessons" data-price="390">
+            <div class="simple-card-actions d-flex gap-2">
+              <a href="product?id=pkg-390" class="btn btn-outline-light btn-sm rounded-pill px-3 fw-semibold flex-grow-1 d-flex align-items-center justify-content-center">
+                <i class="bi bi-info-circle me-1"></i> Details
+              </a>
+              <button type="button" class="btn-add-to-cart flex-grow-1" data-id="pkg-390" data-title="Four 45-minute driving lessons" data-price="390" data-image="assets/images/gallery-parking.jpg">
                 <i class="bi bi-cart-plus-fill"></i> Add to Cart
               </button>
             </div>

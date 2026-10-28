@@ -6,22 +6,45 @@
   <title><?= htmlspecialchars($pageTitle ?? 'Drive Master | Certified Professional Driving School') ?></title>
   <meta name="description" content="<?= htmlspecialchars($pageDescription ?? 'Drive Safe & Smart With Our School. Top certified driving school with 98.4% first-time pass rate, modern dual-control automatic and manual fleet.') ?>">
 
-  <!-- Instant Clean URL Manager (Ensures clean address bar and zero .html) -->
+  <base href="/">
+
+  <!-- Instant Clean URL Manager (Ensures clean address bar, strips trailing slashes & invalid queries) -->
   <script>
     (function () {
       try {
         var p = window.location.pathname;
         var h = window.location.hash;
         var s = window.location.search;
+
+        // Strip trailing slash if present (e.g. /home/ -> /home)
+        if (p.length > 1 && p.endsWith('/')) {
+          p = p.replace(/\/+$/, '');
+        }
+
+        // Sanitize queries on pages (strip invalid junk like ?aaa)
+        var cleanSearch = '';
+        if (s && s.length > 1) {
+          var params = new URLSearchParams(s);
+          var allowed = ['ref', 'filter', 'tab', 'page', 'course', 'id'];
+          var validParams = new URLSearchParams();
+          allowed.forEach(function (k) {
+            if (params.has(k)) validParams.set(k, params.get(k));
+          });
+          cleanSearch = validParams.toString() ? ('?' + validParams.toString()) : '';
+        }
+
         if (p === '/' || p === '' || p.endsWith('/index.html') || p === '/index.html' || p === 'index.html' || p.endsWith('/index.php')) {
           var base = p.replace(/(^|\/)index\.(html|php)$/i, '');
           if (base === '/') base = '';
-          var clean = (base || '') + '/home' + s + h;
+          var clean = (base || '') + '/home' + cleanSearch + h;
           window.history.replaceState(null, '', clean);
         } else if (p.endsWith('.html')) {
-          var clean = p.replace(/\.html$/i, '') + s + h;
+          var clean = p.replace(/\.html$/i, '') + cleanSearch + h;
           window.history.replaceState(null, '', clean);
+        } else if (window.location.pathname.endsWith('/') || (s && s !== cleanSearch)) {
+          window.history.replaceState(null, '', p + cleanSearch + h);
         }
+
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('sw.js').catch(function () {});
         }
@@ -135,6 +158,12 @@
             </a>
             <a href="about" class="nav-icon-action" title="Instructors &amp; Services" aria-label="Grid Menu">
               <i class="bi bi-grid-3x3-gap-fill"></i>
+            </a>
+
+            <!-- Shopping Cart Action Link (Direct to Cart Page) -->
+            <a href="cart" class="nav-icon-action position-relative <?= ($activePage ?? '') === 'cart' ? 'active' : '' ?>" title="View Shopping Cart" aria-label="Cart">
+              <i class="bi bi-cart3"></i>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger cart-total-count cart-badge" style="font-size: 0.65rem; display: none;">0</span>
             </a>
 
             <!-- Reference START DRIVING Chevron Ribbon Button -->
@@ -438,73 +467,82 @@
             </div>
           </div>
 
-          <!-- STAGE 3: Approved! Enter Square Card Details -->
-          <div id="sqStagePayment" style="display: none;">
+          <!-- STAGE 3: Approved! Enter Square Card Details (Official SDK Ready) -->
+          <div id="sqStageCheckout" style="display: none;">
             <div class="alert alert-success py-2 px-3 small d-flex align-items-center gap-2 mb-3">
               <i class="bi bi-check-circle-fill text-success fs-5"></i>
               <div>
-                <strong>Approved by Admin!</strong> You may now complete your test transaction below.
+                <strong>Approved by Admin!</strong> You are authorized to complete your Square payment below.
               </div>
             </div>
 
             <div class="square-credit-card-form p-3 border rounded-3 bg-light mb-3">
               <div class="d-flex justify-content-between align-items-center mb-3">
-                <span class="fw-bold small text-dark"><i class="bi bi-credit-card-2-front-fill me-1 text-primary"></i> Square Card Sandbox</span>
-                <div class="d-flex gap-1">
+                <span class="fw-bold small text-dark"><i class="bi bi-credit-card-2-front-fill me-1 text-primary"></i> Square Card Sandbox (Official SDK)</span>
+                <div class="d-flex gap-1 align-items-center">
                   <span class="badge bg-white text-dark border">VISA</span>
                   <span class="badge bg-white text-dark border">MC</span>
                   <span class="badge bg-white text-dark border">AMEX</span>
                 </div>
               </div>
 
-              <!-- Square Dummy Card Interface -->
+              <!-- Quick Demo Fill Button -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="small text-muted">Test Card Information</span>
+                <button type="button" id="btnSquareDemoFill" class="btn btn-link btn-sm text-decoration-none p-0 fw-bold small text-success">
+                  <i class="bi bi-magic me-1"></i> Quick Fill Sandbox Card
+                </button>
+              </div>
+
+              <!-- Official Square Web Payments SDK Card Mount Point -->
+              <div id="card-container" class="mb-3"></div>
+
               <form id="sqCardForm">
-                <div class="mb-3">
-                  <label class="form-label small text-muted mb-1">Card Number</label>
-                  <div class="input-group">
-                    <span class="input-group-text bg-white"><i class="bi bi-credit-card"></i></span>
-                    <input type="text" class="form-control" id="sqDummyCardNum" placeholder="4111 2222 3333 4444" maxlength="19" value="4111 2222 3333 4444" required>
+                <!-- Fallback manual card fields if Web SDK offline -->
+                <div id="squareManualFields">
+                  <div class="mb-3">
+                    <label class="form-label small text-muted mb-1">Card Number</label>
+                    <div class="input-group">
+                      <span class="input-group-text bg-white"><i class="bi bi-credit-card"></i></span>
+                      <input type="text" class="form-control" id="sqCardNumber" placeholder="4242 •••• •••• 4242" maxlength="19" value="4242 4242 4242 4242" required>
+                    </div>
+                  </div>
+
+                  <div class="row g-2 mb-3">
+                    <div class="col-6">
+                      <label class="form-label small text-muted mb-1">Expiry Date</label>
+                      <input type="text" class="form-control" id="sqCardExp" placeholder="MM/YY" maxlength="5" value="12/28" required>
+                    </div>
+                    <div class="col-6">
+                      <label class="form-label small text-muted mb-1">CVV / CVC</label>
+                      <input type="text" class="form-control" id="sqCardCvv" placeholder="123" maxlength="4" value="789" required>
+                    </div>
+                  </div>
+
+                  <div class="row g-2 mb-3">
+                    <div class="col-7">
+                      <label class="form-label small text-muted mb-1">Cardholder Name</label>
+                      <input type="text" class="form-control" id="sqCardholder" placeholder="Name on card" value="Alex Johnson" required>
+                    </div>
+                    <div class="col-5">
+                      <label class="form-label small text-muted mb-1">Postal Code</label>
+                      <input type="text" class="form-control" id="sqCardZip" placeholder="90210" value="90210">
+                    </div>
                   </div>
                 </div>
 
-                <div class="row g-2 mb-3">
-                  <div class="col-6">
-                    <label class="form-label small text-muted mb-1">Expiry Date</label>
-                    <input type="text" class="form-control" id="sqDummyExpiry" placeholder="MM/YY" maxlength="5" value="12/28" required>
-                  </div>
-                  <div class="col-6">
-                    <label class="form-label small text-muted mb-1">CVV / CVC</label>
-                    <input type="text" class="form-control" id="sqDummyCvv" placeholder="123" maxlength="4" value="789" required>
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label class="form-label small text-muted mb-1">Cardholder Name</label>
-                  <input type="text" class="form-control" id="sqDummyCardHolder" placeholder="Name on card" value="Alex Johnson" required>
-                </div>
-
-                <!-- Digital Wallets Dummy Options -->
-                <div class="d-flex gap-2 mb-3">
-                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
-                    <i class="bi bi-apple me-1"></i> Apple Pay
-                  </div>
-                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
-                    <i class="bi bi-google me-1"></i> Google Pay
-                  </div>
-                  <div class="p-2 border rounded-3 bg-light text-center flex-grow-1 small text-muted">
-                    <i class="bi bi-cash me-1"></i> Cash App Pay
-                  </div>
-                </div>
+                <input type="hidden" id="sqCardNonce" value="">
+                <input type="hidden" id="sqCardBrandBadge" value="Square Sandbox Visa">
 
                 <button type="submit" id="btnSquarePaySubmit" class="square-pay-btn">
                   <i class="bi bi-lock-fill"></i>
-                  <span>Pay <span id="sqPayBtnAmount">$780.00</span> via Square Sandbox</span>
+                  <span>Pay <span id="sqPayBtnAmount">$780.00</span> via Square SDK</span>
                 </button>
               </form>
             </div>
 
             <div class="text-center text-muted small" style="font-size: 0.75rem;">
-              <i class="bi bi-shield-lock-fill text-dark me-1"></i> Square Test Sandbox mode &bull; Official receipt will be sent to your email via SMTP
+              <i class="bi bi-shield-lock-fill text-dark me-1"></i> Square Official SDK Active &bull; Receipt will be sent to your email via SMTP
             </div>
           </div>
 
@@ -564,62 +602,27 @@
     </div>
   </div>
 
-  <!-- ==========================================================================
-       GLOBAL SHOPPING CART OFFCANVAS DRAWER
-       ========================================================================== -->
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="cartOffcanvas" aria-labelledby="cartOffcanvasLabel" style="width: 420px; max-width: 95vw;">
-    <div class="offcanvas-header border-bottom py-3">
-      <h5 class="offcanvas-title fw-bold d-flex align-items-center gap-2" id="cartOffcanvasLabel">
-        <i class="bi bi-cart3 text-primary"></i> Your Selected Packages
-        <span class="badge bg-primary rounded-pill cart-total-count" style="font-size: 0.75rem;">0</span>
-      </h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body d-flex flex-column p-3">
-      <!-- Items Container -->
-      <div id="cartItemsContainer" class="flex-grow-1 overflow-auto pe-1">
-        <!-- Rendered dynamically via main.js -->
-      </div>
 
-      <!-- Cart Footer / Summary -->
-      <div id="cartFooterSection" class="border-top pt-3 mt-3">
-        <div class="d-flex justify-content-between mb-2 text-muted small">
-          <span>Subtotal:</span>
-          <span class="fw-bold text-dark" id="cartSubtotalAmount">$0.00</span>
-        </div>
-        <div class="d-flex justify-content-between mb-3 fs-5">
-          <span class="fw-bold">Total:</span>
-          <span class="fw-bold text-primary" id="cartFinalTotalAmount">$0.00</span>
-        </div>
-        <div class="d-grid gap-2">
-          <button type="button" class="btn btn-primary py-2 fw-bold d-flex align-items-center justify-content-center gap-2 shadow-sm" id="btnCartProceedSquare">
-            <i class="bi bi-square-fill text-warning"></i> Proceed to Square Checkout
-          </button>
-          <div class="d-flex justify-content-between align-items-center mt-1">
-            <button type="button" class="btn btn-link text-danger text-decoration-none p-0 small" id="btnClearCart">
-              <i class="bi bi-trash3 me-1"></i> Clear Cart
-            </button>
-            <span class="text-muted small"><i class="bi bi-shield-check text-success"></i> 2-Step Protected</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Floating Sticky Cart Trigger -->
-  <div class="floating-cart-btn" data-bs-toggle="offcanvas" data-bs-target="#cartOffcanvas" title="Open Cart">
+  <!-- Floating Sticky Cart Trigger (Direct link to Cart Page) -->
+  <a href="cart" class="floating-cart-btn text-decoration-none" title="View Full Shopping Cart">
     <i class="bi bi-cart-fill fs-5"></i>
     <span>Cart (<span class="cart-total-count">0</span>) &bull; <span id="floatingCartTotal">$0.00</span></span>
-  </div>
+  </a>
 
-  <!-- Cart Notification Toast -->
+  <!-- Cart Notification Toast with Direct View Cart Action -->
   <div class="cart-toast-wrap">
-    <div class="cart-toast" id="cartNotificationToast">
-      <div class="d-flex align-items-center gap-2">
-        <i class="bi bi-check-circle-fill text-success fs-5"></i>
-        <div>
-          <strong id="toastItemTitle">Package</strong> added to your cart!
+    <div class="cart-toast shadow-lg" id="cartNotificationToast">
+      <div class="d-flex align-items-center justify-content-between gap-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-check-circle-fill text-success fs-5"></i>
+          <div>
+            <strong id="toastItemTitle">Package</strong> added to cart!
+          </div>
         </div>
+        <a href="cart" class="btn btn-sm btn-light py-1 px-3 fw-bold text-dark rounded-pill text-nowrap" style="font-size: 0.78rem;">
+          View Cart &rarr;
+        </a>
       </div>
     </div>
   </div>
@@ -627,7 +630,9 @@
   <!-- Local Vendor Scripts -->
   <script src="assets/vendor/jquery/jquery-3.7.1.min.js"></script>
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/js/main.js"></script>
+  <!-- Square Web Payments SDK (Official Sandbox CDN) -->
+  <script type="text/javascript" src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+  <script src="assets/js/main.js?v=3.0"></script>
 
   <?= $extraJs ?? '' ?>
 </body>

@@ -35,6 +35,9 @@ Thumbs.db
 
 # Dependencies
 /vendor/
+/backend/vendor/
+composer.phar
+backend/composer.phar
 /node_modules/
 
 # Logs & Error Dumps
