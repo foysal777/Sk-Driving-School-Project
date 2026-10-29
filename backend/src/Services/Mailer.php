@@ -411,8 +411,8 @@ HTML;
         $student    = $enrollment['student_name'] ?? 'Valued Student';
         $course     = $enrollment['course_name'] ?? 'Driving Course';
         $price      = number_format((float)($enrollment['course_price'] ?? 0), 2);
-        $appUrl     = $this->config['url'] ?? 'http://localhost:8000';
-        $coursesUrl = $appUrl . '/courses';
+        $appUrl      = $this->config['url'] ?? 'http://localhost:8000';
+        $checkoutUrl = $appUrl . '/checkout?ref=' . urlencode($ref);
 
         $subject = "✅ Payment Request Approved! Complete Your Booking - {$ref}";
 
@@ -477,7 +477,7 @@ HTML;
       </div>
 
       <div style="text-align: center; margin: 25px 0;">
-        <a href="{$coursesUrl}" class="btn">Complete Square Checkout Now &rarr;</a>
+        <a href="{$checkoutUrl}" class="btn">Complete Square Checkout Now &rarr;</a>
       </div>
 
       <p style="font-size: 13px; color: #64748b;">If you already have the checkout window open on our website, it will automatically unlock for you. Once paid, your instructor and schedule will be confirmed immediately.</p>

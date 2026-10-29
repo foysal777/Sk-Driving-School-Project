@@ -50,6 +50,12 @@ if (!function_exists('getPagesConfig')) {
                 'description' => 'Review your selected driving lesson packages, customize lessons, apply promo codes, and proceed to secure Square payment.',
                 'active'      => 'cart',
             ],
+            'checkout' => [
+                'view'        => 'pages/checkout.php',
+                'title'       => 'Square Sandbox Checkout & Enrollment | DriveMaster Driving Academy',
+                'description' => 'Complete your driving lesson package enrollment securely with our official Square test sandbox payment gateway and real-time administrator approval workflow.',
+                'active'      => 'courses',
+            ],
         ];
     }
 }

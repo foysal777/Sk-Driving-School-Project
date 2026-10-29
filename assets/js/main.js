@@ -359,60 +359,65 @@ $(document).ready(function () {
   });
 
   // ==========================================
-  // SQUARE PAYMENT GATEWAY & APPROVAL WORKFLOW
+  // SQUARE PAYMENT GATEWAY & CHECKOUT PAGE ENGINE
   // ==========================================
   let activeSquareRef = null;
   let squarePollingTimer = null;
 
-  // Open Square Modal
+  // Stepper UI helper
+  function setCheckoutStep(step) {
+    for (let i = 1; i <= 4; i++) {
+      const $ind = $('#stepIndicator' + i);
+      const $line = $('#stepLine' + (i - 1));
+      if (i < step) {
+        $ind.removeClass('active').addClass('completed');
+        if ($line.length) $line.addClass('completed');
+      } else if (i === step) {
+        $ind.addClass('active').removeClass('completed');
+        if ($line.length) $line.addClass('completed');
+      } else {
+        $ind.removeClass('active completed');
+        if ($line.length) $line.removeClass('completed');
+      }
+    }
+  }
+
+  // Safe page URL resolver (handles both Live Server static hosts and PHP router)
+  function getSafePageUrl(pageName, query) {
+    const isStaticServer = window.location.port === '5500' ||
+                           window.location.port === '5501' ||
+                           window.location.protocol === 'file:' ||
+                           window.location.pathname.endsWith('.html');
+    const base = isStaticServer ? (pageName + '.html') : pageName;
+    const qs = query ? (query.startsWith('?') ? query : '?' + query) : '';
+    return base + qs;
+  }
+
+  // Open Square Checkout Page when clicking "Pay with Square" anywhere on the site
   $(document).on('click', '.btn-square-trigger', function (e) {
     e.preventDefault();
-    const courseTitle = $(this).data('course-name') || $(this).closest('.course-card').find('.course-card-title').text().trim();
-    const rawPrice = $(this).data('course-price') || $(this).closest('.course-card').find('.course-price-amount').text().trim() || '420';
+    const courseTitle = $(this).data('course-name') || $(this).closest('.course-card').find('.course-card-title').text().trim() || 'Standard Pass Course';
+    const rawPrice = $(this).data('course-price') || $(this).closest('.course-card').find('.course-price-amount').text().trim() || '780';
     const numPrice = String(rawPrice).replace(/[^0-9.]/g, '');
-
-    // Reset Stages
-    $('#sqStageRequest').show();
-    $('#sqStageWaiting').hide();
-    $('#sqStageCheckout').hide();
-    $('#sqStageSuccess').hide();
-    if (squarePollingTimer) {
-      clearInterval(squarePollingTimer);
-      squarePollingTimer = null;
-    }
-
-    // Populate data
-    $('#sqCourseTitle').text(courseTitle);
-    $('#sqCoursePrice').text('$' + numPrice);
-    $('#sqHiddenCourseName').val(courseTitle);
-    $('#sqHiddenCoursePrice').val(numPrice);
-    $('#sqPayAmount').text('$' + parseFloat(numPrice).toFixed(2));
-    $('#sqPayBtnAmount').text('$' + parseFloat(numPrice).toFixed(2));
-    $('#sqWaitCourse').text(courseTitle);
-    $('#sqWaitAmount').text('$' + parseFloat(numPrice).toFixed(2));
-
-    const sqModalEl = document.getElementById('squarePaymentModal');
-    if (sqModalEl && typeof bootstrap !== 'undefined') {
-      const sqModal = bootstrap.Modal.getOrCreateInstance(sqModalEl);
-      sqModal.show();
-    }
+    const qs = 'course=' + encodeURIComponent(courseTitle) + '&price=' + encodeURIComponent(numPrice);
+    window.location.href = getSafePageUrl('checkout', qs);
   });
 
-  // Stage 1 Form Submission -> Request Square Payment
-  $('#sqRequestForm').on('submit', function (e) {
+  // Stage 1 Form Submission -> Request Square Payment & Admin Approval
+  $(document).on('submit', '#sqEnrollmentForm, #sqRequestForm', function (e) {
     e.preventDefault();
     const $btn = $('#btnSubmitSquareRequest');
     const origHtml = $btn.html();
     $btn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span> Submitting to Admin...');
 
     const payload = {
-      student_name: $('#sqStudentName').val().trim(),
-      student_phone: $('#sqStudentPhone').val().trim(),
-      student_email: $('#sqStudentEmail').val().trim(),
-      course_name: $('#sqHiddenCourseName').val(),
+      student_name: ($('#sqStudentName').val() || '').trim(),
+      student_phone: ($('#sqStudentPhone').val() || '').trim(),
+      student_email: ($('#sqStudentEmail').val() || '').trim(),
+      course_name: $('#sqHiddenCourseName').val() || $('#sqCourseTitle').text(),
       course_price: parseFloat($('#sqHiddenCoursePrice').val()) || 0,
-      preferred_transmission: $('#sqTransmission').val(),
-      pickup_address: $('#sqPickupArea').val().trim(),
+      preferred_transmission: $('#sqTransmission').val() || 'automatic',
+      pickup_address: ($('#sqPickupArea').val() || '').trim(),
       payment_gateway: 'square'
     };
 
@@ -430,11 +435,18 @@ $(document).ready(function () {
       activeSquareRef = ref;
       $('#sqWaitRef').text(ref);
 
+      // Cleanly record in browser history so refreshing keeps state
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', 'checkout?ref=' + encodeURIComponent(ref));
+      }
+
       // Transition to Stage 2: Waiting for Admin Approval
       $('#sqStageRequest').hide();
       $('#sqStageWaiting').fadeIn(300);
+      setCheckoutStep(2);
+      window.scrollTo({ top: 120, behavior: 'smooth' });
 
-      // Start Polling
+      // Start Real-Time Status Polling
       startSquarePolling(ref);
     })
     .catch(err => {
@@ -442,8 +454,12 @@ $(document).ready(function () {
       // Local fallback
       activeSquareRef = 'DM-SQ-' + Math.floor(10000 + Math.random() * 90000);
       $('#sqWaitRef').text(activeSquareRef);
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState(null, '', 'checkout?ref=' + encodeURIComponent(activeSquareRef));
+      }
       $('#sqStageRequest').hide();
       $('#sqStageWaiting').fadeIn(300);
+      setCheckoutStep(2);
       startSquarePolling(activeSquareRef);
     })
     .finally(() => {
@@ -451,7 +467,7 @@ $(document).ready(function () {
     });
   });
 
-  // Function to poll status
+  // Function to poll approval status
   function checkSquareApprovalStatus(ref, isManual) {
     if (!ref) return;
     const $btnManual = $('#btnCheckStatusManual');
@@ -471,8 +487,14 @@ $(document).ready(function () {
             }
             // Transition to Stage 3: Checkout Unlocked (Square SDK)
             $('#sqStageWaiting').hide();
+            $('#sqStageRequest').hide();
             $('#sqStageCheckout').fadeIn(300);
-            $('#sqCardholder').val($('#sqStudentName').val() || res.data.student_name);
+            setCheckoutStep(3);
+            window.scrollTo({ top: 120, behavior: 'smooth' });
+
+            const holderName = $('#sqStudentName').val() || res.data.student_name || 'Alex Johnson';
+            $('#sqCardholder').val(holderName);
+            $('#previewCardholder').text(holderName.toUpperCase());
             initSquareWebPaymentsSdk();
           } else if (status === 'paid_in_full') {
             if (squarePollingTimer) {
@@ -485,7 +507,7 @@ $(document).ready(function () {
               clearInterval(squarePollingTimer);
               squarePollingTimer = null;
             }
-            alert('Your payment request was rejected by the administration.');
+            alert('Your booking payment request was declined by the administration.');
           }
         }
       })
@@ -493,8 +515,8 @@ $(document).ready(function () {
       .finally(() => {
         if (isManual) {
           setTimeout(() => {
-            $btnManual.prop('disabled', false).html('<i class="bi bi-arrow-clockwise me-1"></i> Check Status Now');
-          }, 500);
+            $btnManual.prop('disabled', false).html('<i class="bi bi-arrow-clockwise me-1"></i> Check Approval Status Now');
+          }, 450);
         }
       });
   }
@@ -509,6 +531,17 @@ $(document).ready(function () {
   // Manual Check Button
   $(document).on('click', '#btnCheckStatusManual', function () {
     checkSquareApprovalStatus(activeSquareRef, true);
+  });
+
+  // Copy reference button
+  $(document).on('click', '#btnCopyWaitRef', function () {
+    const text = $('#sqWaitRef').text().trim();
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text);
+      const $btn = $(this);
+      $btn.html('<i class="bi bi-check-lg text-success"></i>');
+      setTimeout(() => $btn.html('<i class="bi bi-clipboard"></i>'), 1500);
+    }
   });
 
   // Square Web Payments SDK Integration
@@ -541,45 +574,57 @@ $(document).ready(function () {
     }
   }
 
-  // Quick Fill Demo Card
+  // Quick Fill Demo Sandbox Card
   $(document).on('click', '#btnSquareDemoFill', function () {
     $('#squareManualFields').show();
-    $('#sqCardNumber').val('4242 4242 4242 4242');
-    $('#sqCardExp').val('12/28');
+    $('#sqCardNumber').val('4242 4242 4242 4242').trigger('input');
+    $('#sqCardExp').val('12/28').trigger('input');
     $('#sqCardCvv').val('123');
     $('#sqCardZip').val('90210');
     if (!$('#sqCardholder').val()) {
-      $('#sqCardholder').val($('#sqStudentName').val() || 'Alex Johnson');
+      $('#sqCardholder').val($('#sqStudentName').val() || 'Alex Johnson').trigger('input');
     }
-    $('#sqCardBrandBadge').text('Square Visa');
+    $('#sqCardBrandBadge').text('Square Sandbox Visa');
   });
 
-  // Card formatting
-  $('#sqCardNumber').on('input', function () {
+  // Card input interactive formatting & preview sync
+  $(document).on('input', '#sqCardNumber', function () {
     let val = $(this).val().replace(/\D/g, '').substring(0, 16);
     let formatted = val.match(/.{1,4}/g)?.join(' ') || val;
     $(this).val(formatted);
+    $('#previewCardNumber').text(formatted || '4242 •••• •••• 4242');
+
     if (val.startsWith('4')) {
-      $('#sqCardBrandBadge').text('Visa');
+      $('#sqCardBrandBadge').text('Square Sandbox Visa');
+      $('#previewBrandLogo').html('<span class="badge bg-white text-dark fw-bold px-2 py-1">VISA</span>');
     } else if (val.startsWith('5')) {
-      $('#sqCardBrandBadge').text('Mastercard');
+      $('#sqCardBrandBadge').text('Square Sandbox Mastercard');
+      $('#previewBrandLogo').html('<span class="badge bg-danger text-white fw-bold px-2 py-1">MC</span>');
     } else if (val.startsWith('3')) {
-      $('#sqCardBrandBadge').text('Amex');
+      $('#sqCardBrandBadge').text('Square Sandbox Amex');
+      $('#previewBrandLogo').html('<span class="badge bg-primary text-white fw-bold px-2 py-1">AMEX</span>');
     } else {
-      $('#sqCardBrandBadge').text('Square Card');
+      $('#sqCardBrandBadge').text('Square Sandbox Card');
+      $('#previewBrandLogo').html('<span class="badge bg-white text-dark fw-bold px-2 py-1">SQUARE</span>');
     }
   });
 
-  $('#sqCardExp').on('input', function () {
+  $(document).on('input', '#sqCardExp', function () {
     let val = $(this).val().replace(/\D/g, '').substring(0, 4);
     if (val.length >= 3) {
       val = val.substring(0, 2) + '/' + val.substring(2);
     }
     $(this).val(val);
+    $('#previewCardExp').text(val || '12/28');
+  });
+
+  $(document).on('input', '#sqCardholder', function () {
+    const val = $(this).val().trim();
+    $('#previewCardholder').text(val ? val.toUpperCase() : 'ALEX JOHNSON');
   });
 
   // Stage 3 Form Submission -> Complete Square Payment via Official SDK
-  $('#sqCardForm').on('submit', async function (e) {
+  $(document).on('submit', '#sqCardForm', async function (e) {
     e.preventDefault();
     const $btn = $('#btnSquarePaySubmit');
     const origHtml = $btn.html();
@@ -608,11 +653,11 @@ $(document).ready(function () {
       action: 'pay_square',
       booking_reference: activeSquareRef,
       source_id: sourceId,
-      card_number: $('#sqCardNumber').val().replace(/\s/g, ''),
-      exp: $('#sqCardExp').val(),
-      cvv: $('#sqCardCvv').val(),
-      postal_code: $('#sqCardZip').val(),
-      cardholder: $('#sqCardholder').val(),
+      card_number: ($('#sqCardNumber').val() || '4242424242424242').replace(/\s/g, ''),
+      exp: $('#sqCardExp').val() || '12/28',
+      cvv: $('#sqCardCvv').val() || '123',
+      postal_code: $('#sqCardZip').val() || '90210',
+      cardholder: $('#sqCardholder').val() || 'Alex Johnson',
       card_brand: $('#sqCardBrandBadge').text() || 'Square Sandbox Visa'
     };
 
@@ -631,14 +676,14 @@ $(document).ready(function () {
       }
     })
     .catch(err => {
-      // Fallback simulated success
+      // Fallback simulated success for offline demo
       showSquareReceipt({
         booking_reference: activeSquareRef,
         payment_tx_id: 'sq_tx_live_' + Math.random().toString(16).substring(2, 12),
-        course_name: $('#sqHiddenCourseName').val(),
-        student_name: $('#sqStudentName').val() || 'Student',
-        card_last4: '5858',
-        course_price: $('#sqHiddenCoursePrice').val()
+        course_name: $('#sqHiddenCourseName').val() || $('#sqCourseTitle').text(),
+        student_name: $('#sqStudentName').val() || 'Alex Johnson',
+        card_last4: '4242',
+        course_price: $('#sqHiddenCoursePrice').val() || 780
       });
     });
   });
@@ -648,7 +693,7 @@ $(document).ready(function () {
     $('#sqReceiptRef').text(data.booking_reference || activeSquareRef);
     $('#sqReceiptCourse').text(data.course_name || $('#sqHiddenCourseName').val());
     $('#sqReceiptName').text(data.student_name || $('#sqStudentName').val() || 'Alex Johnson');
-    $('#sqReceiptMethod').text((data.payment_gateway || 'Square') + ' (•••• ' + (data.card_last4 || '4242') + ')');
+    $('#sqReceiptMethod').text((data.payment_gateway || 'Square Sandbox Visa') + ' (•••• ' + (data.card_last4 || '4242') + ')');
     $('#sqReceiptTotal').text('$' + parseFloat(data.course_price || $('#sqHiddenCoursePrice').val() || 0).toFixed(2));
 
     if (data.receipt_url && data.receipt_url !== '#') {
@@ -662,6 +707,94 @@ $(document).ready(function () {
     $('#sqStageWaiting').hide();
     $('#sqStageRequest').hide();
     $('#sqStageSuccess').fadeIn(300);
+    setCheckoutStep(4);
+    window.scrollTo({ top: 120, behavior: 'smooth' });
+
+    // Clear cart if completed
+    clearCart();
+  }
+
+  // Initialize Dedicated Checkout Page State & Inputs
+  function initCheckoutPage() {
+    const $form = $('#sqEnrollmentForm');
+    if (!$form.length) return; // not on checkout page
+
+    const params = new URLSearchParams(window.location.search);
+    const queryRef = params.get('ref') || params.get('booking_reference');
+    const queryCourse = params.get('course');
+    const queryPrice = params.get('price');
+    const querySource = params.get('source');
+
+    // 1. Resume existing booking reference if given in URL
+    if (queryRef) {
+      activeSquareRef = queryRef;
+      $('#sqWaitRef').text(queryRef);
+      $('#sqStageRequest').hide();
+      $('#sqStageWaiting').show();
+      setCheckoutStep(2);
+      startSquarePolling(queryRef);
+      checkSquareApprovalStatus(queryRef, false);
+      return;
+    }
+
+    // 2. Check if coming from cart or cart has items
+    const cart = getCart();
+    if (querySource === 'cart' || (cart && cart.length > 0 && !queryCourse)) {
+      let subtotal = 0;
+      const names = [];
+      cart.forEach(item => {
+        subtotal += item.price * item.qty;
+        names.push(`${item.title} (x${item.qty})`);
+      });
+
+      const promoCode = (sessionStorage.getItem(PROMO_KEY) || '').toUpperCase();
+      let discount = 0;
+      if (promoCode === 'DRIVE10') {
+        discount = subtotal * 0.10;
+        $('#summaryDiscountRow').show();
+        $('#summaryDiscountAmount').text('-$' + discount.toFixed(2));
+      } else {
+        $('#summaryDiscountRow').hide();
+      }
+
+      const finalTotal = Math.max(0, subtotal - discount).toFixed(2);
+      const bundleTitle = names.join(', ') + (discount > 0 ? ' [Promo DRIVE10 Applied]' : '');
+      const itemTitle = cart.length === 1 ? cart[0].title : (`Cart Order (${cart.length} Packages)`);
+
+      $('#sqCourseTitle').text(itemTitle);
+      $('#sqCoursePrice').text('$' + finalTotal);
+      $('#sqHiddenCourseName').val(bundleTitle);
+      $('#sqHiddenCoursePrice').val(finalTotal);
+      $('#sqPayAmount').text('$' + finalTotal);
+      $('#sqPayBtnAmount').text('$' + finalTotal);
+      $('#sqWaitCourse').text(itemTitle);
+      $('#sqWaitAmount').text('$' + finalTotal);
+
+      $('#summaryItemTitle').text(itemTitle);
+      $('#summaryItemSub').text(cart.length + ' package' + (cart.length > 1 ? 's' : '') + ' in cart');
+      $('#summaryItemPrice').text('$' + finalTotal);
+      $('#summarySubtotal').text('$' + subtotal.toFixed(2));
+      $('#summaryTotal').text('$' + finalTotal);
+    } else if (queryCourse && queryPrice) {
+      // 3. Single course direct from URL
+      const numPrice = parseFloat(queryPrice).toFixed(2);
+      $('#sqCourseTitle').text(queryCourse);
+      $('#sqCoursePrice').text('$' + numPrice);
+      $('#sqHiddenCourseName').val(queryCourse);
+      $('#sqHiddenCoursePrice').val(numPrice);
+      $('#sqPayAmount').text('$' + numPrice);
+      $('#sqPayBtnAmount').text('$' + numPrice);
+      $('#sqWaitCourse').text(queryCourse);
+      $('#sqWaitAmount').text('$' + numPrice);
+
+      $('#summaryItemTitle').text(queryCourse);
+      $('#summaryItemSub').text('DVSA Certified Package');
+      $('#summaryItemPrice').text('$' + numPrice);
+      $('#summarySubtotal').text('$' + numPrice);
+      $('#summaryTotal').text('$' + numPrice);
+    }
+
+    setCheckoutStep(1);
   }
 
   // ==========================================
@@ -955,51 +1088,14 @@ $(document).ready(function () {
   });
 
   // Handle Proceed to Square Checkout from Cart Page
-  $(document).on('click', '#btnCartPageProceedSquare', function () {
+  $(document).on('click', '#btnCartPageProceedSquare', function (e) {
+    e.preventDefault();
     const cart = getCart();
-    if (!cart.length) return;
-
-    let subtotal = 0;
-    const names = [];
-    cart.forEach(item => {
-      subtotal += item.price * item.qty;
-      names.push(`${item.title} (x${item.qty})`);
-    });
-
-    const promoCode = (sessionStorage.getItem(PROMO_KEY) || '').toUpperCase();
-    let discount = 0;
-    if (promoCode === 'DRIVE10') {
-      discount = subtotal * 0.10;
+    if (!cart.length) {
+      alert('Your cart is empty! Please add a driving package before proceeding.');
+      return;
     }
-    const finalTotal = Math.max(0, subtotal - discount).toFixed(2);
-    const bundleTitle = names.join(', ') + (discount > 0 ? ' [Promo DRIVE10 Applied]' : '');
-
-    // Reset Stages & Polling
-    $('#sqStageRequest').show();
-    $('#sqStageWaiting').hide();
-    $('#sqStageCheckout').hide();
-    $('#sqStageSuccess').hide();
-    if (squarePollingTimer) {
-      clearInterval(squarePollingTimer);
-      squarePollingTimer = null;
-    }
-
-    // Populate Square modal with cart bundle
-    $('#sqCourseTitle').text('Cart Order: ' + cart.length + ' Package' + (cart.length > 1 ? 's' : ''));
-    $('#sqCoursePrice').text('$' + finalTotal);
-    $('#sqHiddenCourseName').val(bundleTitle);
-    $('#sqHiddenCoursePrice').val(finalTotal);
-    $('#sqPayAmount').text('$' + finalTotal);
-    $('#sqPayBtnAmount').text('$' + finalTotal);
-    $('#sqWaitCourse').text(bundleTitle);
-    $('#sqWaitAmount').text('$' + finalTotal);
-
-    // Open Square payment modal
-    const sqModalEl = document.getElementById('squarePaymentModal');
-    if (sqModalEl && typeof bootstrap !== 'undefined') {
-      const sqModal = bootstrap.Modal.getOrCreateInstance(sqModalEl);
-      sqModal.show();
-    }
+    window.location.href = getSafePageUrl('checkout', 'source=cart');
   });
 
   // ==========================================
@@ -1171,6 +1267,7 @@ $(document).ready(function () {
   renderCartUI();
   renderCartPageUI();
   initProductPage();
+  initCheckoutPage();
 
   // ==========================================
   // CLEAN URL LINK HANDLER (Live Server & Static Host Fallback)
@@ -1190,7 +1287,9 @@ $(document).ready(function () {
     'cart': 'cart.html',
     '/cart': 'cart.html',
     'product': 'product.html',
-    '/product': 'product.html'
+    '/product': 'product.html',
+    'checkout': 'checkout.html',
+    '/checkout': 'checkout.html'
   };
 
   $(document).on('click', 'a', function (e) {
@@ -1243,12 +1342,16 @@ $(document).ready(function () {
       return;
     }
 
-    // If Service Worker is already active and controlling, native navigation works cleanly
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+    // On static servers (like Live Server 5500), always route via CLEAN_PAGE_MAP to prevent "Cannot GET" errors
+    const isStaticServer = window.location.port === '5500' ||
+                           window.location.port === '5501' ||
+                           window.location.protocol === 'file:';
+
+    if (!isStaticServer && navigator.serviceWorker && navigator.serviceWorker.controller) {
       return;
     }
 
-    // On static servers (like Live Server 5500) before SW takes over:
+    // On static servers (like Live Server 5500) or before SW takes over:
     // Route via the corresponding .html file, which immediately rewrites address bar cleanly
     if (CLEAN_PAGE_MAP[cleanKey] || CLEAN_PAGE_MAP[pathPart]) {
       const targetHtml = CLEAN_PAGE_MAP[cleanKey] || CLEAN_PAGE_MAP[pathPart];

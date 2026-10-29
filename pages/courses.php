@@ -231,9 +231,9 @@
                   <button type="button" class="btn-add-to-cart" data-id="course-420" data-title="Beginner Starter Pack (10 Hrs)" data-price="420">
                     <i class="bi bi-cart-plus-fill"></i> Add to Cart
                   </button>
-                  <button type="button" class="btn-simple-square btn-square-trigger" data-course-name="Beginner Starter Pack" data-course-price="420">
+                  <a href="checkout?course=Beginner+Starter+Pack&price=420" class="btn-simple-square btn-square-trigger" data-course-name="Beginner Starter Pack" data-course-price="420">
                     <i class="bi bi-square-fill text-warning"></i> Pay with Square ($420)
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -256,9 +256,9 @@
                   <button type="button" class="btn-add-to-cart" data-id="course-780" data-title="Standard Pass Course (20 Hrs)" data-price="780">
                     <i class="bi bi-cart-plus-fill"></i> Add to Cart
                   </button>
-                  <button type="button" class="btn-simple-square btn-square-trigger" data-course-name="Standard Pass Course" data-course-price="780">
+                  <a href="checkout?course=Standard+Pass+Course&price=780" class="btn-simple-square btn-square-trigger" data-course-name="Standard Pass Course" data-course-price="780">
                     <i class="bi bi-square-fill text-warning"></i> Pay with Square ($780)
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -281,9 +281,9 @@
                   <button type="button" class="btn-add-to-cart" data-id="course-1150" data-title="Fast-Track Intensive Pack (30 Hrs)" data-price="1150">
                     <i class="bi bi-cart-plus-fill"></i> Add to Cart
                   </button>
-                  <button type="button" class="btn-simple-square btn-square-trigger" data-course-name="Fast-Track Intensive Pack" data-course-price="1150">
+                  <a href="checkout?course=Fast-Track+Intensive+Pack&price=1150" class="btn-simple-square btn-square-trigger" data-course-name="Fast-Track Intensive Pack" data-course-price="1150">
                     <i class="bi bi-square-fill text-warning"></i> Pay with Square ($1,150)
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

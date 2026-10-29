@@ -127,10 +127,10 @@
             </div>
 
             <!-- Primary Checkout Button -->
-            <button type="button" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow d-flex align-items-center justify-content-center gap-2 mb-3" id="btnCartPageProceedSquare">
+            <a href="checkout?source=cart" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow d-flex align-items-center justify-content-center gap-2 mb-3" id="btnCartPageProceedSquare">
               <i class="bi bi-square-fill text-warning"></i>
               <span>Proceed to Square Checkout</span>
-            </button>
+            </a>
 
             <!-- Trust & Security Badges -->
             <div class="p-3 bg-white border rounded-3 text-muted small">

@@ -30,13 +30,14 @@
     RewriteRule ^$ index.php?page=home [L,QSA]
     RewriteRule ^home$ index.php?page=home [L,QSA]
 
-    # 7. Map /about, /courses, /gallery, /contact, /product, /cart
+    # 7. Map /about, /courses, /gallery, /contact, /product, /cart, /checkout
     RewriteRule ^about$ index.php?page=about [L,QSA]
     RewriteRule ^courses$ index.php?page=courses [L,QSA]
     RewriteRule ^gallery$ index.php?page=gallery [L,QSA]
     RewriteRule ^contact$ index.php?page=contact [L,QSA]
     RewriteRule ^product$ index.php?page=product [L,QSA]
     RewriteRule ^cart$ index.php?page=cart [L,QSA]
+    RewriteRule ^checkout$ index.php?page=checkout [L,QSA]
 
     # 8. Generic: if requested name without extension maps to a view, route to index.php
     RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]

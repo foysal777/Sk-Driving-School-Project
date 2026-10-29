@@ -12,7 +12,7 @@ $uri = urldecode(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH));
 $filePath = __DIR__ . $uri;
 
 // 1. Redirect legacy .html to clean URL (301 Permanent Redirect)
-if (preg_match('#^/(index|home|about|courses|gallery|contact|cart|product)\.html$#i', $uri, $matches)) {
+if (preg_match('#^/(index|home|about|courses|gallery|contact|cart|product|checkout)\.html$#i', $uri, $matches)) {
     $name = strtolower($matches[1]);
     $target = ($name === 'index') ? '/home' : '/' . $name;
     header("Location: {$target}", true, 301);
@@ -53,6 +53,7 @@ $routes = [
     '/contact' => 'contact',
     '/product' => 'product',
     '/cart'    => 'cart',
+    '/checkout'=> 'checkout',
 ];
 
 if (isset($routes[$uri])) {
